@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>artigo-gerado</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        
+    <div class="article-container" style="max-width: 100%; margin: 0 auto; padding: 0; width: 100%; box-sizing: border-box;">
+        <style>
+            /* Estilos base do artigo */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            /* Estilos de largura máxima para componentes não-banner */
+            .text-component,
+            .text-img-component,
+            .image-component,
+            .cta-component,
+            .blockquote-component,
+            .hashtags-component {
+                max-width: 900px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Responsividade para telas menores que 900px */
+            @media (max-width: 900px) {
+                .text-component,
+                .text-img-component,
+                .image-component,
+                .cta-component,
+                .blockquote-component,
+                .hashtags-component {
+                    max-width: calc(100% - 48px) !important;
+                    margin-left: 24px !important;
+                    margin-right: 24px !important;
+                }
+            }
+            
+            /* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+            @media (max-width: 600px) {
+                .text-component,
+                .text-img-component,
+                .image-component,
+                .cta-component,
+                .blockquote-component,
+                .hashtags-component {
+                    max-width: calc(100% - 32px) !important;
+                    margin-left: 16px !important;
+                    margin-right: 16px !important;
+                }
+                
+                /* Transformar colunas em linhas para texto+img */
+                .text-img-component .grid-container {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    gap: 24px !important;
+                }
+                
+                /* Forçar a ordem: imagem primeiro, texto depois */
+                .text-img-component.posicao-esquerda .grid-container .image-column,
+                .text-img-component.posicao-direita .grid-container .image-column {
+                    order: 1 !important;
+                }
+                
+                .text-img-component.posicao-esquerda .grid-container .text-column,
+                .text-img-component.posicao-direita .grid-container .text-column {
+                    order: 2 !important;
+                }
+                
+                /* Garantir que as colunas ocupem 100% da largura */
+                .text-img-component .image-column,
+                .text-img-component .text-column {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+                
+                /* Remover grid template quando em mobile */
+                .text-img-component .grid-container {
+                    grid-template-columns: 1fr !important;
+                    grid-template-areas: none !important;
+                }
+            }
+            
+            /* Estilos dos componentes */
+            .text-img-component {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.text-img-component .grid-container {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Posição esquerda: imagem à esquerda, texto à direita */
+.text-img-component.posicao-esquerda .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "imagem texto";
+}
+
+/* Posição direita: texto à esquerda, imagem à direita */
+.text-img-component.posicao-direita .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "texto imagem";
+}
+
+.text-img-component .text-column {
+    font-family: Tahoma, Arial, sans-serif;
+    color: #020617;
+    grid-area: texto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER PARÁGRAFOS DO SUMMERNOTE */
+.text-img-component .text-column p,
+.text-img-component .text-column p.western,
+.text-img-component .text-column p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-img-component .text-column p + p,
+.text-img-component .text-column p.western + p.western,
+.text-img-component .text-column p[class*="western"] + p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* TÍTULOS - SOBRESCREVER SUMMERNOTE */
+.text-img-component .text-column h1,
+.text-img-component .text-column h2,
+.text-img-component .text-column h3,
+.text-img-component .text-column h4,
+.text-img-component .text-column h5,
+.text-img-component .text-column h6,
+.text-img-component .text-column h1.western,
+.text-img-component .text-column h2.western,
+.text-img-component .text-column h3.western,
+.text-img-component .text-column h4.western,
+.text-img-component .text-column h5.western,
+.text-img-component .text-column h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 800 !important;
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-img-component .text-column h1:first-child,
+.text-img-component .text-column h2:first-child,
+.text-img-component .text-column h3:first-child,
+.text-img-component .text-column h4:first-child,
+.text-img-component .text-column h5:first-child,
+.text-img-component .text-column h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-img-component .text-column h1,
+.text-img-component .text-column h1.western { font-size: 2.5em !important; }
+.text-img-component .text-column h2,
+.text-img-component .text-column h2.western { font-size: 2em !important; }
+.text-img-component .text-column h3,
+.text-img-component .text-column h3.western { font-size: 1.75em !important; }
+.text-img-component .text-column h4,
+.text-img-component .text-column h4.western { font-size: 1.5em !important; }
+.text-img-component .text-column h5,
+.text-img-component .text-column h5.western { font-size: 1.25em !important; }
+.text-img-component .text-column h6,
+.text-img-component .text-column h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo sem margem top */
+.text-img-component .text-column > p:first-child,
+.text-img-component .text-column > p.western:first-child,
+.text-img-component .text-column > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo sem margem bottom adicional */
+.text-img-component .text-column > p:last-child,
+.text-img-component .text-column > p.western:last-child,
+.text-img-component .text-column > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+.text-img-component .image-column {
+    grid-area: imagem;
+    box-sizing: border-box;
+}
+
+.text-img-component .image-column img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.text-img-component .image-caption {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 0.9rem;
+    color: #64748b;
+    text-align: center;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Responsivo para telas menores que 900px */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+/* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+    
+    /* DESFAZER O GRID E USAR FLEXBOX PARA LINHAS */
+    .text-img-component .grid-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px !important;
+    }
+    
+    /* Forçar a ordem: imagem primeiro, texto depois */
+    .text-img-component.posicao-esquerda .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-esquerda .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    /* Garantir que as colunas ocupem 100% da largura */
+    .text-img-component .image-column,
+    .text-img-component .text-column {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Remover grid template quando em mobile */
+    .text-img-component .grid-container {
+        grid-template-columns: 1fr !important;
+        grid-template-areas: none !important;
+    }
+    
+    /* Ajustar tamanhos de fonte em mobile */
+    .text-img-component .text-column h1,
+    .text-img-component .text-column h1.western { font-size: 2em !important; }
+    .text-img-component .text-column h2,
+    .text-img-component .text-column h2.western { font-size: 1.75em !important; }
+    .text-img-component .text-column h3,
+    .text-img-component .text-column h3.western { font-size: 1.5em !important; }
+    .text-img-component .text-column h4,
+    .text-img-component .text-column h4.western { font-size: 1.25em !important; }
+    .text-img-component .text-column h5,
+    .text-img-component .text-column h5.western { font-size: 1.1em !important; }
+    .text-img-component .text-column h6,
+    .text-img-component .text-column h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-img-component .text-column p + p,
+    .text-img-component .text-column p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
+
+            
+            /* Estilos específicos para o banner */
+            .article-banner {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                contain: paint;
+                box-sizing: border-box !important;
+            }
+            
+            /* Ajuste de padding superior para o banner no mobile */
+            @media (max-width: 768px) {
+                .banner-overlay {
+                    padding-top: 64px !important; /* Acomoda o header do appshell */
+                    align-items: flex-end !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .banner-overlay {
+                    padding-top: 64px !important; /* Acomoda o header do appshell */
+                }
+            }
+            
+            /* Responsividade */
+            @media (max-width: 768px) {
+                .article-banner {
+                    height: clamp(180px, 22vh, 300px) !important;
+                }
+                
+                .banner-overlay {
+                    padding: 0 18px !important;
+                    background: linear-gradient(to top,
+                        rgba(0,0,0,.9),
+                        rgba(0,0,0,.5) 25%,
+                        transparent 50%) !important;
+                    align-items: flex-end !important;
+                    padding-top: 64px !important;
+                }
+                
+                .banner-content {
+                    padding-bottom: 24px !important;
+                    gap: 6px !important;
+                    margin-bottom: 0 !important;
+                }
+                
+                .banner-overlay h1 {
+                    font-size: clamp(1.2rem, 5.5vw, 1.8rem) !important;
+                    letter-spacing: .06em !important;
+                    line-height: 1.15 !important;
+                }
+                
+                .banner-overlay p {
+                    font-size: 0.85rem !important;
+                    opacity: 0.95 !important;
+                    line-height: 1.3 !important;
+                }
+                
+                .grid-container {
+                    grid-template-columns: 1fr !important;
+                    gap: 20px !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .article-banner {
+                    height: clamp(160px, 20vh, 260px) !important;
+                }
+                
+                .banner-overlay {
+                    padding: 0 16px !important;
+                    background: linear-gradient(to top,
+                        rgba(0,0,0,.92),
+                        rgba(0,0,0,.6) 20%,
+                        transparent 45%) !important;
+                    padding-top: 64px !important;
+                }
+                
+                .banner-content {
+                    padding-bottom: 20px !important;
+                    gap: 4px !important;
+                }
+                
+                .banner-overlay h1 {
+                    font-size: clamp(1rem, 6vw, 1.5rem) !important;
+                    letter-spacing: .05em !important;
+                    line-height: 1.1 !important;
+                }
+                
+                .banner-overlay p {
+                    font-size: 0.8rem !important;
+                    line-height: 1.25 !important;
+                }
+            }
+        </style>
+        
+        <div class="text-img-component posicao-esquerda" style="margin: 0px auto 48px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 32px; align-items: center; box-sizing: border-box; grid-template-columns: 50fr 50fr; grid-template-areas: &quot;imagem texto&quot;;"><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="/img/governance.jpeg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div><div class="text-column" style="grid-area: texto; box-sizing: border-box;"><p>Este é um exemplo de texto formatado ao lado de uma imagem.</p><p>Segundo parágrafo com separação visual clara.</p></div></div></div>
+
+        
+        
+    </div>
+    </body>
+    </html>
