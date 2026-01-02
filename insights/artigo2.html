@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>artigo-gerado</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        
+    <div class="article-container" style="max-width: 100%; margin: 0 auto; padding: 0; width: 100%; box-sizing: border-box;">
+        <style>
+            /* Estilos base do artigo */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            /* Estilos de largura máxima para componentes não-banner */
+            .text-component,
+            .text-img-component,
+            .image-component,
+            .cta-component,
+            .blockquote-component,
+            .hashtags-component {
+                max-width: 900px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Responsividade para telas menores que 900px */
+            @media (max-width: 900px) {
+                .text-component,
+                .text-img-component,
+                .image-component,
+                .cta-component,
+                .blockquote-component,
+                .hashtags-component {
+                    max-width: calc(100% - 48px) !important;
+                    margin-left: 24px !important;
+                    margin-right: 24px !important;
+                }
+            }
+            
+            /* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+            @media (max-width: 600px) {
+                .text-component,
+                .text-img-component,
+                .image-component,
+                .cta-component,
+                .blockquote-component,
+                .hashtags-component {
+                    max-width: calc(100% - 32px) !important;
+                    margin-left: 16px !important;
+                    margin-right: 16px !important;
+                }
+                
+                /* Transformar colunas em linhas para texto+img */
+                .text-img-component .grid-container {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    gap: 24px !important;
+                }
+                
+                /* Forçar a ordem: imagem primeiro, texto depois */
+                .text-img-component.posicao-esquerda .grid-container .image-column,
+                .text-img-component.posicao-direita .grid-container .image-column {
+                    order: 1 !important;
+                }
+                
+                .text-img-component.posicao-esquerda .grid-container .text-column,
+                .text-img-component.posicao-direita .grid-container .text-column {
+                    order: 2 !important;
+                }
+                
+                /* Garantir que as colunas ocupem 100% da largura */
+                .text-img-component .image-column,
+                .text-img-component .text-column {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+                
+                /* Remover grid template quando em mobile */
+                .text-img-component .grid-container {
+                    grid-template-columns: 1fr !important;
+                    grid-template-areas: none !important;
+                }
+            }
+            
+            /* Estilos dos componentes */
+            :root {
+        color-scheme: only light;
+    }
+    
+    .article-banner {
+        contain: paint;
+    }
+    
+    @keyframes bannerPan {
+        0%   { transform: translateX(0); }
+        50%  { transform: translateX(8%); }
+        100% { transform: translateX(0); }
+    }
+    
+    @media (max-width: 768px) {
+        .article-banner {
+            height: clamp(180px, 22vh, 300px) !important;
+        }
+        
+        .banner-overlay {
+            padding: 0 18px !important;
+            background: linear-gradient(to top,
+                rgba(0,0,0,.9),
+                rgba(0,0,0,.5) 25%,
+                transparent 50%) !important;
+            align-items: flex-end !important; /* Alterado de 'center' para 'flex-end' */
+            padding-top: 64px !important; /* Adicionado padding superior para o header */
+        }
+        
+        .banner-content {
+            padding-bottom: 24px !important;
+            gap: 6px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .banner-overlay h1 {
+            font-size: clamp(1.2rem, 5.5vw, 1.8rem) !important;
+            letter-spacing: .06em !important;
+            line-height: 1.15 !important;
+        }
+        
+        .banner-overlay p {
+            font-size: 0.85rem !important;
+            opacity: 0.95 !important;
+            line-height: 1.3 !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .article-banner {
+            height: clamp(160px, 20vh, 260px) !important;
+        }
+        
+        .banner-overlay {
+            padding: 0 16px !important;
+            background: linear-gradient(to top,
+                rgba(0,0,0,.92),
+                rgba(0,0,0,.6) 20%,
+                transparent 45%) !important;
+            padding-top: 64px !important; /* Padding superior consistente */
+        }
+        
+        .banner-content {
+            padding-bottom: 20px !important;
+            gap: 4px !important;
+        }
+        
+        .banner-overlay h1 {
+            font-size: clamp(1rem, 6vw, 1.5rem) !important;
+            letter-spacing: .05em !important;
+            line-height: 1.1 !important;
+        }
+        
+        .banner-overlay p {
+            font-size: 0.8rem !important;
+            line-height: 1.25 !important;
+        }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+        .banner-image {
+            animation: none !important;
+        }
+    }
+.text-component {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+}
+
+.text-component p {
+    margin-bottom: 1.5em;
+    line-height: 1.15;
+    text-align: justify;
+}
+
+.text-component p:last-child {
+    margin-bottom: 0;
+}
+.text-component {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+}
+
+.text-component p {
+    margin-bottom: 1.5em;
+    line-height: 1.15;
+    text-align: justify;
+}
+
+.text-component p:last-child {
+    margin-bottom: 0;
+}
+
+                @keyframes bannerPan {
+                    0%   { transform: translateX(0); }
+                    50%  { transform: translateX(8%); }
+                    100% { transform: translateX(0); }
+                }
+                
+                @media (prefers-reduced-motion: reduce) {
+                    .banner-image {
+                        animation: none !important;
+                    }
+                }
+            
+            
+            /* Estilos específicos para o banner */
+            .article-banner {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                contain: paint;
+                box-sizing: border-box !important;
+            }
+            
+            /* Ajuste de padding superior para o banner no mobile */
+            @media (max-width: 768px) {
+                .banner-overlay {
+                    padding-top: 64px !important; /* Acomoda o header do appshell */
+                    align-items: flex-end !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .banner-overlay {
+                    padding-top: 64px !important; /* Acomoda o header do appshell */
+                }
+            }
+            
+            /* Responsividade */
+            @media (max-width: 768px) {
+                .article-banner {
+                    height: clamp(180px, 22vh, 300px) !important;
+                }
+                
+                .banner-overlay {
+                    padding: 0 18px !important;
+                    background: linear-gradient(to top,
+                        rgba(0,0,0,.9),
+                        rgba(0,0,0,.5) 25%,
+                        transparent 50%) !important;
+                    align-items: flex-end !important;
+                    padding-top: 64px !important;
+                }
+                
+                .banner-content {
+                    padding-bottom: 24px !important;
+                    gap: 6px !important;
+                    margin-bottom: 0 !important;
+                }
+                
+                .banner-overlay h1 {
+                    font-size: clamp(1.2rem, 5.5vw, 1.8rem) !important;
+                    letter-spacing: .06em !important;
+                    line-height: 1.15 !important;
+                }
+                
+                .banner-overlay p {
+                    font-size: 0.85rem !important;
+                    opacity: 0.95 !important;
+                    line-height: 1.3 !important;
+                }
+                
+                .grid-container {
+                    grid-template-columns: 1fr !important;
+                    gap: 20px !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .article-banner {
+                    height: clamp(160px, 20vh, 260px) !important;
+                }
+                
+                .banner-overlay {
+                    padding: 0 16px !important;
+                    background: linear-gradient(to top,
+                        rgba(0,0,0,.92),
+                        rgba(0,0,0,.6) 20%,
+                        transparent 45%) !important;
+                    padding-top: 64px !important;
+                }
+                
+                .banner-content {
+                    padding-bottom: 20px !important;
+                    gap: 4px !important;
+                }
+                
+                .banner-overlay h1 {
+                    font-size: clamp(1rem, 6vw, 1.5rem) !important;
+                    letter-spacing: .05em !important;
+                    line-height: 1.1 !important;
+                }
+                
+                .banner-overlay p {
+                    font-size: 0.8rem !important;
+                    line-height: 1.25 !important;
+                }
+            }
+        </style>
+        
+        <section class="article-banner" style="position: relative; height: clamp(220px, 25vh, 420px); overflow: hidden; padding-top: 0; width: 100%;">
+        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Banner do artigo" class="banner-image" loading="eager" width="1600" height="900" style="position: absolute; inset: 0; width: 140%; height: 100%; object-fit: cover; left: -20%; animation: bannerPan 50s linear infinite; will-change: transform; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+        
+        <div class="banner-overlay" style="position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 0 24px; background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.4) 30%, transparent 60%); color: #fff;">
+            <div class="banner-content" style="width: 100%; max-width: 900px; margin: 0 auto 0; padding-bottom: 32px; display: flex; flex-direction: column; gap: 8px;">
+                <h1 id="titulo-banner-1767120299411" style="font-family: 'Montserrat', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin: 0; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; transition: all 0.3s ease;">
+                    Energia
+                </h1>
+                <p style="font-family: 'Merriweather', serif; font-size: .95rem; opacity: .9; margin: 0; line-height: 1.4; transition: all 0.3s ease;">
+                    A automação de 5ª geração REALMETA posiciona o setor energético, como a ponte para o futuro
+                </p>
+            </div>
+        </div>
+    </section>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto; padding: 12px 0px; font-family: Tahoma, Arial, sans-serif; max-width: 900px; width: 100%; box-sizing: border-box;"><p style="text-align: justify; line-height: 1.15; margin-bottom: 1.5em;"><span style="font-size: 12px;">REALMETA é um serviço de automação digital e industrial sob demanda de 5ª geração. Isto é, performance e impacto definidos para obtenção de um novo nível de valor&nbsp;</span><span style="font-size: 12px;">agregado</span><span style="font-size: 12px;">.</span></p><p style="text-align: justify; line-height: 1.15; margin-bottom: 0px;"><span style="font-size: 12px;">Na prática, isso significa&nbsp;</span><b><span style="font-size: 12px;">ganho de competitividade</span></b><span style="font-size: 12px;">&nbsp;que favorece o posicionamento da sua empresa no mercado e por consequência,&nbsp;</span><b><span style="font-size: 12px;">estimula a demanda</span></b><span style="font-size: 12px;">&nbsp;e projeta um&nbsp;</span><b><span style="font-size: 12px;">novo patamar de negócios</span></b><span style="font-size: 12px;">, especialmente em empresas com diversos canais de relacionamento, nacionais e globais.</span></p></div>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto; padding: 0px 0px 12px; font-family: Tahoma, Arial, sans-serif; max-width: 900px; width: 100%; box-sizing: border-box;"><p class="western" align="JUSTIFY" style="margin-bottom: 1.5em; text-align: justify; line-height: 1.15;"><font face="Tahoma, sans-serif"><span style="font-size: 12px;">O
+setor de energia exige alta precisão e flexibilidade no
+monitoramento e controle, para a composição de arquiteturas de
+geração e distribuição eficazes e responsivas às demandas e
+sazonalidades de consumo.</span></font></p><p class="western" align="JUSTIFY" style="margin-bottom: 1.5em; text-align: justify; line-height: 1.15;"><font face="Tahoma, sans-serif"><span style="font-size: 12px;">Com
+o avanço da geração de energia renovável, o cenário se torna
+ainda mais desafiador, para equilibrar a geração e o consumo, no
+manejo dos sistemas de distribuição.</span></font></p><p class="western" align="JUSTIFY" style="margin-bottom: 1.5em; text-align: justify; line-height: 1.15;"><font face="Tahoma, sans-serif"><span style="font-size: 12px;">O
+que também exige do setor público, capacidade de compreender e
+facilitar com uma regulação atualizada, que viabilize o avanço
+tecnológico e industrial e a competitividade do setor.</span></font></p><p class="western" align="JUSTIFY" style="margin-bottom: 1.5em; text-align: justify; line-height: 1.15;"><font face="Tahoma, sans-serif"><span style="font-size: 12px;">A
+inteligência de 5ª geração REALMETA dimensiona, controla e
+distribui energia conforme aprende com o consumo. Ao passo que
+arquiteta novos empreendimentos por região, garante conformidade
+legal com precisão, fomenta a evolução de políticas públicas e
+distribui receitas aos investidores automaticamente em fluxo contínuo
+e com supervisão humana no estilo due dilligence.</span></font></p><p style="text-align: justify; line-height: 1.15; margin-bottom: 1.5em;"><span style="font-size: 12px;">
+
+
+
+
+
+
+
+</span></p><p class="western" align="JUSTIFY" style="margin-bottom: 0px; text-align: justify; line-height: 1.15;"><font face="Tahoma, sans-serif"><span style="font-size: 12px;">REALMETA
+é automação de 5ª geração porque além de automática, tem
+supervisão humana cruzada, para garantir a confiabilidade das
+operações autônomas. E é capaz de mensurar o impacto das
+operações assistidas na qualidade de vida humana, dos animais e dos
+ecossistemas com precisão de nível epigenético, resultando em
+cadeias de valor regenerativas, com alta previsibilidade, segurança
+e valor agregado.</span></font></p></div>
+
+        
+        
+    </div>
+    </body>
+    </html>

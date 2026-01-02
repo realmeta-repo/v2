@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>App Shell – Inteligência & Governança</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Merriweather:wght@400&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(120deg,#020617,#042f2e,#020c1b,#020617);
+    --animation-duration: 36s;
+}
+
+/* ================= RESET ================= */
+* { box-sizing: border-box; }
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Tahoma, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color: #020617;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* ================= ANIMAÇÃO DO GRADIENTE ================= */
+.gradient-animated {
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientFlow var(--animation-duration) linear infinite;
+}
+
+@keyframes gradientFlow {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+}
+
+/* ================= HEADER / FOOTER ================= */
+header, footer {
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientFlow var(--animation-duration) linear infinite;
+    color: #e5e7eb;
+    z-index: 100;
+    position: fixed;
+    left: 0;
+    right: 0;
+    transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: transform, height;
+}
+
+header {
+    height: 64px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    height: 120px;
+    bottom: 0;
+    padding: 32px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 800;
+    letter-spacing: .12em;
+    font-size: .95rem;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    display: block;
+    font-size: 1.5rem;
+    z-index: 101;
+}
+
+nav {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientFlow var(--animation-duration) linear infinite;
+    display: none;
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
+    z-index: 99;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+nav.open {
+    display: flex;
+}
+
+nav a {
+    color: #cbd5f5;
+    text-decoration: none;
+    font-size: .75rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    padding: 8px 0;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+nav a:hover {
+    color: #fff;
+}
+
+/* ================= MAIN CONTENT ================= */
+main {
+    flex: 1;
+    padding: 0px 0 140px;
+    position: relative;
+    z-index: 1;
+}
+
+#app {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    opacity: 1 !important;
+}
+
+/* ================= ESTADO DE PISCADA ================= */
+body.blinking header {
+    height: 50vh;
+    transform: translateY(0);
+}
+
+body.blinking footer {
+    height: 50vh;
+    transform: translateY(0);
+}
+
+body.content-hidden #app {
+    z-index: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.content-visible #app {
+    z-index: 2;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+body.blinking header,
+body.blinking footer {
+    z-index: 50;
+}
+
+body:not(.blinking) header,
+body:not(.blinking) footer {
+    z-index: 100;
+}
+
+/* ================= ESTADO INICIAL - JÁ FECHADO ================= */
+body.initial-loading {
+    overflow: hidden;
+}
+
+body.initial-loading header {
+    height: 50vh !important;
+    transform: translateY(0) !important;
+    transition: none !important;
+}
+
+body.initial-loading footer {
+    height: 50vh !important;
+    transform: translateY(0) !important;
+    transition: none !important;
+}
+
+body.initial-loading #app {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: none !important;
+}
+
+/* ================= FOOTER GRID ================= */
+.footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.footer-grid h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.footer-grid p, .footer-grid a {
+    font-family: 'Merriweather', serif;
+    font-size: 0.9rem;
+    color: #cbd5f5;
+    text-decoration: none;
+    line-height: 1.5;
+}
+
+.footer-grid a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* ================= ESTILOS PARA LINKS CLICÁVEIS ================= */
+a[data-page], a[href$=".html"]:not([href^="http"]):not([href^="#"]):not([href^="mailto"]):not([href^="tel:"]) {
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+a[data-page]:hover, a[href$=".html"]:not([href^="http"]):not([href^="#"]):not([href^="mailto"]):not([href^="tel:"]):hover {
+    opacity: 0.8;
+}
+
+/* ================= RESPONSIVO ================= */
+@media (min-width: 768px) {
+    nav {
+        position: static;
+        display: flex !important;
+        flex-direction: row;
+        background: none !important;
+        animation: none !important;
+        padding: 0;
+        gap: 24px;
+        box-shadow: none;
+    }
+    
+    .menu-toggle {
+        display: none;
+    }
+    
+    .footer-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    body.blinking header {
+        height: 50vh;
+    }
+    
+    body.blinking footer {
+        height: 50vh;
+    }
+}
+
+</style>
+</head>
+
+<body class="initial-loading"> <!-- Adicionado classe inicial -->
+
+<header class="gradient-animated">
+    <div class="logo">LOGOTIPO</div>
+    <div class="menu-toggle">☰</div>
+    <nav>
+        <a data-page="apps">Apps</a>
+        <a data-page="value">Value Offer</a>
+        <a data-page="knowledge">Knowledge</a>
+        <a data-page="insights">Insights</a>
+        <a data-page="contact">Contact</a>
+    </nav>
+</header>
+
+<main>
+    <div id="app">
+        <!-- Conteúdo será carregado dinamicamente de arquivos HTML -->
+    </div>
+</main>
+
+<footer class="gradient-animated">
+    <div class="footer-grid">
+        <div>
+            <h4>Empresa</h4>
+            <p>Estruturas digitais orientadas à inteligência e governança.</p>
+        </div>
+        <div>
+            <h4>Contato</h4>
+            <a href="mailto:contato@empresa.com">contato@empresa.com</a>
+        </div>
+        <div>
+            <h4>Links</h4>
+            <a data-page="compliance">Compliance</a><br>
+            <a data-page="privacy">Privacidade</a><br>
+            <a data-page="terms">Termos de Uso</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Elementos principais
+    const body = document.body;
+    const header = document.querySelector('header');
+    const footer = document.querySelector('footer');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+    const app = document.getElementById('app');
+    
+    // Estado da animação
+    let isBlinking = false;
+    let currentPage = 'apps';
+    
+    // Mapeamento de páginas para arquivos HTML
+    const pageFiles = {
+        'apps': 'apps.html',
+        'value': 'work.html',
+        'knowledge': 'work.html',
+        'insights': 'insights.html',
+        'contact': 'work.html',
+        'compliance': 'work.html',
+        'privacy': 'work.html',
+        'terms': 'work.html',
+        'artigo-inovacao-digital': 'artigo1.html',
+        'artigo-natureza-viva': 'artigo2.html',
+        'artigo-cidades-inteligentes': 'artigo3.html',
+        'artigo-inteligencia-artificial': 'artigo4.html'
+    };
+    
+    // Função para limpar completamente tags de arquivo e conteúdo extra
+    function cleanFileTags(html) {
+        let cleaned = html.replace(/^[\s\S]*?<div[^>]*>/i, function(match) {
+            const divMatch = match.match(/<div[^>]*>/i);
+            if (divMatch) {
+                return divMatch[0];
+            }
+            return match;
+        });
+        
+        if (!cleaned.trim().startsWith('<')) {
+            cleaned = cleaned.replace(/^[\s\S]*?(<html|<head|<body|<div|<section|<article)/i, '$1');
+        }
+        
+        cleaned = cleaned.replace(/\[file name\]:.*?\n/gi, '');
+        cleaned = cleaned.replace(/\[file content begin\]/gi, '');
+        cleaned = cleaned.replace(/\[file content end\]/gi, '');
+        cleaned = cleaned.replace(/<!DOCTYPE html>.*?<html[^>]*>/gis, '');
+        cleaned = cleaned.replace(/<head>.*?<\/head>/gis, '');
+        cleaned = cleaned.replace(/<body[^>]*>|<\/body>/gi, '');
+        
+        return cleaned.trim();
+    }
+    
+    // Função para extrair apenas o conteúdo do body
+    function extractBodyContent(html) {
+        const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        if (bodyMatch) {
+            return bodyMatch[1].trim();
+        }
+        
+        return cleanFileTags(html);
+    }
+    
+    // ✅ Sincronização para insights.html
+    function waitForInsightsGrid() {
+        return new Promise((resolve) => {
+            if (window.insightsGridReady) {
+                console.log('Grid do insights já está pronto');
+                resolve();
+                return;
+            }
+            
+            console.log('Aguardando grid do insights ficar pronto...');
+            
+            const onGridReady = () => {
+                console.log('Evento insightsGridReady recebido');
+                window.removeEventListener('insightsGridReady', onGridReady);
+                resolve();
+            };
+            
+            window.addEventListener('insightsGridReady', onGridReady);
+            
+            setTimeout(() => {
+                console.log('Timeout de segurança do grid do insights (150ms)');
+                window.removeEventListener('insightsGridReady', onGridReady);
+                resolve();
+            }, 150);
+        });
+    }
+    
+    // ✅ Sincronização para apps.html
+    function waitForAppsGrid() {
+        return new Promise((resolve) => {
+            if (window.appsGridReady) {
+                console.log('Grid do apps já está pronto');
+                resolve();
+                return;
+            }
+            
+            console.log('Aguardando grid do apps ficar pronto...');
+            
+            const onGridReady = () => {
+                console.log('Evento appsGridReady recebido');
+                window.removeEventListener('appsGridReady', onGridReady);
+                resolve();
+            };
+            
+            window.addEventListener('appsGridReady', onGridReady);
+            
+            setTimeout(() => {
+                console.log('Timeout de segurança do grid do apps (150ms)');
+                window.removeEventListener('appsGridReady', onGridReady);
+                resolve();
+            }, 150);
+        });
+    }
+    
+    // Função para executar scripts inline de conteúdo carregado
+    function executeScripts(element, pageId) {
+        return new Promise((resolve) => {
+            console.log(`Executando scripts para: ${pageId}`);
+            
+            const scripts = element.querySelectorAll('script');
+            
+            function checkCompletion() {
+                console.log('Todos os scripts executados');
+                
+                if (pageId === 'insights') {
+                    waitForInsightsGrid().then(() => {
+                        console.log('Grid do insights sincronizado, continuando...');
+                        resolve();
+                    });
+                }
+                else if (pageId === 'apps') {
+                    waitForAppsGrid().then(() => {
+                        console.log('Grid do apps sincronizado, continuando...');
+                        resolve();
+                    });
+                } else {
+                    resolve();
+                }
+            }
+            
+            if (scripts.length === 0) {
+                checkCompletion();
+                return;
+            }
+            
+            let scriptsProcessed = 0;
+            
+            scripts.forEach(oldScript => {
+                console.log('Processando script:', oldScript.src || 'inline');
+                
+                if (oldScript.src) {
+                    console.log('Script com src detectado:', oldScript.src);
+                    const newScript = document.createElement('script');
+                    newScript.src = oldScript.src;
+                    
+                    if (oldScript.type) newScript.type = oldScript.type;
+                    if (oldScript.async) newScript.async = oldScript.async;
+                    if (oldScript.defer) newScript.defer = oldScript.defer;
+                    
+                    newScript.onload = () => {
+                        scriptsProcessed++;
+                        console.log(`Script carregado: ${oldScript.src} (${scriptsProcessed}/${scripts.length})`);
+                        if (scriptsProcessed === scripts.length) {
+                            checkCompletion();
+                        }
+                    };
+                    
+                    newScript.onerror = (e) => {
+                        console.error(`Erro ao carregar script: ${oldScript.src}`, e);
+                        scriptsProcessed++;
+                        if (scriptsProcessed === scripts.length) {
+                            checkCompletion();
+                        }
+                    };
+                    
+                    document.head.appendChild(newScript);
+                } else {
+                    try {
+                        const scriptContent = oldScript.textContent;
+                        
+                        if (!scriptContent || scriptContent.trim() === '') {
+                            console.log('Script inline vazio, ignorando');
+                            scriptsProcessed++;
+                            if (scriptsProcessed === scripts.length) {
+                                checkCompletion();
+                            }
+                            return;
+                        }
+                        
+                        const cleanScript = scriptContent.replace(/\[file name\]:.*?\n/gi, '')
+                                                        .replace(/\[file content begin\]/gi, '')
+                                                        .replace(/\[file content end\]/gi, '')
+                                                        .trim();
+                        
+                        if (cleanScript) {
+                            let finalScript = cleanScript;
+                            if (pageId === 'insights' && cleanScript.includes('loadArticles')) {
+                                console.log('Otimizando script do insights para execução imediata...');
+                                finalScript = finalScript.replace(
+                                    /setTimeout\(async \(\) => \{[\s\S]*?loadArticles\(1\)[\s\S]*?\}, 200\);/g,
+                                    `// Execução imediata sem delay
+                                    (async function() {
+                                        await loadArticles(1);
+                                        setupInfiniteScroll();
+                                        
+                                        const gridContainer = document.getElementById('gridContainer');
+                                        if (gridContainer) {
+                                            gridContainer.style.display = 'grid';
+                                            void gridContainer.offsetHeight;
+                                        }
+                                    })();`
+                                );
+                            }
+                            
+                            if (pageId === 'apps' && cleanScript.includes('loadApps')) {
+                                console.log('Otimizando script do apps para execução imediata...');
+                                finalScript = finalScript.replace(
+                                    /setTimeout\(async \(\) => \{[\s\S]*?loadApps\(1\)[\s\S]*?\}, 200\);/g,
+                                    `// Execução imediata sem delay
+                                    (async function() {
+                                        await loadApps(1);
+                                        setupInfiniteScroll();
+                                        
+                                        const gridContainer = document.getElementById('workGridContainer');
+                                        if (gridContainer) {
+                                            gridContainer.style.display = 'grid';
+                                            void gridContainer.offsetHeight;
+                                        }
+                                    })();`
+                                );
+                            }
+                            
+                            const inlineFunction = new Function(finalScript);
+                            inlineFunction();
+                            
+                            console.log('Script inline executado com sucesso');
+                        }
+                    } catch (error) {
+                        console.error('Erro ao executar script inline:', error);
+                    } finally {
+                        scriptsProcessed++;
+                        if (scriptsProcessed === scripts.length) {
+                            checkCompletion();
+                        }
+                    }
+                }
+            });
+            
+            setTimeout(() => {
+                if (scriptsProcessed < scripts.length) {
+                    console.log(`Timeout de segurança ativado. Processados: ${scriptsProcessed}/${scripts.length}`);
+                    checkCompletion();
+                }
+            }, 100);
+        });
+    }
+    
+    // Função para aplicar estilos inline
+    function applyStyles(element) {
+        const styles = element.querySelectorAll('style');
+        styles.forEach(style => {
+            const newStyle = style.cloneNode(true);
+            document.head.appendChild(newStyle);
+        });
+    }
+    
+    // Função para carregar conteúdo de um arquivo HTML
+    async function loadPageContent(pageId) {
+        if (!pageFiles[pageId]) {
+            pageId = 'apps';
+        }
+        
+        const fileName = pageFiles[pageId];
+        
+        try {
+            const response = await fetch(fileName);
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar ${fileName}: ${response.status}`);
+            }
+            
+            let html = await response.text();
+            
+            let cleanHtml = extractBodyContent(html);
+            
+            if (cleanHtml.includes('[file name]')) {
+                cleanHtml = cleanFileTags(cleanHtml);
+            }
+            
+            return cleanHtml;
+            
+        } catch (error) {
+            console.error('Erro ao carregar conteúdo:', error);
+            throw error;
+        }
+    }
+    
+    // Função para inserir conteúdo no app
+    async function insertContent(html, pageId) {
+        return new Promise((resolve) => {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            
+            app.innerHTML = '';
+            
+            let firstChild = tempDiv.firstChild;
+            while (firstChild && firstChild.nodeType === 3 && firstChild.textContent.trim() === '') {
+                tempDiv.removeChild(firstChild);
+                firstChild = tempDiv.firstChild;
+            }
+            
+            if (tempDiv.firstChild) {
+                while (tempDiv.firstChild) {
+                    app.appendChild(tempDiv.firstChild);
+                }
+            }
+            
+            currentPage = pageId;
+            
+            if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+            }
+            
+            applyStyles(app);
+            
+            executeScripts(app, pageId).then(() => {
+                void app.offsetHeight;
+                
+                window.dispatchEvent(new CustomEvent('pageLoaded', {
+                    detail: { page: pageId }
+                }));
+                
+                resolve();
+            });
+        });
+    }
+    
+    // ✅ FUNÇÃO PRINCIPAL MODIFICADA: Carregamento inicial com estado já fechado
+    async function initialLoad() {
+        console.log('Iniciando carregamento inicial com pálpebras já fechadas');
+        
+        try {
+            // 1. O estado inicial já está fechado (classe .initial-loading no body)
+            // 2. Carregar a página apps.html
+            const content = await loadPageContent('apps');
+            
+            // 3. Inserir o conteúdo (ainda invisível devido ao .initial-loading)
+            await insertContent(content, 'apps');
+            
+            console.log('Conteúdo inicial 100% carregado e renderizado');
+            
+            // 4. Aguardar um frame para garantir que tudo está pronto
+            await new Promise(resolve => requestAnimationFrame(resolve));
+            
+            // 5. REMOVER CLASSE DE CARREGAMENTO E ABRIR AS PÁLPEBRAS
+            body.classList.remove('initial-loading');
+            body.classList.add('content-visible');
+            
+            // 6. Aguardar abertura completa (700ms)
+            await new Promise(resolve => setTimeout(resolve, 700));
+            
+            // 7. Limpar estado de visibilidade
+            body.classList.remove('content-visible');
+            
+            console.log('Carregamento inicial completo - pálpebras abertas');
+            
+        } catch (error) {
+            console.error('Erro durante o carregamento inicial:', error);
+            
+            // Em caso de erro, pelo menos mostrar algo
+            body.classList.remove('initial-loading');
+            
+            app.innerHTML = `<div style="max-width:1200px; margin:0 auto; padding:40px 24px;">
+                <h1>Erro de Carregamento</h1>
+                <p>A página inicial não pôde ser carregada. Tente novamente.</p>
+                <p><small>${error.message}</small></p>
+            </div>`;
+        }
+    }
+    
+    // ✅ FUNÇÃO PARA TRANSIÇÕES NORMAIS (não-iniciais)
+    async function blinkAnimation(pageId) {
+        if (isBlinking) return;
+        
+        isBlinking = true;
+        
+        try {
+            console.log(`Iniciando transição normal para: ${pageId}`);
+            
+            // 1. FECHAR AS PÁLPEBRAS (700ms)
+            body.classList.add('blinking');
+            void header.offsetHeight;
+            
+            await new Promise(resolve => setTimeout(resolve, 700));
+            
+            console.log('Pálpebras fechadas - trocando conteúdo');
+            
+            // 2. TROCAR CONTEÚDO (invisível)
+            body.classList.add('content-hidden');
+            
+            const newContent = await loadPageContent(pageId);
+            await insertContent(newContent, pageId);
+            
+            console.log('Conteúdo 100% carregado e renderizado');
+            
+            // 3. ABRIR AS PÁLPEBRAS
+            body.classList.remove('content-hidden', 'blinking');
+            body.classList.add('content-visible');
+            
+            // 4. AGUARDAR ABERTURA (700ms)
+            await new Promise(resolve => setTimeout(resolve, 700));
+            
+            // 5. LIMPAR ESTADOS
+            body.classList.remove('content-visible');
+            
+            console.log('Transição normal completa');
+            
+        } catch (error) {
+            console.error('Erro durante a transição:', error);
+            body.classList.remove('blinking', 'content-hidden', 'content-visible');
+            
+            setTimeout(() => {
+                app.innerHTML = `<div style="max-width:1200px; margin:0 auto; padding:40px 24px;">
+                    <h1>Erro de Transição</h1>
+                    <p>A página não pôde ser carregada. Tente novamente.</p>
+                    <p><small>${error.message}</small></p>
+                </div>`;
+            }, 100);
+        } finally {
+            isBlinking = false;
+        }
+    }
+    
+    window.blinkAnimation = blinkAnimation;
+    
+    window.addEventListener('triggerBlink', function (e) {
+        if (!e.detail || !e.detail.page) return;
+        blinkAnimation(e.detail.page);
+    });
+        
+    // DELEGAÇÃO DE EVENTOS PARA TODOS OS LINKS DO SITE
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        
+        if (!link) return;
+        
+        const href = link.getAttribute('href');
+        const pageId = link.getAttribute('data-page');
+        
+        if (href && (
+            href.startsWith('http') || 
+            href.startsWith('mailto:') || 
+            href.startsWith('tel:') || 
+            href.startsWith('#') ||
+            href.includes('://')
+        )) {
+            return;
+        }
+        
+        e.preventDefault();
+        
+        if (pageId && pageFiles[pageId]) {
+            blinkAnimation(pageId);
+            return;
+        }
+        
+        if (href && href.endsWith('.html')) {
+            const fileName = href.replace('.html', '');
+            if (pageFiles[fileName]) {
+                blinkAnimation(fileName);
+            } else {
+                console.warn(`Página não mapeada: ${href}`);
+                fetch(href)
+                    .then(response => {
+                        if (response.ok) {
+                            pageFiles[fileName] = href;
+                            blinkAnimation(fileName);
+                        } else {
+                            alert('Página não encontrada');
+                        }
+                    })
+                    .catch(() => {
+                        alert('Erro ao carregar página');
+                    });
+            }
+            return;
+        }
+        
+        if (pageId) {
+            if (pageFiles[pageId]) {
+                blinkAnimation(pageId);
+            }
+        }
+    });
+    
+    menuToggle.addEventListener('click', function() {
+        nav.classList.toggle('open');
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth < 768 && 
+            !nav.contains(e.target) && 
+            !menuToggle.contains(e.target) && 
+            nav.classList.contains('open')) {
+            nav.classList.remove('open');
+        }
+    });
+    
+    // ✅ EXECUTAR CARREGAMENTO INICIAL (não usa blinkAnimation, usa initialLoad)
+    setTimeout(() => {
+        initialLoad();
+    }, 100);
+});
+</script>
+
+</body>
+</html>

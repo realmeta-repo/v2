@@ -1,0 +1,679 @@
+<!-- insights.html - Grid otimizado com lazy loading e processamento em batches -->
+<div style="width:100%; max-width:100%; margin:0 auto; padding:76px 0 40px 0; box-sizing:border-box;">
+
+    <!-- Template para cards (otimizado para performance) -->
+    <template id="card-template">
+        <a class="grid-card" data-page="">
+            <div class="grid-card-image-container">
+                <div class="grid-card-image-layer">
+                    <img data-src="" alt="" class="zoom-layer" 
+                         style="position:absolute; top:0; left:50%; width:150%; height:100%; object-fit:cover; transform:translateX(-50%) scale(1.33); transition:transform 0.6s cubic-bezier(.25,.46,.45,.94);" 
+                         loading="lazy" width="420" height="280">
+                </div>
+                <div class="grid-card-overlay">
+                    <h3 class="grid-card-title"></h3>
+                    <p class="grid-card-description"></p>
+                    <div class="grid-card-footer">
+                        <div class="grid-card-tags"></div>
+                        <span class="grid-card-btn">Ler artigo</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </template>
+
+    <!-- Container do grid -->
+    <div id="gridContainer" style="
+        max-width: 900px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 280px);
+        grid-auto-rows: 380px;
+        gap: 30px;
+        justify-content: center;
+        padding: 0 20px;
+    ">
+        <!-- Cards serão gerados dinamicamente aqui -->
+    </div>
+
+    <!-- Indicadores -->
+    <div id="loadingIndicator" style="
+        display: none;
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: .85rem;
+        letter-spacing: .08em;
+    ">
+        Carregando mais artigos...
+    </div>
+
+    <div id="noArticles" style="
+        display: none;
+        text-align: center;
+        padding: 80px 20px;
+        color: #666;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: .95rem;
+    ">
+        Nenhum artigo encontrado.
+    </div>
+
+</div>
+
+<!-- Estilos otimizados para performance -->
+<style>
+    /* Otimizações de performance */
+    .grid-card {
+        will-change: transform;
+        contain: content;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+    
+    .grid-card-image-layer {
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+    
+    /* Prioridade de renderização para melhor performance */
+    .grid-card-title,
+    .grid-card-btn {
+        content-visibility: auto;
+    }
+    
+    /* Fallback para browsers sem suporte a content-visibility */
+    @supports not (content-visibility: auto) {
+        .grid-card {
+            transform: translateZ(0);
+        }
+    }
+    
+    /* Estilos do carrossel original mantidos */
+    @keyframes pan {
+        0%   { transform: translateX(-10%); }
+        50%  { transform: translateX(10%); }
+        100% { transform: translateX(-10%); }
+    }
+    
+    /* ✅ MELHORIA: Animação de hover IDÊNTICA ao carroussel-model.html */
+    .grid-card:hover .zoom-layer {
+        transform: translateX(-50%) scale(1) !important;
+    }
+    
+    .grid-card-btn:hover {
+        background: rgba(255,255,255,.35) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    /* Responsividade do grid */
+    @media (max-width: 920px) {
+        #gridContainer {
+            grid-template-columns: repeat(2, 280px) !important;
+            gap: 25px !important;
+        }
+    }
+    
+    @media (max-width: 620px) {
+        #gridContainer {
+            grid-template-columns: 280px !important;
+            gap: 20px !important;
+            padding: 0 10px !important;
+        }
+    }
+    
+    /* Card com sombras melhoradas para grid */
+    .grid-card {
+        flex: 0 0 280px !important;
+        height: 380px !important;
+        display: block !important;
+        text-decoration: none !important;
+        color: inherit !important;
+        position: relative !important;
+        overflow: hidden !important;
+        cursor: pointer !important;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        border-radius: 4px !important;
+        
+        /* Sombra mais suave para grid */
+        box-shadow: 
+            0 4px 8px rgba(0, 0, 0, 0.05),
+            0 6px 16px rgba(0, 0, 0, 0.05),
+            0 12px 24px rgba(0, 0, 0, 0.06) !important;
+    }
+    
+    .grid-card:hover {
+        transform: translateY(-6px) scale(1.01) !important;
+        
+        /* Sombra mais pronunciada no hover */
+        box-shadow: 
+            0 8px 16px rgba(0, 0, 0, 0.08),
+            0 12px 24px rgba(0, 0, 0, 0.08),
+            0 20px 40px rgba(0, 0, 0, 0.10) !important;
+    }
+    
+    /* Borda sutil para melhor definição */
+    .grid-card::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        border: 1px solid rgba(0, 0, 0, 0.04) !important;
+        border-radius: 4px !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+    }
+    
+    .grid-card-image-container {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        border-radius: 4px !important;
+    }
+    
+    .grid-card-image-layer {
+        position: absolute !important;
+        inset: 0 !important;
+        animation: pan 60s linear infinite !important;
+        border-radius: 4px !important;
+    }
+    
+    /* ✅ CORREÇÃO: Removida a transição do CSS global */
+    
+    .grid-card-overlay {
+        position: absolute !important;
+        inset: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        padding: 22px !important;
+        /* ✅ IDÊNTICO: Gradiente do carroussel-model.html */
+        background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.88),
+            rgba(0, 0, 0, 0.45),
+            rgba(0, 0, 0, 0)) !important;
+        color: #fff !important;
+        z-index: 2 !important;
+        border-radius: 4px !important;
+    }
+    
+    .grid-card-title {
+        font-family: Montserrat, sans-serif !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .06em !important;
+        font-size: 1rem !important;
+        margin: 0 0 10px 0 !important;
+        line-height: 1.25 !important;
+        text-shadow: 0 4px 14px rgba(0, 0, 0, 0.9) !important;
+    }
+    
+    .grid-card-description {
+        font-family: Tahoma, Arial, sans-serif !important;
+        line-height: 1.45 !important;
+        font-size: 0.82rem !important;
+        margin: 0 0 18px 0 !important;
+        opacity: 0.92 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85) !important;
+    }
+    
+    .grid-card-footer {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+    
+    .grid-card-tags {
+        font-size: .65rem !important;
+        opacity: .75 !important;
+        font-family: Tahoma, Arial, sans-serif !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 1 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        flex: 1 !important;
+        margin-right: 10px !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    .grid-card-btn {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        padding: 6px 16px !important;
+        border-radius: 999px !important;
+        font-size: .7rem !important;
+        font-family: Tahoma, Arial, sans-serif !important;
+        white-space: nowrap !important;
+        transition: all 0.3s ease !important;
+        backdrop-filter: blur(4px) !important;
+        -webkit-backdrop-filter: blur(4px) !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .grid-card:hover .grid-card-btn {
+        background: rgba(255, 255, 255, 0.25) !important;
+        border-color: rgba(255, 255, 255, 0.35) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    /* Melhoria de contraste para melhor legibilidade */
+    .grid-card-overlay::before {
+        content: '' !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 80% !important;
+        background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.7) 0%,
+            rgba(0, 0, 0, 0.4) 60%,
+            transparent 100%) !important;
+        z-index: -1 !important;
+        border-radius: 4px !important;
+    }
+    
+    /* Redução de motion para acessibilidade */
+    @media (prefers-reduced-motion: reduce) {
+        .grid-card-image-layer {
+            animation: none !important;
+        }
+        
+        /* Não aplicamos transição quando o usuário prefere reduzir movimento */
+        .grid-card {
+            transition: none !important;
+        }
+        
+        .grid-card-btn {
+            transition: none !important;
+        }
+    }
+    
+    /* Melhoria de foco para acessibilidade */
+    .grid-card:focus {
+        outline: 2px solid rgba(0, 123, 255, 0.5) !important;
+        outline-offset: 2px !important;
+    }
+    
+    /* Estilos para lazy loading */
+    .grid-card img:not([data-src]) {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+    
+    .grid-card img[data-src] {
+        opacity: 0;
+    }
+    
+    .grid-card img.loaded {
+        opacity: 1;
+    }
+</style>
+
+<script>
+// IIFE para evitar conflitos
+(function() {
+    'use strict';
+    
+    // Configurações
+    const ARTICLES_PER_PAGE = 9;
+    const MAX_CONCURRENT_FETCHES = 3; // Processar em batches para não sobrecarregar
+    let currentPage = 1;
+    let isLoading = false;
+    let allArticles = [];
+    let imageObserver = null; // Observer para lazy loading
+    
+    // ✅ MELHORIA 2: Flag para sinalizar quando o grid está pronto
+    window.insightsGridReady = false;
+    
+    // Mapeamento de artigos existentes
+    const articleFiles = {
+        'artigo-inovacao-digital': './insights/artigo1.html',
+        'artigo-natureza-viva': './insights/artigo2.html',
+        'artigo-cidades-inteligentes': 'artigo3.html',
+        'artigo-inteligencia-artificial': 'artigo4.html'
+    };
+    
+    // Aguardar DOM
+    function waitForDOM() {
+        return new Promise(resolve => {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', resolve);
+            } else {
+                setTimeout(resolve, 100);
+            }
+        });
+    }
+    
+    // ✅ MELHORIA: Processar artigos em batches para não sobrecarregar
+    async function processArticlesInParallel(files, maxConcurrent = MAX_CONCURRENT_FETCHES) {
+        const results = [];
+        
+        for (let i = 0; i < files.length; i += maxConcurrent) {
+            const batch = files.slice(i, i + maxConcurrent);
+            const batchPromises = batch.map(fileName => 
+                extractArticleMetadata(fileName)
+            );
+            
+            const batchResults = await Promise.allSettled(batchPromises);
+            batchResults.forEach(result => {
+                if (result.status === 'fulfilled' && result.value) {
+                    results.push(result.value);
+                }
+            });
+            
+            // Pequena pausa entre batches para não sobrecarregar
+            if (i + maxConcurrent < files.length) {
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+        }
+        
+        return results;
+    }
+    
+    // Extrair metadados do artigo (otimizado)
+    async function extractArticleMetadata(fileName) {
+        try {
+            console.log('Carregando artigo:', fileName);
+            const response = await fetch(fileName);
+            if (!response.ok) {
+                console.warn('Artigo não encontrado:', fileName);
+                return null;
+            }
+            
+            const html = await response.text();
+            const tempDiv = document.createElement('div');
+            
+            // Limpar tags de arquivo de forma otimizada
+            const cleanHtml = html.replace(/\[file name\]:.*?\n/gi, '')
+                                  .replace(/\[file content begin\]/gi, '')
+                                  .replace(/\[file content end\]/gi, '')
+                                  .trim();
+            
+            tempDiv.innerHTML = cleanHtml;
+            
+            // Extrair título do banner de forma otimizada
+            const titleElement = tempDiv.querySelector('.article-banner h1');
+            const title = titleElement ? titleElement.textContent.trim() : 'Artigo sem título';
+            
+            // Extrair descrição do banner
+            const descElement = tempDiv.querySelector('.article-banner p');
+            const description = descElement ? descElement.textContent.trim() : '';
+            
+            // Extrair imagem do banner
+            const imgElement = tempDiv.querySelector('.article-banner img');
+            const imageUrl = imgElement ? imgElement.src : 
+                'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=560&q=80';
+            
+            // Extrair hashtags (máximo 3) - otimizado
+            const tagElements = tempDiv.querySelectorAll('.hashtags-component .article-tags span');
+            let tags = [];
+            if (tagElements.length > 0) {
+                for (let i = 0; i < Math.min(3, tagElements.length); i++) {
+                    const tag = tagElements[i].textContent.trim().replace('#', '');
+                    if (tag.length > 0) tags.push(tag);
+                }
+            }
+            
+            // Determinar data-page
+            const dataPage = Object.keys(articleFiles).find(key => articleFiles[key] === fileName) || 
+                           fileName.replace('.html', '');
+            
+            return {
+                dataPage,
+                title: title.substring(0, 80),
+                description: description.substring(0, 120),
+                imageUrl,
+                tags: tags,
+                fileName
+            };
+            
+        } catch (error) {
+            console.error('Erro ao processar artigo:', fileName, error);
+            return null;
+        }
+    }
+    
+    // ✅ MELHORIA: Configurar lazy loading com Intersection Observer
+    function setupLazyLoading() {
+        if (imageObserver) {
+            imageObserver.disconnect();
+        }
+        
+        imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const src = img.dataset.src;
+                    
+                    if (src) {
+                        // Carregar a imagem
+                        img.src = src;
+                        img.classList.add('loaded');
+                        
+                        // Remover atributo data-src para evitar recarregamento
+                        img.removeAttribute('data-src');
+                        
+                        // Parar de observar esta imagem
+                        imageObserver.unobserve(img);
+                        
+                        console.log('Imagem carregada via lazy loading:', src);
+                    }
+                }
+            });
+        }, {
+            rootMargin: '100px 0px', // Começar a carregar 100px antes da imagem entrar na viewport
+            threshold: 0.01
+        });
+        
+        // Observar todas as imagens com data-src
+        document.querySelectorAll('.grid-card img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+        
+        console.log('Lazy loading configurado para', document.querySelectorAll('.grid-card img[data-src]').length, 'imagens');
+    }
+    
+    // ✅ MELHORIA: Criar card usando template (mais performático)
+    function createArticleCard(article) {
+        const template = document.getElementById('card-template');
+        const card = template.content.cloneNode(true);
+        const cardElement = card.querySelector('.grid-card');
+        
+        cardElement.setAttribute('data-page', article.dataPage);
+        
+        // Formatar tags para exibição
+        const tagsText = article.tags.length > 0 ? 
+            article.tags.map(tag => `#${tag}`).join(' ') : 
+            '#artigo';
+        
+        // Preencher template
+        const img = cardElement.querySelector('img');
+        img.alt = article.title;
+        img.dataset.src = article.imageUrl; // Usar data-src para lazy loading
+        img.width = 420;
+        img.height = 280;
+        
+        cardElement.querySelector('.grid-card-title').textContent = article.title;
+        cardElement.querySelector('.grid-card-description').textContent = article.description;
+        cardElement.querySelector('.grid-card-tags').textContent = tagsText;
+        
+        // Evento de clique para abrir artigo
+        cardElement.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Usar a função do app shell ou fallback
+            if (typeof window.blinkAnimation === 'function') {
+                window.blinkAnimation(article.dataPage);
+            } else {
+                // Tentar usar o sistema de navegação do app shell
+                const event = new CustomEvent('triggerBlink', {
+                    detail: { page: article.dataPage },
+                    bubbles: true
+                });
+                window.dispatchEvent(event);
+            }
+        });
+        
+        return cardElement;
+    }
+    
+    // ✅ MELHORIA 2: Carregar artigos com renderização sincronizada e lazy loading
+    async function loadArticles(page = 1) {
+        if (isLoading) return;
+        
+        isLoading = true;
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const noArticles = document.getElementById('noArticles');
+        const gridContainer = document.getElementById('gridContainer');
+        
+        if (loadingIndicator) loadingIndicator.style.display = 'block';
+        
+        try {
+            // Primeira página: carregar todos os artigos
+            if (page === 1) {
+                allArticles = [];
+                gridContainer.innerHTML = '';
+                
+                // ✅ MELHORIA: Processar artigos em batches
+                console.log(`Processando ${Object.values(articleFiles).length} artigos em batches...`);
+                allArticles = await processArticlesInParallel(Object.values(articleFiles));
+                
+                // Ordenar alfabeticamente por título
+                allArticles.sort((a, b) => a.title.localeCompare(b.title));
+                
+                console.log(`Artigos processados: ${allArticles.length}`);
+                
+                // Mostrar mensagem se não houver artigos
+                if (allArticles.length === 0) {
+                    if (noArticles) noArticles.style.display = 'block';
+                    if (gridContainer) gridContainer.style.display = 'none';
+                    return;
+                } else {
+                    if (noArticles) noArticles.style.display = 'none';
+                    if (gridContainer) gridContainer.style.display = 'grid';
+                }
+            }
+            
+            // Calcular índices para paginação
+            const startIndex = (page - 1) * ARTICLES_PER_PAGE;
+            const endIndex = startIndex + ARTICLES_PER_PAGE;
+            const articlesToShow = allArticles.slice(startIndex, endIndex);
+            
+            // ✅ MELHORIA: Criar cards de forma síncrona (sem promises desnecessárias)
+            const fragment = document.createDocumentFragment();
+            articlesToShow.forEach(article => {
+                const card = createArticleCard(article);
+                fragment.appendChild(card);
+            });
+            
+            // Adicionar todos os cards de uma vez
+            gridContainer.appendChild(fragment);
+            
+            // ✅ MELHORIA: Configurar lazy loading IMEDIATAMENTE após adicionar cards
+            if (page === 1) {
+                // Aguardar próximo frame para garantir que os elementos foram adicionados ao DOM
+                await new Promise(resolve => requestAnimationFrame(resolve));
+                
+                // Configurar lazy loading
+                setupLazyLoading();
+            } else {
+                // Para páginas subsequentes, atualizar o observer
+                setupLazyLoading();
+            }
+            
+            currentPage = page;
+            console.log(`Carregados ${articlesToShow.length} artigos (página ${page})`);
+            
+            // ✅ MELHORIA 2: Forçar renderização sincronizada
+            if (page === 1) {
+                // Forçar layout e renderização
+                void gridContainer.offsetHeight;
+                
+                // Aguardar próximo frame para garantir renderização completa
+                await new Promise(resolve => requestAnimationFrame(resolve));
+                
+                // Marcar grid como pronto (IMPORTANTE: mesmo sem imagens carregadas)
+                window.insightsGridReady = true;
+                console.log('Grid renderizado e pronto para visualização (lazy loading ativo)');
+                
+                // Disparar evento para sincronização com blink animation
+                window.dispatchEvent(new CustomEvent('insightsGridReady'));
+            }
+            
+            // Esconder indicador se não há mais artigos
+            if (endIndex >= allArticles.length && loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+            
+        } catch (error) {
+            console.error('Erro ao carregar artigos:', error);
+            if (noArticles) {
+                noArticles.textContent = 'Erro ao carregar artigos. Recarregue a página.';
+                noArticles.style.display = 'block';
+            }
+        } finally {
+            isLoading = false;
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+        }
+    }
+    
+    // Configurar infinite scroll
+    function setupInfiniteScroll() {
+        let scrollTimeout;
+        let lastScrollPosition = 0;
+        
+        function checkScroll() {
+            if (isLoading) return;
+            
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const pageEnd = document.body.offsetHeight - 500; // Carregar 500px antes do fim
+            
+            // Evitar chamadas desnecessárias se o scroll não mudou significativamente
+            if (Math.abs(scrollPosition - lastScrollPosition) < 100) return;
+            
+            lastScrollPosition = scrollPosition;
+            
+            if (scrollPosition >= pageEnd) {
+                const totalLoaded = currentPage * ARTICLES_PER_PAGE;
+                if (totalLoaded < allArticles.length) {
+                    console.log('Carregando mais artigos via scroll...');
+                    loadArticles(currentPage + 1);
+                }
+            }
+        }
+        
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkScroll, 150); // Debounce de 150ms
+        }, { passive: true }); // Otimização de performance
+    }
+    
+    // ✅ MELHORIA 2: Inicializar com renderização sincronizada
+    async function init() {
+        await waitForDOM();
+        console.log('Inicializando grid de insights otimizado (com lazy loading)...');
+        
+        // Carregar artigos IMEDIATAMENTE, sem setTimeout
+        await loadArticles(1);
+        setupInfiniteScroll();
+        
+        console.log('Grid de insights carregado e renderizado (otimizado com lazy loading)');
+    }
+    
+    // Iniciar
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        // Executar imediata

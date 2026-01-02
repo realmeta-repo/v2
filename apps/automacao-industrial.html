@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>artigo-gerado</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        
+    <div class="article-container" style="max-width: 100%; margin: 0 auto; padding: 0; width: 100%; box-sizing: border-box;">
+        <style>
+            /* Estilos base do artigo */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            /* Estilos de largura máxima para componentes não-banner */
+            .text-component,
+            .text-img-component,
+            .image-component,
+            .cta-component,
+            .blockquote-component,
+            .hashtags-component {
+                max-width: 900px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Responsividade para telas menores que 900px */
+            @media (max-width: 900px) {
+                .text-component,
+                .text-img-component,
+                .image-component,
+                .cta-component,
+                .blockquote-component,
+                .hashtags-component {
+                    max-width: calc(100% - 48px) !important;
+                    margin-left: 24px !important;
+                    margin-right: 24px !important;
+                }
+            }
+            
+            /* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+            @media (max-width: 600px) {
+                .text-component,
+                .text-img-component,
+                .image-component,
+                .cta-component,
+                .blockquote-component,
+                .hashtags-component {
+                    max-width: calc(100% - 32px) !important;
+                    margin-left: 16px !important;
+                    margin-right: 16px !important;
+                }
+                
+                /* Transformar colunas em linhas para texto+img */
+                .text-img-component .grid-container {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    gap: 24px !important;
+                }
+                
+                /* Forçar a ordem: imagem primeiro, texto depois */
+                .text-img-component.posicao-esquerda .grid-container .image-column,
+                .text-img-component.posicao-direita .grid-container .image-column {
+                    order: 1 !important;
+                }
+                
+                .text-img-component.posicao-esquerda .grid-container .text-column,
+                .text-img-component.posicao-direita .grid-container .text-column {
+                    order: 2 !important;
+                }
+                
+                /* Garantir que as colunas ocupem 100% da largura */
+                .text-img-component .image-column,
+                .text-img-component .text-column {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+                
+                /* Remover grid template quando em mobile */
+                .text-img-component .grid-container {
+                    grid-template-columns: 1fr !important;
+                    grid-template-areas: none !important;
+                }
+            }
+            
+            /* Estilos dos componentes */
+            :root {
+        color-scheme: only light;
+    }
+    
+    .article-banner {
+        contain: paint;
+    }
+    
+    @keyframes bannerPan {
+        0%   { transform: translateX(0); }
+        50%  { transform: translateX(8%); }
+        100% { transform: translateX(0); }
+    }
+    
+    @media (max-width: 768px) {
+        .article-banner {
+            height: clamp(180px, 22vh, 300px) !important;
+        }
+        
+        .banner-overlay {
+            padding: 0 18px !important;
+            background: linear-gradient(to top,
+                rgba(0,0,0,.9),
+                rgba(0,0,0,.5) 25%,
+                transparent 50%) !important;
+            align-items: flex-end !important; /* Alterado de 'center' para 'flex-end' */
+            padding-top: 64px !important; /* Adicionado padding superior para o header */
+        }
+        
+        .banner-content {
+            padding-bottom: 24px !important;
+            gap: 6px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .banner-overlay h1 {
+            font-size: clamp(1.2rem, 5.5vw, 1.8rem) !important;
+            letter-spacing: .06em !important;
+            line-height: 1.15 !important;
+        }
+        
+        .banner-overlay p {
+            font-size: 0.85rem !important;
+            opacity: 0.95 !important;
+            line-height: 1.3 !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .article-banner {
+            height: clamp(160px, 20vh, 260px) !important;
+        }
+        
+        .banner-overlay {
+            padding: 0 16px !important;
+            background: linear-gradient(to top,
+                rgba(0,0,0,.92),
+                rgba(0,0,0,.6) 20%,
+                transparent 45%) !important;
+            padding-top: 64px !important; /* Padding superior consistente */
+        }
+        
+        .banner-content {
+            padding-bottom: 20px !important;
+            gap: 4px !important;
+        }
+        
+        .banner-overlay h1 {
+            font-size: clamp(1rem, 6vw, 1.5rem) !important;
+            letter-spacing: .05em !important;
+            line-height: 1.1 !important;
+        }
+        
+        .banner-overlay p {
+            font-size: 0.8rem !important;
+            line-height: 1.25 !important;
+        }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+        .banner-image {
+            animation: none !important;
+        }
+    }
+.text-component {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+}
+
+.text-component p {
+    margin-bottom: 1.5em;
+    line-height: 1.15;
+    text-align: justify;
+}
+
+.text-component p:last-child {
+    margin-bottom: 0;
+}
+.text-component {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+}
+
+.text-component p {
+    margin-bottom: 1.5em;
+    line-height: 1.15;
+    text-align: justify;
+}
+
+.text-component p:last-child {
+    margin-bottom: 0;
+}
+.text-img-component {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.text-img-component .grid-container {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Posição esquerda: imagem à esquerda, texto à direita */
+.text-img-component.posicao-esquerda .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "imagem texto";
+}
+
+/* Posição direita: texto à esquerda, imagem à direita */
+.text-img-component.posicao-direita .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "texto imagem";
+}
+
+.text-img-component .text-column {
+    font-family: Tahoma, Arial, sans-serif;
+    color: #020617;
+    grid-area: texto;
+    box-sizing: border-box;
+}
+
+.text-img-component .text-column p {
+    margin-bottom: 1.5em;
+    line-height: 1.15;
+    text-align: justify;
+}
+
+.text-img-component .text-column p:last-child {
+    margin-bottom: 0;
+}
+
+.text-img-component .image-column {
+    grid-area: imagem;
+    box-sizing: border-box;
+}
+
+.text-img-component .image-column img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.text-img-component .image-caption {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 0.9rem;
+    color: #64748b;
+    text-align: center;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Responsivo para telas menores que 900px */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+/* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+    
+    /* DESFAZER O GRID E USAR FLEXBOX PARA LINHAS */
+    .text-img-component .grid-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px !important;
+    }
+    
+    /* Forçar a ordem: imagem primeiro, texto depois */
+    .text-img-component.posicao-esquerda .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-esquerda .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    /* Garantir que as colunas ocupem 100% da largura */
+    .text-img-component .image-column,
+    .text-img-component .text-column {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Remover grid template quando em mobile */
+    .text-img-component .grid-container {
+        grid-template-columns: 1fr !important;
+        grid-template-areas: none !important;
+    }
+}
+.blockquote-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.blockquote-bg-image {
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+@keyframes bannerPan {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .blockquote-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .blockquote-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+        padding: 32px 24px !important;
+    }
+    
+    .blockquote-component blockquote {
+        font-size: 1.1rem !important;
+    }
+}
+.hashtags-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.hashtags-component .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.hashtags-component .article-tags span {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: .7rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--primary, #020617);
+    color: #fff;
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .hashtags-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hashtags-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+}
+
+                @keyframes bannerPan {
+                    0%   { transform: translateX(0); }
+                    50%  { transform: translateX(8%); }
+                    100% { transform: translateX(0); }
+                }
+                
+                @media (prefers-reduced-motion: reduce) {
+                    .banner-image {
+                        animation: none !important;
+                    }
+                }
+            
+            
+            /* Estilos específicos para o banner */
+            .article-banner {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                contain: paint;
+                box-sizing: border-box !important;
+            }
+            
+            /* Ajuste de padding superior para o banner no mobile */
+            @media (max-width: 768px) {
+                .banner-overlay {
+                    padding-top: 64px !important; /* Acomoda o header do appshell */
+                    align-items: flex-end !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .banner-overlay {
+                    padding-top: 64px !important; /* Acomoda o header do appshell */
+                }
+            }
+            
+            /* Responsividade */
+            @media (max-width: 768px) {
+                .article-banner {
+                    height: clamp(180px, 22vh, 300px) !important;
+                }
+                
+                .banner-overlay {
+                    padding: 0 18px !important;
+                    background: linear-gradient(to top,
+                        rgba(0,0,0,.9),
+                        rgba(0,0,0,.5) 25%,
+                        transparent 50%) !important;
+                    align-items: flex-end !important;
+                    padding-top: 64px !important;
+                }
+                
+                .banner-content {
+                    padding-bottom: 24px !important;
+                    gap: 6px !important;
+                    margin-bottom: 0 !important;
+                }
+                
+                .banner-overlay h1 {
+                    font-size: clamp(1.2rem, 5.5vw, 1.8rem) !important;
+                    letter-spacing: .06em !important;
+                    line-height: 1.15 !important;
+                }
+                
+                .banner-overlay p {
+                    font-size: 0.85rem !important;
+                    opacity: 0.95 !important;
+                    line-height: 1.3 !important;
+                }
+                
+                .grid-container {
+                    grid-template-columns: 1fr !important;
+                    gap: 20px !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .article-banner {
+                    height: clamp(160px, 20vh, 260px) !important;
+                }
+                
+                .banner-overlay {
+                    padding: 0 16px !important;
+                    background: linear-gradient(to top,
+                        rgba(0,0,0,.92),
+                        rgba(0,0,0,.6) 20%,
+                        transparent 45%) !important;
+                    padding-top: 64px !important;
+                }
+                
+                .banner-content {
+                    padding-bottom: 20px !important;
+                    gap: 4px !important;
+                }
+                
+                .banner-overlay h1 {
+                    font-size: clamp(1rem, 6vw, 1.5rem) !important;
+                    letter-spacing: .05em !important;
+                    line-height: 1.1 !important;
+                }
+                
+                .banner-overlay p {
+                    font-size: 0.8rem !important;
+                    line-height: 1.25 !important;
+                }
+            }
+        </style>
+        
+        <section class="article-banner" style="position: relative; height: clamp(260px, 30vh, 500px); overflow: hidden; padding-top: 0; width: 100%;">
+        <img src="http://localhost:8095/img/5th-industry.jpg" alt="Indústria 5" class="banner-image" loading="eager" width="1600" height="900" style="position: absolute; inset: 0; width: 140%; height: 100%; object-fit: cover; left: -20%; animation: bannerPan 50s linear infinite; will-change: transform; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+        
+        <div class="banner-overlay" style="position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 0 24px; background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.4) 30%, transparent 60%); color: #fff;">
+            <div class="banner-content" style="width: 100%; max-width: 900px; margin: 0 auto 0; padding-bottom: 32px; display: flex; flex-direction: column; gap: 8px;">
+                <h1 id="titulo-banner-1767181122061" style="font-family: 'Montserrat', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin: 0; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; transition: all 0.3s ease;">
+                    Automação de 5ª Geração
+                </h1>
+                <p style="font-family: 'Merriweather', serif; font-size: .95rem; opacity: .9; margin: 0; line-height: 1.4; transition: all 0.3s ease;">
+                    Uma nova revolução industrial está chegando
+                </p>
+            </div>
+        </div>
+    </section>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto; padding: 12px 0px; font-family: Tahoma, Arial, sans-serif; max-width: 900px; width: 100%; box-sizing: border-box;"><p style="margin-bottom: 1.5em; line-height: 1.15; text-align: justify; font-size: medium;"><span style="font-size: 12px;"><font color="#020617">REALMETA é um serviço de automação digital e industrial sob demanda de 5ª geração. Isto é, </font><b style="color: rgb(2, 6, 23);">performance </b><font color="#020617">e </font><b style="color: rgb(2, 6, 23);">impacto </b><font color="#020617">definidos para obtenção de um </font><b style="background-color: rgb(255, 156, 0);">novo nível de valor&nbsp;</b></span><span style="font-size: 12px; background-color: rgb(255, 156, 0);"><b style="">agregado</b></span><span style="color: rgb(2, 6, 23); font-size: 12px;">.</span></p><p style="margin-bottom: 0px; line-height: 1.15; text-align: justify; font-size: medium;"><span style="color: rgb(2, 6, 23); font-size: 12px;">Na prática, isso significa&nbsp;</span><b style="color: rgb(2, 6, 23);"><span style="font-size: 12px;">ganho de competitividade</span></b><span style="color: rgb(2, 6, 23); font-size: 12px;">&nbsp;que favorece o posicionamento da sua empresa no mercado e por consequência,&nbsp;</span><b style="color: rgb(2, 6, 23);"><span style="font-size: 12px;">estimula a demanda</span></b><span style="color: rgb(2, 6, 23); font-size: 12px;">&nbsp;e projeta um&nbsp;</span><b style="color: rgb(2, 6, 23);"><span style="font-size: 12px;">novo patamar de negócios</span></b><span style="color: rgb(2, 6, 23); font-size: 12px;">, especialmente em empresas com diversos canais de relacionamento, nacionais e globais.</span></p></div>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto; padding: 12px 0px 0px; font-family: Tahoma, Arial, sans-serif; max-width: 900px; width: 100%; box-sizing: border-box;"><h2 class="" id="titulo-auto-1767120269243-1767108827074-0" style="color: rgb(2, 6, 23);">AUTOMAÇÃO INDUSTRIAL</h2></div>
+<div class="text-img-component posicao-direita" style="margin: 0px auto; padding: 8px 0px 12px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 16px; align-items: center; box-sizing: border-box; grid-template-columns: 54fr 46fr; grid-template-areas: &quot;texto imagem&quot;;"><div class="text-column" style="color: rgb(2, 6, 23); text-align: justify; grid-area: texto; box-sizing: border-box;"><p style="margin-bottom: 1.5em; line-height: 1.15; text-align: justify; color: rgb(2, 6, 23); font-size: medium;"><span style="font-size: 12px;">Todo projeto de desenvolvimento de máquinas e sistemas para automação industrial, requer um robusto plano de sensoriamento, monitoramento, controle, operação e manutenção. Que viabilize o comando das operações automatizadas.</span></p><p style="margin-bottom: 1.5em; line-height: 1.15; text-align: justify; color: rgb(2, 6, 23); font-size: medium;"><span style="font-size: 12px;">E com o avanço tecnológico, muitos equipamentos e componentes de leitura, transmissão e processamento de dados se tornaram mais acessíveis.</span></p><p style="margin-bottom: 1.5em; line-height: 1.15; text-align: justify; color: rgb(2, 6, 23); font-size: medium;"><span style="font-size: 12px;">Tanto que, empresas que ainda operam no padrão industrial 3.0, já estão ultrapassadas em comparação ao mercado. Pois são incapazes de atribuir a mesma performance que as empresas que estão aproveitando o nível industrial 4.0. Seja por falta de recursos, processos obsoletos, cultura organizacional ou especialização profissional desatualizadas.</span></p><p style="margin-bottom: 1.5em; line-height: 1.15; text-align: justify; color: rgb(2, 6, 23); font-size: medium;"><span style="font-size: 12px;">A REALMETA opera conciliando</span><b><span style="font-size: 12px;">&nbsp;método, tecnologia de ponta e propósito</span></b><span style="font-size: 12px;">&nbsp;para a implementação de automação de 4ª e 5ª geração, conforme o propósito dos nossos clientes e das suas demandas.</span></p><p style="margin-bottom: 1.5em; line-height: 1.15; text-align: justify; color: rgb(2, 6, 23); font-size: medium;"><span style="font-size: 12px;">No setor industrial, muitas cadeias de valor, mesmo com alta disponibilidade de automação, operam em paradigmas auto degenerativos. O que por vezes, significa</span><b><span style="font-size: 12px;">&nbsp;custos demasiados, receitas limitadas, cultura organizacional fraca, doente, processos quebrados e impactos degradantes às relações comerciais e ao meio ambiente</span></b><span style="font-size: 12px;">.</span></p><p style="line-height: 1.15; text-align: justify; color: rgb(2, 6, 23); font-size: medium; margin-bottom: 1.5em;"><span style="font-size: 12px;">Se esse barulho te perturba, entre em contato conosco. A inteligência de 5ª geração REALMETA vai te ajudar à direcionar a sua empresa ao topo.</span></p><p style="line-height: 1.15; text-align: justify; color: rgb(2, 6, 23); font-size: medium; margin-bottom: 0px;"><span style="font-size: 12px;"><br></span></p></div><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="http://localhost:8095/img/eletric-panel.jpg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div></div></div>
+<div class="blockquote-component" style="color: rgb(255, 255, 255); padding: 24px 48px; margin: 0px auto; border-radius: 12px; text-align: left; position: relative; overflow: hidden; border-left: 6px solid rgb(250, 196, 0); max-width: 900px; width: 100%; box-sizing: border-box; background: linear-gradient(to right, rgb(2, 6, 23), rgb(4, 47, 46));"><div class="blockquote-bg-image" style="position: absolute; inset: 0px; background-image: url(&quot;http://localhost:8095/img/5th-industry.jpg&quot;); background-size: cover; background-position: center center; background-repeat: no-repeat; opacity: 100; z-index: 0; will-change: transform; image-rendering: -webkit-optimize-contrast; animation: 50s linear 0s infinite normal none running bannerPan;"></div><div class="blockquote-overlay" style="position: absolute; inset: 0px; background: rgb(0, 117, 78); opacity: 34; z-index: 1; mix-blend-mode: overlay;"></div><blockquote style="font-family: Merriweather, serif; font-size: 1.2rem; font-style: normal; line-height: 1.6; margin: 0px; position: relative; z-index: 2;"><h2 class=""><i>Build more. Build with REALMETA</i></h2></blockquote></div>
+<div class="hashtags-component" style="max-width: 900px; margin-left: auto; margin-right: auto; width: 100%; box-sizing: border-box; padding-top: 12px; padding-bottom: 12px;"><div class="article-tags" style="display: flex; flex-wrap: wrap; gap: 12px;"><span style="font-family: Tahoma, Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(2, 6, 23); color: rgb(255, 255, 255);">automação industrial</span><span style="font-family: Tahoma, Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(2, 6, 23); color: rgb(255, 255, 255);">indústria 4.0</span><span style="font-family: Tahoma, Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(2, 6, 23); color: rgb(255, 255, 255);">inovação</span><span style="font-family: Tahoma, Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(2, 6, 23); color: rgb(255, 255, 255);">transformação digital</span><span style="font-family: Tahoma, Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(2, 6, 23); color: rgb(255, 255, 255);">inteligência</span><span style="font-family: Tahoma, Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(2, 6, 23); color: rgb(255, 255, 255);">governança</span></div></div>
+
+        
+        
+    </div>
+    </body>
+    </html>
