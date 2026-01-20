@@ -1275,3 +1275,65 @@ header, footer {
         font-size: 0.7rem;
     }
 }
+
+/* ================= PAUSAR ANIMAÇÕES DURANTE O BLINK ================= */
+/* Pausa global de animações quando o blink está ativo */
+body.blink-animation-active * {
+    animation-play-state: paused !important;
+    transition: none !important;
+}
+
+/* Exceções: permitir animações do header/footer e do próprio blink */
+body.blink-animation-active header,
+body.blink-animation-active footer,
+body.blink-animation-active .gradient-animated,
+body.blink-animation-active .blinking,
+body.blink-animation-active .contact-overlay *,
+body.blink-animation-active .initial-loading * {
+    animation-play-state: running !important;
+}
+
+/* Pausar especificamente animações dos cards do grid */
+body.blink-animation-active .work-grid-card-image-layer,
+body.blink-animation-active .work-zoom-layer {
+    animation-play-state: paused !important;
+    animation: none !important;
+}
+
+/* Pausar animações de hover durante o blink */
+body.blink-animation-active .work-grid-card:hover .work-zoom-layer {
+    transform: translateX(-50%) scale(1.33) !important;
+    transition: none !important;
+}
+
+/* Garantir que transições CSS também sejam pausadas */
+body.blink-animation-active {
+    --transition-duration: 0s !important;
+}
+
+/* Estado específico para quando o blink está ativo */
+body.blink-animation-active #app * {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Otimização de performance durante animações */
+.blink-animation-active {
+    contain: strict;
+}
+
+.blink-animation-active #workGridContainer {
+    contain: layout style paint;
+}
+
+/* Forçar GPU para animações principais */
+header, footer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Reduzir qualidade de renderização durante animação */
+.blink-animation-active #app img {
+    image-rendering: pixelated;
+}

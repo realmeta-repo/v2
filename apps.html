@@ -64,6 +64,14 @@
 
 <!-- Estilos otimizados para performance -->
 <style>
+    :root {
+        --workPan-play-state: running;
+    }
+
+    .work-grid-card-image-layer {
+        animation: workPan 60s linear infinite var(--workPan-play-state);
+    }
+
     /* Otimizações de performance */
     .work-grid-card {
         will-change: transform;
@@ -341,7 +349,6 @@
         'education': 'apps/education.html',
         'agrobusiness': 'apps/agrobusiness.html',
         'mobility': 'apps/mobility.html'
-
         // Adicione mais apps conforme necessário
     };
     
@@ -673,7 +680,7 @@
             if (scrollPosition >= pageEnd) {
                 const totalLoaded = currentPage * APPS_PER_PAGE;
                 if (totalLoaded < allApps.length) {
-                    console.log('Carregando mais apps via scroll...');
+                    console.log('Carregando...');
                     loadApps(currentPage + 1);
                 }
             }
@@ -716,6 +723,58 @@
             }
         }
     };
+    
+    // Controle de pausa durante blink animation
+    function pauseGridAnimations() {
+        const cards = document.querySelectorAll('.work-grid-card-image-layer');
+        cards.forEach(card => {
+            card.style.animationPlayState = 'paused';
+            card.style.setProperty('--workPan-play-state', 'paused');
+        });
+    }
+
+    function resumeGridAnimations() {
+        const cards = document.querySelectorAll('.work-grid-card-image-layer');
+        cards.forEach(card => {
+            card.style.animationPlayState = 'running';
+            card.style.setProperty('--workPan-play-state', 'running');
+        });
+    }
+
+    // Ouvir eventos do blink animation
+    window.addEventListener('pageLoaded', function(e) {
+        if (e.detail.page === 'apps') {
+            // Aguardar um pouco para garantir que o grid foi renderizado
+            setTimeout(() => {
+                resumeGridAnimations();
+            }, 100);
+        }
+    });
+
+    // Pausar animações quando o blink começar
+    document.addEventListener('DOMContentLoaded', function() {
+        // Observar mudanças no body para detectar blink
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    const body = document.body;
+                    if (body.classList.contains('blink-animation-active')) {
+                        pauseGridAnimations();
+                    } else if (body.classList.contains('initial-loading')) {
+                        // Já está pausado durante loading inicial
+                    } else {
+                        // Verificar se estamos na página de apps
+                        if (window.location.hash === '#apps' || 
+                            document.querySelector('nav a[data-page="apps"].active')) {
+                            setTimeout(resumeGridAnimations, 100);
+                        }
+                    }
+                }
+            });
+        });
+        
+        observer.observe(document.body, { attributes: true });
+    });
     
 })();
 </script>

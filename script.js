@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isBlinking = false;
     let currentPage = 'apps';
     let areEyelidsClosed = false;
+    let isBlinkAnimationActive = false; // Nova variável para controle global
     
     // Cache de conteúdo
     let contentCache = {};
@@ -53,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return new Promise((resolve) => {
             console.log('Iniciando fadeout do overlay de contato...');
             
+            // Pausar outras animações
+            body.classList.add('blink-animation-active');
+            isBlinkAnimationActive = true;
+            
             // Adicionar classes de fadeout
             contactButton.classList.add('fade-out-button');
             contactFields.classList.add('fade-out-fields');
@@ -72,6 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactText.style.animation = 'none';
                 contactFields.style.animation = 'none';
                 contactButton.style.animation = 'none';
+                
+                // Remover classe de pausa
+                body.classList.remove('blink-animation-active');
+                isBlinkAnimationActive = false;
                 
                 console.log('Fadeout do overlay completo');
                 resolve();
@@ -348,9 +357,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isBlinking) return;
         
         isBlinking = true;
+        isBlinkAnimationActive = true;
         
         try {
             console.log('Apenas fechando pálpebras para Contact...');
+            
+            // Pausar outras animações
+            body.classList.add('blink-animation-active');
             
             // 1. Iniciar fechamento das pálpebras
             body.classList.add('blinking');
@@ -398,6 +411,8 @@ document.addEventListener('DOMContentLoaded', function() {
             body.classList.remove('blinking', 'eyelids-closed');
             areEyelidsClosed = false;
         } finally {
+            // Não remover blink-animation-active aqui porque as pálpebras ficam fechadas
+            // A remoção acontecerá quando sair do contact
             isBlinking = false;
         }
     }
@@ -407,8 +422,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isBlinking) return;
         
         isBlinking = true;
+        isBlinkAnimationActive = true;
         
         try {
+            // Pausar animações de outras páginas
+            body.classList.add('blink-animation-active');
+            
             console.log(`Carregando: ${pageId}`);
             
             // 1. INICIAR FECHAMENTO DAS PÁLPEBRAS (700ms)
@@ -443,6 +462,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p><small>${error.message}</small></p>
             </div>`;
         } finally {
+            // Restaurar animações
+            body.classList.remove('blink-animation-active');
+            isBlinkAnimationActive = false;
             isBlinking = false;
         }
     }
