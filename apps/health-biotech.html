@@ -71,8 +71,8 @@
                     order: 1 !important;
                 }
                 
-                .text-img-component.posicao-esquerda .grid-container .text-column,
-                .text-img-component.posicao-direita .grid-container .text-column {
+                .text-img-component.posicao-direita .grid-container .text-column,
+                .text-img-component.posicao-esquerda .grid-container .text-column {
                     order: 2 !important;
                 }
                 
@@ -175,6 +175,183 @@
             animation: none !important;
         }
     }
+.text-component {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER QUALQUER CLASSE DO SUMMERNOTE - IMPORTANTE! */
+.text-component p,
+.text-component p.western,
+.text-component p[class*="western"],
+.text-component p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-component p + p,
+.text-component p.western + p.western,
+.text-component p[class*="western"] + p[class*="western"],
+.text-component p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* OPÇÃO: Adicionar linha divisória sutil (descomente se quiser) */
+/*
+.text-component p + p::before {
+    content: '';
+    position: absolute;
+    top: -0.75em;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+}
+*/
+
+/* SOBRESCREVER TÍTULOS DO SUMMERNOTE */
+.text-component h1,
+.text-component h2,
+.text-component h3,
+.text-component h4,
+.text-component h5,
+.text-component h6,
+.text-component h1.western,
+.text-component h2.western,
+.text-component h3.western,
+.text-component h4.western,
+.text-component h5.western,
+.text-component h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-component h1:first-child,
+.text-component h2:first-child,
+.text-component h3:first-child,
+.text-component h4:first-child,
+.text-component h5:first-child,
+.text-component h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-component h1,
+.text-component h1.western { font-size: 2.5em !important; }
+.text-component h2,
+.text-component h2.western { font-size: 2em !important; }
+.text-component h3,
+.text-component h3.western { font-size: 1.75em !important; }
+.text-component h4,
+.text-component h4.western { font-size: 1.5em !important; }
+.text-component h5,
+.text-component h5.western { font-size: 1.25em !important; }
+.text-component h6,
+.text-component h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo não tem margem top */
+.text-component > p:first-child,
+.text-component > p.western:first-child,
+.text-component > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo não tem margem bottom adicional */
+.text-component > p:last-child,
+.text-component > p.western:last-child,
+.text-component > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Listas */
+.text-component ul,
+.text-component ol,
+.text-component ul.western,
+.text-component ol.western {
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+    padding-left: 1.5em !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+}
+
+.text-component li,
+.text-component li.western {
+    margin-bottom: 0.5em !important;
+}
+
+.text-component li:last-child,
+.text-component li.western:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Blockquote */
+.text-component blockquote,
+.text-component blockquote.western {
+    border-left: 4px solid #2563eb !important;
+    padding-left: 1em !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+    font-style: italic !important;
+    color: #475569 !important;
+    font-family: 'Merriweather', serif !important;
+    font-size: 1.1em !important;
+    line-height: 1.4 !important;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .text-component {
+        max-width: calc(100% - 48px) !important;
+        margin-left: 24px !important;
+        margin-right: 24px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .text-component {
+        max-width: calc(100% - 32px) !important;
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+    
+    .text-component h1,
+    .text-component h1.western { font-size: 2em !important; }
+    .text-component h2,
+    .text-component h2.western { font-size: 1.75em !important; }
+    .text-component h3,
+    .text-component h3.western { font-size: 1.5em !important; }
+    .text-component h4,
+    .text-component h4.western { font-size: 1.25em !important; }
+    .text-component h5,
+    .text-component h5.western { font-size: 1.1em !important; }
+    .text-component h6,
+    .text-component h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-component p + p,
+    .text-component p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
 .text-img-component {
     width: 100%;
     margin: 0;
@@ -248,7 +425,7 @@
 .text-img-component .text-column h5.western,
 .text-img-component .text-column h6.western {
     font-family: 'Montserrat', sans-serif !important;
-    font-weight: 800 !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
     margin-top: 2em !important;
     margin-bottom: 0.75em !important;
     line-height: 1.2 !important;
@@ -387,6 +564,96 @@
         margin-top: 1.2em !important;
     }
 }
+.blockquote-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.blockquote-bg-image {
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+@keyframes bannerPan {
+    0%   { transform: translateX(0); }
+    50%  { transform: translateX(8%); }
+    100% { transform: translateX(0); }
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .blockquote-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .blockquote-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+        padding: 32px 24px !important;
+    }
+    
+    .blockquote-component blockquote {
+        font-size: 1.1rem !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blockquote-bg-image {
+        animation: none !important;
+    }
+}
+.hashtags-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.hashtags-component .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.hashtags-component .article-tags span {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 10px; /* Alterado de .7rem para 10px */
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #ebebeb; /* Cinza médio 30% - alterado de transparent */
+    color: #383838; /* Preto - alterado de #6B7280 */
+    border: none; /* Removida a borda de 1px solid #E5E7EB */
+    font-weight: normal; /* Garantir peso normal */
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .hashtags-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hashtags-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+}
 
                 @keyframes bannerPan {
                     0%   { transform: translateX(0); }
@@ -497,7 +764,18 @@
             }
         </style>
         
-        <section class="article-banner" style="position: relative; height: clamp(220px, 25vh, 420px); overflow: hidden; padding-top: 0px; width: 100%; box-sizing: border-box;"><img src="./img/governance.jpeg" alt="Inovação Digital e o Futuro das Organizações" class="banner-image" loading="eager" width="1600" height="900" style="position: absolute; inset: 0px 0px 0px -20%; width: 140%; height: 100%; object-fit: cover; will-change: transform; image-rendering: -webkit-optimize-contrast; animation: 50s linear 0s infinite normal none running bannerPan;"><div class="banner-overlay" style="position: absolute; inset: 0px; display: flex; align-items: flex-end; padding: 0px 24px; background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.4) 30%, transparent 60%); color: rgb(255, 255, 255); box-sizing: border-box;"><div class="banner-content" style="width: 100%; max-width: 900px; margin: 0px auto; padding-bottom: 32px; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box;"><h1 style="font-family: Montserrat, sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin: 0px; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; transition: 0.3s;">Título do Artigo</h1><p style="font-family: Merriweather, serif; font-size: 0.95rem; opacity: 0.9; margin: 0px; line-height: 1.4; transition: 0.3s;">Subtítulo descritivo do artigo</p></div></div><script>
+        <section class="article-banner" style="position: relative; height: clamp(220px, 25vh, 420px); overflow: hidden; padding-top: 0px; padding-bottom: 12px; width: 100%; box-sizing: border-box; --mobile-padding-top: 0;"><style>
+        @media (max-width: 768px) {
+            .banner-overlay {
+                padding: 0 18px 12px !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .banner-overlay {
+                padding: 0 16px 12px !important;
+            }
+        }
+    </style><img src="./img/biotech.jpg" alt="Banner do artigo" class="banner-image" loading="eager" width="1600" height="900" style="position: absolute; inset: 0px 0px 0px -20%; width: 140%; height: 100%; object-fit: cover; will-change: transform; image-rendering: -webkit-optimize-contrast; animation: 50s linear 0s infinite normal none running bannerPan;"><div class="banner-overlay" style="position: absolute; inset: 0px; display: flex; align-items: flex-end; padding: 0px 24px 12px; background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.4) 30%, transparent 60%); color: rgb(255, 255, 255); box-sizing: border-box;"><div class="banner-content" style="width: 100%; max-width: 900px; margin: 0px auto; padding-bottom: 32px; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box;"><h1 id="titulo-banner-1768929998258" style="font-family: Montserrat, sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin: 0px; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; transition: 0.3s;">Saúde e Biotecnologia</h1><p style="font-family: Merriweather, serif; font-size: 0.95rem; opacity: 0.9; margin: 0px; line-height: 1.4; transition: 0.3s;">Biodados epigenéticos - o novo petróleo</p></div></div><script>
         (function() {
             function adjustBannerText() {
                 const banner = document.querySelector('.article-banner');
@@ -599,10 +877,159 @@
             }, 100);
         })();
     </script></section>
-<div class="text-img-component posicao-esquerda" style="margin: 0px auto 48px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 32px; align-items: center; box-sizing: border-box; grid-template-columns: 50fr 50fr; grid-template-areas: &quot;imagem texto&quot;;"><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="./img/eletric-panel.jpg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div><div class="text-column" style="grid-area: texto; box-sizing: border-box;"><p>Este é um exemplo de texto formatado ao lado de uma imagem.</p><p>Segundo parágrafo com separação visual clara.</p></div></div></div>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto; padding: 12px 0px; max-width: 900px; width: 100%; box-sizing: border-box;"><p style="margin-bottom: 1.5em; line-height: 1.15; font-size: medium; color: rgb(2, 6, 23); text-align: justify;"><span style="font-size: 12px;"><font color="#020617">REALMETA é um serviço de automação digital e industrial sob demanda, de 5ª geração. Isto é,&nbsp;</font><b>performance&nbsp;</b><font color="#020617">e&nbsp;</font><b>impactos&nbsp;</b><font color="#020617">definidos para obtenção de um&nbsp;</font><b style="background-color: rgb(255, 156, 0);">novo nível de valor&nbsp;</b></span><span style="font-size: 12px; background-color: rgb(255, 156, 0);"><b>agregado</b></span><span style="font-size: 12px;">.</span></p><p style="margin-bottom: 1.5em; line-height: 1.15; font-size: medium; color: rgb(2, 6, 23); text-align: justify;"><span style="font-size: 12px;">Na prática, isso significa arranjos processuais que equilibram recursos humanos e digitais com maestria singular, o que gera um&nbsp;</span><b><span style="font-size: 12px;">ganho de competitividade</span></b><span style="font-size: 12px;">&nbsp;que favorece o posicionamento da sua empresa no mercado e por consequência,&nbsp;</span><b><span style="font-size: 12px;">estimula a demanda</span></b><span style="font-size: 12px;">&nbsp;e projeta um&nbsp;</span><b><span style="font-size: 12px;">novo patamar de negócios</span></b><span style="font-size: 12px;">, especialmente em empresas com diversos canais de relacionamento, nacionais e globais</span></p></div>
+<div class="text-img-component posicao-direita" style="margin: 0px auto; padding: 0px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 12px; align-items: center; box-sizing: border-box; grid-template-columns: 50fr 50fr; grid-template-areas: &quot;texto imagem&quot;;"><div class="text-column" style="grid-area: texto; box-sizing: border-box;"><p class="western" style="margin-bottom: 0cm">A acurácia das
+decisões em saúde e em processos de pesquisa e desenvolvimento de
+novas biotecnologias requer o maior nível de precisão que a
+tecnologia é capaz de conceber, para maior assertividade em
+diagnósticos e proagnósticos, maior eficácia de novos fármacos,
+tratamentos e equipamentos hospitalares.</p><p class="western" style="margin-bottom: 0cm">Os grandes desafios do
+século desse segmento envolvem uma maior compreensão dos processos
+biológicos para a otimização de bio soluções pré existentes e
+concepção de novas bio soluções, cada vez mais prematuras.</p><p class="western" style="margin-bottom: 0cm">Neste sentido, a
+epigenética é um processo biológico chave para elevar a
+compreensão da ciência, no processo de construção de novas
+biotecnologias e na evolução de políticas públicas.</p><p class="western" style="margin-bottom: 0cm">A inteligência de 5ª
+geração REALMETA é baseada no Método MIA, que é capaz de
+interpretar e manipular a mutação da memória epigenética com
+precisão disruptiva.</p><p>
+
+
+
+
+
+
+
+</p><p class="western" style="margin-bottom: 0cm">Com a decodificação
+do código epigenético, viabilizamos o gêmeo digital biológico
+(digital twin), para a simulação e construção de novas bio
+soluções de forma acelerada, removendo os principais gargalos do
+processo de P&amp;D na área de saúde e biotecnologia.</p></div><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="./img/health.jpg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div></div></div>
+<div class="blockquote-component" data-id="1768930410889" style="background: linear-gradient(to top, rgb(253, 213, 0), rgb(4, 47, 46)); color: rgb(255, 213, 0); padding: 48px; border-radius: 8px; margin: 56px auto; text-align: left; position: relative; overflow: hidden; border-left: 4px solid rgb(253, 213, 0); max-width: 900px; width: 100%; box-sizing: border-box;"><div class="blockquote-bg-image" style="position: absolute; inset: 0px 0px 0px -20%; width: 140%; height: 100%; background-image: url(&quot;./img/5th-industry.jpg&quot;); background-size: cover; background-position: center center; background-repeat: no-repeat; opacity: 0.5; z-index: 0; will-change: transform; image-rendering: -webkit-optimize-contrast; animation: 50s linear 0s infinite normal none running bannerPan;"></div><div class="blockquote-overlay" style="position: absolute; inset: 0px; background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)); z-index: 1; mix-blend-mode: overlay;"></div><blockquote style="font-family: Merriweather, serif; font-size: 1.2rem; font-style: normal; line-height: 1.6; margin: 0px; position: relative; z-index: 2;"><h3 class="">BUILD MORE. BUILD WITH REALMETA</h3></blockquote></div>
+<div class="hashtags-component" style="margin: 0px auto; padding: 0px; max-width: 900px; width: 100%; box-sizing: border-box;">
+    <div class="article-tags">
+        
+        <span>saúde</span>
+        
+        <span>biotecnologia</span>
+        
+        <span>epigenética</span>
+        
+        <span>mRNA</span>
+        
+        <span>inovação</span>
+        
+        <span>transformação digital</span>
+        
+        <span>inteligência</span>
+        
+        <span>governança</span>
+        
+    </div>
+</div>
 
         
         
+        
+        
+        <script type="application/json" id="article-data">
+        {
+            "componentes": [
+  {
+    "id": "1768929998258",
+    "tipo": "banner",
+    "config": {
+      "imagemNome": "biotech.jpg",
+      "imagemAlt": "",
+      "titulo": "Saúde e Biotecnologia",
+      "subtitulo": "Biodados epigenéticos - o novo petróleo",
+      "alturaBanner": "clamp(220px, 25vh, 420px)",
+      "animacaoAtiva": true,
+      "paddingTop": "0",
+      "paddingBottom": "12px"
+    }
+  },
+  {
+    "id": "1768930285041",
+    "tipo": "text",
+    "config": {
+      "conteudo": "<p style=\"margin-bottom: 1.5em; line-height: 1.15; font-size: medium; color: rgb(2, 6, 23); text-align: justify;\"><span style=\"font-size: 12px;\"><font color=\"#020617\">REALMETA é um serviço de automação digital e industrial sob demanda, de 5ª geração. Isto é,&nbsp;</font><b>performance&nbsp;</b><font color=\"#020617\">e&nbsp;</font><b>impactos&nbsp;</b><font color=\"#020617\">definidos para obtenção de um&nbsp;</font><b style=\"background-color: rgb(255, 156, 0);\">novo nível de valor&nbsp;</b></span><span style=\"font-size: 12px; background-color: rgb(255, 156, 0);\"><b>agregado</b></span><span style=\"font-size: 12px;\">.</span></p><p style=\"margin-bottom: 1.5em; line-height: 1.15; font-size: medium; color: rgb(2, 6, 23); text-align: justify;\"><span style=\"font-size: 12px;\">Na prática, isso significa arranjos processuais que equilibram recursos humanos e digitais com maestria singular, o que gera um&nbsp;</span><b><span style=\"font-size: 12px;\">ganho de competitividade</span></b><span style=\"font-size: 12px;\">&nbsp;que favorece o posicionamento da sua empresa no mercado e por consequência,&nbsp;</span><b><span style=\"font-size: 12px;\">estimula a demanda</span></b><span style=\"font-size: 12px;\">&nbsp;e projeta um&nbsp;</span><b><span style=\"font-size: 12px;\">novo patamar de negócios</span></b><span style=\"font-size: 12px;\">, especialmente em empresas com diversos canais de relacionamento, nacionais e globais</span></p>",
+      "corTexto": "#020617",
+      "margem": "0 0 0 0",
+      "paddingTop": "12px",
+      "paddingBottom": "12px"
+    }
+  },
+  {
+    "id": "1768930335021",
+    "tipo": "text+img",
+    "config": {
+      "conteudo": "<p class=\"western\" style=\"margin-bottom: 0cm\">A acurácia das\ndecisões em saúde e em processos de pesquisa e desenvolvimento de\nnovas biotecnologias requer o maior nível de precisão que a\ntecnologia é capaz de conceber, para maior assertividade em\ndiagnósticos e proagnósticos, maior eficácia de novos fármacos,\ntratamentos e equipamentos hospitalares.</p><p class=\"western\" style=\"margin-bottom: 0cm\">Os grandes desafios do\nséculo desse segmento envolvem uma maior compreensão dos processos\nbiológicos para a otimização de bio soluções pré existentes e\nconcepção de novas bio soluções, cada vez mais prematuras.</p><p class=\"western\" style=\"margin-bottom: 0cm\">Neste sentido, a\nepigenética é um processo biológico chave para elevar a\ncompreensão da ciência, no processo de construção de novas\nbiotecnologias e na evolução de políticas públicas.</p><p class=\"western\" style=\"margin-bottom: 0cm\">A inteligência de 5ª\ngeração REALMETA é baseada no Método MIA, que é capaz de\ninterpretar e manipular a mutação da memória epigenética com\nprecisão disruptiva.</p><p>\n\n\n\n\n\n\n\n</p><p class=\"western\" style=\"margin-bottom: 0cm\">Com a decodificação\ndo código epigenético, viabilizamos o gêmeo digital biológico\n(digital twin), para a simulação e construção de novas bio\nsoluções de forma acelerada, removendo os principais gargalos do\nprocesso de P&amp;D na área de saúde e biotecnologia.</p>",
+      "imagemNome": "health.jpg",
+      "imagemAlt": "",
+      "legenda": "",
+      "tamanhoImagem": 50,
+      "posicao": "direita",
+      "bordaImagem": "8px",
+      "gap": "12px",
+      "margem": "0 0 0 0",
+      "paddingTop": "",
+      "paddingBottom": "0"
+    }
+  },
+  {
+    "id": "1768930410889",
+    "tipo": "blockquote",
+    "config": {
+      "conteudo": "<h3 class=\"\">BUILD MORE. BUILD WITH REALMETA</h3>",
+      "corTexto": "#ffd500",
+      "tamanhoFonte": "1.2rem",
+      "estiloFonte": "normal",
+      "espacamentoLinhas": "1.6",
+      "corLinha": "#fdd500",
+      "espessuraLinha": "4px",
+      "corFundo": "#fdd500",
+      "corFundo2": "#042f2e",
+      "direcaoGradiente": "to top",
+      "imagemFundoNome": "5th-industry.jpg",
+      "opacidadeImagemFundo": 50,
+      "animacaoAtiva": true,
+      "corOverlay1": "#000000",
+      "corOverlay2": "#000000",
+      "opacidadeOverlay1": 0,
+      "opacidadeOverlay2": 0,
+      "direcaoOverlayGradiente": "to top",
+      "alinhamento": "left",
+      "paddingTop": "48px",
+      "paddingBottom": "48px",
+      "marginTop": "56px",
+      "marginBottom": "56px",
+      "borda": "8px"
+    }
+  },
+  {
+    "id": "1768930567728",
+    "tipo": "hashtags",
+    "config": {
+      "tags": [
+        "saúde",
+        "biotecnologia",
+        "epigenética",
+        "mRNA",
+        "inovação",
+        "transformação digital",
+        "inteligência",
+        "governança"
+      ],
+      "paddingTop": "0",
+      "paddingBottom": "0"
+    }
+  }
+],
+            "geradoEm": "2026-01-20T17:36:30.577Z",
+            "versaoEditor": "1.0"
+        }
+        </script>
     </div>
     </body>
     </html>
