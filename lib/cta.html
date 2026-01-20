@@ -1,0 +1,515 @@
+<template>
+<div class="cta-component" 
+     style="background: linear-gradient(135deg, #2563eb, #1d4ed8); 
+            color: #ffffff; 
+            padding: 48px 48px 48px 48px; 
+            border-radius: 8px; 
+            margin: 56px 0 56px 0; 
+            text-align: center;
+            position: relative;
+            overflow: hidden;">
+    
+    <!-- Imagem de fundo com animação -->
+    <div class="cta-bg-image" style="
+        position: absolute;
+        inset: 0;
+        background-image: none;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        animation: none;
+        opacity: 0.3;
+        z-index: 0;
+        filter: none;
+    "></div>
+    
+    <!-- Overlay de cor -->
+    <div class="cta-overlay" style="
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.7), rgba(29, 78, 216, 0.7));
+        opacity: 0.8;
+        z-index: 1;
+        mix-blend-mode: overlay;
+    "></div>
+    
+    <!-- Conteúdo -->
+    <div style="position: relative; z-index: 2;">
+        <h3 style="font-family: 'Montserrat', sans-serif; 
+                font-weight: 800; 
+                text-transform: uppercase; 
+                letter-spacing: 0.08em; 
+                margin-bottom: 16px;
+                color: #ffffff;
+                font-size: 1.5rem;">
+            Pronto para Transformar Sua Organização?
+        </h3>
+        
+        <p style="font-family: Tahoma, Arial, sans-serif; 
+                font-size: 1.1rem; 
+                margin-bottom: 24px;
+                color: #ffffff;
+                line-height: 1.4;">
+            Entre em contato para uma consultoria personalizada
+        </p>
+        
+        <a href="#contact" 
+           style="background: #ffffff; 
+                  color: #2563eb; 
+                  padding: 12px 32px; 
+                  border-radius: 8px; 
+                  text-decoration: none; 
+                  font-family: 'Montserrat', sans-serif; 
+                  font-weight: 800; 
+                  text-transform: uppercase; 
+                  letter-spacing: 0.08em; 
+                  display: inline-block;
+                  border: 2px solid #ffffff;
+                  transition: all 0.3s ease;">
+            Solicitar Consultoria
+        </a>
+    </div>
+</div>
+</template>
+
+<script type="application/json">
+{
+    "name": "Call to Action",
+    "icon": "📣",
+    "description": "Bloco de chamada para ação com botão",
+    "defaultConfig": {
+        "titulo": "Pronto para Transformar Sua Organização?",
+        "texto": "Entre em contato para uma consultoria personalizada",
+        "textoBotao": "Solicitar Consultoria",
+        "url": "#contact",
+        
+        "corTitulo": "#ffffff",
+        "corTexto": "#ffffff",
+        "tamanhoTitulo": "1.5rem",
+        "tamanhoTexto": "1.1rem",
+        "espacamentoLinhas": "1.4",
+        "espacamentoTituloTexto": "16px",
+        "espacamentoTextoBotao": "24px",
+        
+        "corBotao": "#ffffff",
+        "corTextoBotao": "#2563eb",
+        "corBordaBotao": "#ffffff",
+        "espessuraBordaBotao": "2px",
+        "bordaBotao": "8px",
+        "paddingBotaoVertical": "12px",
+        "paddingBotaoHorizontal": "32px",
+        
+        "paddingTop": "48px",
+        "paddingRight": "48px",
+        "paddingBottom": "48px",
+        "paddingLeft": "48px",
+        "marginTop": "56px",
+        "marginRight": "0",
+        "marginBottom": "56px",
+        "marginLeft": "0",
+        "borda": "8px",
+        "alinhamento": "center",
+        
+        "corFundo": "#2563eb",
+        "corFundo2": "#1d4ed8",
+        "direcaoGradiente": "135deg",
+        
+        "imagemFundoUrl": "",
+        "tamanhoImagemFundo": "cover",
+        "posicaoImagemFundo": "center",
+        "repetirImagemFundo": "no-repeat",
+        "opacidadeImagemFundo": "0.3",
+        "animacaoImagem": "none",
+        "blurImagemFundo": false,
+        "intensidadeBlurImagem": "4px",
+        
+        "corOverlay": "linear-gradient(135deg, rgba(37, 99, 235, 0.7), rgba(29, 78, 216, 0.7))",
+        "opacidadeOverlay": "0.8",
+        "modoBlend": "overlay"
+    }
+}
+</script>
+
+<style>
+.cta-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.cta-bg-image {
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+@keyframes bannerPan {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .cta-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .cta-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+        padding: 32px 24px !important;
+    }
+    
+    .cta-component h3 {
+        font-size: 1.1rem !important;
+    }
+    
+    .cta-component p {
+        font-size: 1rem !important;
+    }
+    
+    .cta-component a {
+        padding: 10px 24px !important;
+        font-size: 0.9rem !important;
+    }
+}
+</style>
+
+<div data-form-template style="display: none;">
+    <!-- Título e Texto -->
+    <div class="form-group">
+        <label>Título</label>
+        <input type="text" id="editTitulo" value="Pronto para Transformar Sua Organização?" placeholder="Título do CTA">
+    </div>
+    
+    <div class="form-group">
+        <label>Texto</label>
+        <textarea id="editTexto" rows="3">Entre em contato para uma consultoria personalizada</textarea>
+    </div>
+    
+    <!-- Botão -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Texto do Botão</label>
+            <input type="text" id="editTextoBotao" value="Solicitar Consultoria" placeholder="Texto do botão">
+        </div>
+        <div class="form-group">
+            <label>URL do Botão</label>
+            <input type="text" id="editUrl" value="#contact" placeholder="https://... ou #contact">
+        </div>
+    </div>
+    
+    <!-- Cores do texto -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor do Título</label>
+            <input type="color" id="editCorTitulo" value="#ffffff">
+        </div>
+        <div class="form-group">
+            <label>Cor do Texto</label>
+            <input type="color" id="editCorTexto" value="#ffffff">
+        </div>
+    </div>
+    
+    <!-- Tamanhos -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Tamanho do Título</label>
+            <input type="text" id="editTamanhoTitulo" value="1.5rem" placeholder="1.5rem">
+        </div>
+        <div class="form-group">
+            <label>Tamanho do Texto</label>
+            <input type="text" id="editTamanhoTexto" value="1.1rem" placeholder="1.1rem">
+        </div>
+    </div>
+    
+    <!-- Botão configurações -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor do Botão</label>
+            <input type="color" id="editCorBotao" value="#ffffff">
+        </div>
+        <div class="form-group">
+            <label>Cor do Texto do Botão</label>
+            <input type="color" id="editCorTextoBotao" value="#2563eb">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor da Borda do Botão</label>
+            <input type="color" id="editCorBordaBotao" value="#ffffff">
+        </div>
+        <div class="form-group">
+            <label>Espessura da Borda</label>
+            <input type="text" id="editEspessuraBordaBotao" value="2px" placeholder="2px">
+        </div>
+    </div>
+    
+    <!-- Fundo gradiente -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor 1 do Gradiente</label>
+            <input type="color" id="editCorFundo" value="#2563eb">
+        </div>
+        <div class="form-group">
+            <label>Cor 2 do Gradiente</label>
+            <input type="color" id="editCorFundo2" value="#1d4ed8">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Direção do Gradiente</label>
+        <select id="editDirecaoGradiente">
+            <option value="to right">Para Direita</option>
+            <option value="to left">Para Esquerda</option>
+            <option value="to bottom">Para Baixo</option>
+            <option value="to top">Para Cima</option>
+            <option value="135deg" selected>Diagonal (135°)</option>
+            <option value="45deg">Diagonal (45°)</option>
+        </select>
+    </div>
+    
+    <!-- Imagem de fundo -->
+    <div class="form-group">
+        <label>URL da Imagem de Fundo</label>
+        <input type="text" id="editImagemFundoUrl" value="" placeholder="https://exemplo.com/imagem.jpg">
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Opacidade da Imagem</label>
+            <input type="range" id="editOpacidadeImagemFundo" min="0" max="100" value="30">
+            <span id="opacidadeImagemFundoValue">30%</span>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="editAnimacaoImagem">
+                Animar Imagem (Pan)
+            </label>
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="editBlurImagemFundo">
+                Aplicar Blur na Imagem
+            </label>
+        </div>
+        <div class="form-group">
+            <label>Intensidade do Blur</label>
+            <input type="text" id="editIntensidadeBlurImagem" value="4px" placeholder="4px">
+        </div>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor do Overlay</label>
+            <input type="text" id="editCorOverlay" value="linear-gradient(135deg, rgba(37, 99, 235, 0.7), rgba(29, 78, 216, 0.7))" placeholder="linear-gradient(135deg, rgba(37, 99, 235, 0.7), rgba(29, 78, 216, 0.7))">
+        </div>
+        <div class="form-group">
+            <label>Opacidade do Overlay</label>
+            <input type="range" id="editOpacidadeOverlay" min="0" max="100" value="80">
+            <span id="opacidadeOverlayValue">80%</span>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Modo de Blend</label>
+        <select id="editModoBlend">
+            <option value="normal">Normal</option>
+            <option value="overlay" selected>Overlay</option>
+            <option value="multiply">Multiply</option>
+            <option value="screen">Screen</option>
+        </select>
+    </div>
+    
+    <!-- Layout -->
+    <div class="form-group">
+        <label>Alinhamento</label>
+        <select id="editAlinhamento">
+            <option value="left">Esquerda</option>
+            <option value="center" selected>Centro</option>
+            <option value="right">Direita</option>
+        </select>
+    </div>
+    
+    <!-- Padding e Margem -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Padding Superior</label>
+            <input type="text" id="editPaddingTop" value="48px" placeholder="48px">
+        </div>
+        <div class="form-group">
+            <label>Padding Inferior</label>
+            <input type="text" id="editPaddingBottom" value="48px" placeholder="48px">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Margem Superior</label>
+            <input type="text" id="editMarginTop" value="56px" placeholder="56px">
+        </div>
+        <div class="form-group">
+            <label>Margem Inferior</label>
+            <input type="text" id="editMarginBottom" value="56px" placeholder="56px">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Raio da Borda</label>
+        <input type="text" id="editBorda" value="8px" placeholder="8px">
+    </div>
+</div>
+
+<script>
+// Função de criação do componente CTA
+function criarElemento(config, id) {
+    const div = document.createElement('div');
+    div.className = 'cta-component';
+    
+    // Processar animação da imagem
+    let animacaoImagem = 'none';
+    if (config.animacaoImagem && config.animacaoImagem !== 'none') {
+        animacaoImagem = 'bannerPan 20s ease-in-out infinite';
+    }
+    
+    // Processar blur da imagem
+    let blurFilter = 'none';
+    if (config.blurImagemFundo === true || config.blurImagemFundo === 'true') {
+        blurFilter = `blur(${config.intensidadeBlurImagem || '4px'})`;
+    }
+    
+    // Processar imagem de fundo - Corrigir o erro de esquema de URL
+    let bgImage = 'none';
+    let imagemUrl = '';
+    
+    if (config.imagemFundoUrl && config.imagemFundoUrl.trim() !== '') {
+        // Verificar se a URL é válida
+        try {
+            const url = new URL(config.imagemFundoUrl);
+            if (url.protocol === 'http:' || url.protocol === 'https:' || url.protocol === 'data:') {
+                imagemUrl = config.imagemFundoUrl;
+                bgImage = `url('${imagemUrl}')`;
+            } else {
+                console.warn('Protocolo de URL não suportado:', url.protocol);
+            }
+        } catch (e) {
+            // Se não for uma URL válida, tratar como caminho relativo
+            if (config.imagemFundoUrl.startsWith('/') || config.imagemFundoUrl.startsWith('./') || config.imagemFundoUrl.startsWith('../')) {
+                imagemUrl = config.imagemFundoUrl;
+                bgImage = `url('${imagemUrl}')`;
+            } else {
+                console.warn('URL da imagem inválida:', config.imagemFundoUrl);
+            }
+        }
+    }
+    
+    // Construir estilos inline
+    div.style.background = `linear-gradient(${config.direcaoGradiente || '135deg'}, ${config.corFundo || '#2563eb'}, ${config.corFundo2 || '#1d4ed8'})`;
+    div.style.color = config.corTexto || '#ffffff';
+    div.style.padding = `${config.paddingTop || '48px'} ${config.paddingRight || '48px'} ${config.paddingBottom || '48px'} ${config.paddingLeft || '48px'}`;
+    div.style.borderRadius = config.borda || '8px';
+    div.style.margin = `${config.marginTop || '56px'} ${config.marginRight || '0'} ${config.marginBottom || '56px'} ${config.marginLeft || '0'}`;
+    div.style.textAlign = config.alinhamento || 'center';
+    div.style.position = 'relative';
+    div.style.overflow = 'hidden';
+    div.style.maxWidth = '900px';
+    div.style.marginLeft = 'auto';
+    div.style.marginRight = 'auto';
+    div.style.width = '100%';
+    div.style.boxSizing = 'border-box';
+    
+    // Adicionar padding específico do componente
+    div.style.paddingTop = config.paddingTop || '0';
+    div.style.paddingBottom = config.paddingBottom || '32px';
+    
+    // Criar imagem de fundo
+    const bgImageDiv = document.createElement('div');
+    bgImageDiv.className = 'cta-bg-image';
+    bgImageDiv.style.position = 'absolute';
+    bgImageDiv.style.inset = '0';
+    bgImageDiv.style.backgroundImage = bgImage;
+    bgImageDiv.style.backgroundSize = config.tamanhoImagemFundo || 'cover';
+    bgImageDiv.style.backgroundPosition = config.posicaoImagemFundo || 'center';
+    bgImageDiv.style.backgroundRepeat = config.repetirImagemFundo || 'no-repeat';
+    bgImageDiv.style.animation = animacaoImagem;
+    bgImageDiv.style.opacity = config.opacidadeImagemFundo || '0.3';
+    bgImageDiv.style.zIndex = '0';
+    bgImageDiv.style.filter = blurFilter;
+    
+    // Criar overlay
+    const overlayDiv = document.createElement('div');
+    overlayDiv.className = 'cta-overlay';
+    overlayDiv.style.position = 'absolute';
+    overlayDiv.style.inset = '0';
+    overlayDiv.style.background = config.corOverlay || 'linear-gradient(135deg, rgba(37, 99, 235, 0.7), rgba(29, 78, 216, 0.7))';
+    overlayDiv.style.opacity = config.opacidadeOverlay || '0.8';
+    overlayDiv.style.zIndex = '1';
+    overlayDiv.style.mixBlendMode = config.modoBlend || 'overlay';
+    
+    // Criar conteúdo interno
+    const contentDiv = document.createElement('div');
+    contentDiv.style.position = 'relative';
+    contentDiv.style.zIndex = '2';
+    
+    // Título
+    const titulo = document.createElement('h3');
+    titulo.style.fontFamily = "'Montserrat', sans-serif";
+    titulo.style.fontWeight = '800';
+    titulo.style.textTransform = 'uppercase';
+    titulo.style.letterSpacing = '0.08em';
+    titulo.style.marginBottom = config.espacamentoTituloTexto || '16px';
+    titulo.style.color = config.corTitulo || '#ffffff';
+    titulo.style.fontSize = config.tamanhoTitulo || '1.5rem';
+    titulo.textContent = config.titulo || 'Pronto para Transformar Sua Organização?';
+    
+    // Texto
+    const texto = document.createElement('p');
+    texto.style.fontFamily = 'Tahoma, Arial, sans-serif';
+    texto.style.fontSize = config.tamanhoTexto || '1.1rem';
+    texto.style.marginBottom = config.espacamentoTextoBotao || '24px';
+    texto.style.color = config.corTexto || '#ffffff';
+    texto.style.lineHeight = config.espacamentoLinhas || '1.4';
+    texto.textContent = config.texto || 'Entre em contato para uma consultoria personalizada';
+    
+    // Botão
+    const botao = document.createElement('a');
+    botao.href = config.url || '#contact';
+    botao.style.background = config.corBotao || '#ffffff';
+    botao.style.color = config.corTextoBotao || '#2563eb';
+    botao.style.padding = `${config.paddingBotaoVertical || '12px'} ${config.paddingBotaoHorizontal || '32px'}`;
+    botao.style.borderRadius = config.bordaBotao || '8px';
+    botao.style.textDecoration = 'none';
+    botao.style.fontFamily = "'Montserrat', sans-serif";
+    botao.style.fontWeight = '800';
+    botao.style.textTransform = 'uppercase';
+    botao.style.letterSpacing = '0.08em';
+    botao.style.display = 'inline-block';
+    botao.style.border = `${config.espessuraBordaBotao || '2px'} solid ${config.corBordaBotao || '#ffffff'}`;
+    botao.style.transition = 'all 0.3s ease';
+    botao.textContent = config.textoBotao || 'Solicitar Consultoria';
+    
+    // Montar estrutura
+    contentDiv.appendChild(titulo);
+    contentDiv.appendChild(texto);
+    contentDiv.appendChild(botao);
+    
+    div.appendChild(bgImageDiv);
+    div.appendChild(overlayDiv);
+    div.appendChild(contentDiv);
+    
+    return div;
+}
+</script>

@@ -71,8 +71,8 @@
                     order: 1 !important;
                 }
                 
-                .text-img-component.posicao-esquerda .grid-container .text-column,
-                .text-img-component.posicao-direita .grid-container .text-column {
+                .text-img-component.posicao-direita .grid-container .text-column,
+                .text-img-component.posicao-esquerda .grid-container .text-column {
                     order: 2 !important;
                 }
                 
@@ -248,7 +248,7 @@
 .text-img-component .text-column h5.western,
 .text-img-component .text-column h6.western {
     font-family: 'Montserrat', sans-serif !important;
-    font-weight: 800 !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
     margin-top: 2em !important;
     margin-bottom: 0.75em !important;
     line-height: 1.2 !important;
@@ -387,6 +387,1245 @@
         margin-top: 1.2em !important;
     }
 }
+.text-component {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER QUALQUER CLASSE DO SUMMERNOTE - IMPORTANTE! */
+.text-component p,
+.text-component p.western,
+.text-component p[class*="western"],
+.text-component p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-component p + p,
+.text-component p.western + p.western,
+.text-component p[class*="western"] + p[class*="western"],
+.text-component p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* OPÇÃO: Adicionar linha divisória sutil (descomente se quiser) */
+/*
+.text-component p + p::before {
+    content: '';
+    position: absolute;
+    top: -0.75em;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+}
+*/
+
+/* SOBRESCREVER TÍTULOS DO SUMMERNOTE */
+.text-component h1,
+.text-component h2,
+.text-component h3,
+.text-component h4,
+.text-component h5,
+.text-component h6,
+.text-component h1.western,
+.text-component h2.western,
+.text-component h3.western,
+.text-component h4.western,
+.text-component h5.western,
+.text-component h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-component h1:first-child,
+.text-component h2:first-child,
+.text-component h3:first-child,
+.text-component h4:first-child,
+.text-component h5:first-child,
+.text-component h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-component h1,
+.text-component h1.western { font-size: 2.5em !important; }
+.text-component h2,
+.text-component h2.western { font-size: 2em !important; }
+.text-component h3,
+.text-component h3.western { font-size: 1.75em !important; }
+.text-component h4,
+.text-component h4.western { font-size: 1.5em !important; }
+.text-component h5,
+.text-component h5.western { font-size: 1.25em !important; }
+.text-component h6,
+.text-component h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo não tem margem top */
+.text-component > p:first-child,
+.text-component > p.western:first-child,
+.text-component > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo não tem margem bottom adicional */
+.text-component > p:last-child,
+.text-component > p.western:last-child,
+.text-component > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Listas */
+.text-component ul,
+.text-component ol,
+.text-component ul.western,
+.text-component ol.western {
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+    padding-left: 1.5em !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+}
+
+.text-component li,
+.text-component li.western {
+    margin-bottom: 0.5em !important;
+}
+
+.text-component li:last-child,
+.text-component li.western:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Blockquote */
+.text-component blockquote,
+.text-component blockquote.western {
+    border-left: 4px solid #2563eb !important;
+    padding-left: 1em !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+    font-style: italic !important;
+    color: #475569 !important;
+    font-family: 'Merriweather', serif !important;
+    font-size: 1.1em !important;
+    line-height: 1.4 !important;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .text-component {
+        max-width: calc(100% - 48px) !important;
+        margin-left: 24px !important;
+        margin-right: 24px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .text-component {
+        max-width: calc(100% - 32px) !important;
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+    
+    .text-component h1,
+    .text-component h1.western { font-size: 2em !important; }
+    .text-component h2,
+    .text-component h2.western { font-size: 1.75em !important; }
+    .text-component h3,
+    .text-component h3.western { font-size: 1.5em !important; }
+    .text-component h4,
+    .text-component h4.western { font-size: 1.25em !important; }
+    .text-component h5,
+    .text-component h5.western { font-size: 1.1em !important; }
+    .text-component h6,
+    .text-component h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-component p + p,
+    .text-component p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
+.text-img-component {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.text-img-component .grid-container {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Posição esquerda: imagem à esquerda, texto à direita */
+.text-img-component.posicao-esquerda .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "imagem texto";
+}
+
+/* Posição direita: texto à esquerda, imagem à direita */
+.text-img-component.posicao-direita .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "texto imagem";
+}
+
+.text-img-component .text-column {
+    font-family: Tahoma, Arial, sans-serif;
+    color: #020617;
+    grid-area: texto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER PARÁGRAFOS DO SUMMERNOTE */
+.text-img-component .text-column p,
+.text-img-component .text-column p.western,
+.text-img-component .text-column p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-img-component .text-column p + p,
+.text-img-component .text-column p.western + p.western,
+.text-img-component .text-column p[class*="western"] + p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* TÍTULOS - SOBRESCREVER SUMMERNOTE */
+.text-img-component .text-column h1,
+.text-img-component .text-column h2,
+.text-img-component .text-column h3,
+.text-img-component .text-column h4,
+.text-img-component .text-column h5,
+.text-img-component .text-column h6,
+.text-img-component .text-column h1.western,
+.text-img-component .text-column h2.western,
+.text-img-component .text-column h3.western,
+.text-img-component .text-column h4.western,
+.text-img-component .text-column h5.western,
+.text-img-component .text-column h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-img-component .text-column h1:first-child,
+.text-img-component .text-column h2:first-child,
+.text-img-component .text-column h3:first-child,
+.text-img-component .text-column h4:first-child,
+.text-img-component .text-column h5:first-child,
+.text-img-component .text-column h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-img-component .text-column h1,
+.text-img-component .text-column h1.western { font-size: 2.5em !important; }
+.text-img-component .text-column h2,
+.text-img-component .text-column h2.western { font-size: 2em !important; }
+.text-img-component .text-column h3,
+.text-img-component .text-column h3.western { font-size: 1.75em !important; }
+.text-img-component .text-column h4,
+.text-img-component .text-column h4.western { font-size: 1.5em !important; }
+.text-img-component .text-column h5,
+.text-img-component .text-column h5.western { font-size: 1.25em !important; }
+.text-img-component .text-column h6,
+.text-img-component .text-column h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo sem margem top */
+.text-img-component .text-column > p:first-child,
+.text-img-component .text-column > p.western:first-child,
+.text-img-component .text-column > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo sem margem bottom adicional */
+.text-img-component .text-column > p:last-child,
+.text-img-component .text-column > p.western:last-child,
+.text-img-component .text-column > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+.text-img-component .image-column {
+    grid-area: imagem;
+    box-sizing: border-box;
+}
+
+.text-img-component .image-column img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.text-img-component .image-caption {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 0.9rem;
+    color: #64748b;
+    text-align: center;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Responsivo para telas menores que 900px */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+/* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+    
+    /* DESFAZER O GRID E USAR FLEXBOX PARA LINHAS */
+    .text-img-component .grid-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px !important;
+    }
+    
+    /* Forçar a ordem: imagem primeiro, texto depois */
+    .text-img-component.posicao-esquerda .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-esquerda .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    /* Garantir que as colunas ocupem 100% da largura */
+    .text-img-component .image-column,
+    .text-img-component .text-column {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Remover grid template quando em mobile */
+    .text-img-component .grid-container {
+        grid-template-columns: 1fr !important;
+        grid-template-areas: none !important;
+    }
+    
+    /* Ajustar tamanhos de fonte em mobile */
+    .text-img-component .text-column h1,
+    .text-img-component .text-column h1.western { font-size: 2em !important; }
+    .text-img-component .text-column h2,
+    .text-img-component .text-column h2.western { font-size: 1.75em !important; }
+    .text-img-component .text-column h3,
+    .text-img-component .text-column h3.western { font-size: 1.5em !important; }
+    .text-img-component .text-column h4,
+    .text-img-component .text-column h4.western { font-size: 1.25em !important; }
+    .text-img-component .text-column h5,
+    .text-img-component .text-column h5.western { font-size: 1.1em !important; }
+    .text-img-component .text-column h6,
+    .text-img-component .text-column h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-img-component .text-column p + p,
+    .text-img-component .text-column p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
+.text-component {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER QUALQUER CLASSE DO SUMMERNOTE - IMPORTANTE! */
+.text-component p,
+.text-component p.western,
+.text-component p[class*="western"],
+.text-component p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-component p + p,
+.text-component p.western + p.western,
+.text-component p[class*="western"] + p[class*="western"],
+.text-component p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* OPÇÃO: Adicionar linha divisória sutil (descomente se quiser) */
+/*
+.text-component p + p::before {
+    content: '';
+    position: absolute;
+    top: -0.75em;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+}
+*/
+
+/* SOBRESCREVER TÍTULOS DO SUMMERNOTE */
+.text-component h1,
+.text-component h2,
+.text-component h3,
+.text-component h4,
+.text-component h5,
+.text-component h6,
+.text-component h1.western,
+.text-component h2.western,
+.text-component h3.western,
+.text-component h4.western,
+.text-component h5.western,
+.text-component h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-component h1:first-child,
+.text-component h2:first-child,
+.text-component h3:first-child,
+.text-component h4:first-child,
+.text-component h5:first-child,
+.text-component h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-component h1,
+.text-component h1.western { font-size: 2.5em !important; }
+.text-component h2,
+.text-component h2.western { font-size: 2em !important; }
+.text-component h3,
+.text-component h3.western { font-size: 1.75em !important; }
+.text-component h4,
+.text-component h4.western { font-size: 1.5em !important; }
+.text-component h5,
+.text-component h5.western { font-size: 1.25em !important; }
+.text-component h6,
+.text-component h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo não tem margem top */
+.text-component > p:first-child,
+.text-component > p.western:first-child,
+.text-component > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo não tem margem bottom adicional */
+.text-component > p:last-child,
+.text-component > p.western:last-child,
+.text-component > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Listas */
+.text-component ul,
+.text-component ol,
+.text-component ul.western,
+.text-component ol.western {
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+    padding-left: 1.5em !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+}
+
+.text-component li,
+.text-component li.western {
+    margin-bottom: 0.5em !important;
+}
+
+.text-component li:last-child,
+.text-component li.western:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Blockquote */
+.text-component blockquote,
+.text-component blockquote.western {
+    border-left: 4px solid #2563eb !important;
+    padding-left: 1em !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+    font-style: italic !important;
+    color: #475569 !important;
+    font-family: 'Merriweather', serif !important;
+    font-size: 1.1em !important;
+    line-height: 1.4 !important;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .text-component {
+        max-width: calc(100% - 48px) !important;
+        margin-left: 24px !important;
+        margin-right: 24px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .text-component {
+        max-width: calc(100% - 32px) !important;
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+    
+    .text-component h1,
+    .text-component h1.western { font-size: 2em !important; }
+    .text-component h2,
+    .text-component h2.western { font-size: 1.75em !important; }
+    .text-component h3,
+    .text-component h3.western { font-size: 1.5em !important; }
+    .text-component h4,
+    .text-component h4.western { font-size: 1.25em !important; }
+    .text-component h5,
+    .text-component h5.western { font-size: 1.1em !important; }
+    .text-component h6,
+    .text-component h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-component p + p,
+    .text-component p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
+.text-img-component {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.text-img-component .grid-container {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Posição esquerda: imagem à esquerda, texto à direita */
+.text-img-component.posicao-esquerda .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "imagem texto";
+}
+
+/* Posição direita: texto à esquerda, imagem à direita */
+.text-img-component.posicao-direita .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "texto imagem";
+}
+
+.text-img-component .text-column {
+    font-family: Tahoma, Arial, sans-serif;
+    color: #020617;
+    grid-area: texto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER PARÁGRAFOS DO SUMMERNOTE */
+.text-img-component .text-column p,
+.text-img-component .text-column p.western,
+.text-img-component .text-column p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-img-component .text-column p + p,
+.text-img-component .text-column p.western + p.western,
+.text-img-component .text-column p[class*="western"] + p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* TÍTULOS - SOBRESCREVER SUMMERNOTE */
+.text-img-component .text-column h1,
+.text-img-component .text-column h2,
+.text-img-component .text-column h3,
+.text-img-component .text-column h4,
+.text-img-component .text-column h5,
+.text-img-component .text-column h6,
+.text-img-component .text-column h1.western,
+.text-img-component .text-column h2.western,
+.text-img-component .text-column h3.western,
+.text-img-component .text-column h4.western,
+.text-img-component .text-column h5.western,
+.text-img-component .text-column h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-img-component .text-column h1:first-child,
+.text-img-component .text-column h2:first-child,
+.text-img-component .text-column h3:first-child,
+.text-img-component .text-column h4:first-child,
+.text-img-component .text-column h5:first-child,
+.text-img-component .text-column h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-img-component .text-column h1,
+.text-img-component .text-column h1.western { font-size: 2.5em !important; }
+.text-img-component .text-column h2,
+.text-img-component .text-column h2.western { font-size: 2em !important; }
+.text-img-component .text-column h3,
+.text-img-component .text-column h3.western { font-size: 1.75em !important; }
+.text-img-component .text-column h4,
+.text-img-component .text-column h4.western { font-size: 1.5em !important; }
+.text-img-component .text-column h5,
+.text-img-component .text-column h5.western { font-size: 1.25em !important; }
+.text-img-component .text-column h6,
+.text-img-component .text-column h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo sem margem top */
+.text-img-component .text-column > p:first-child,
+.text-img-component .text-column > p.western:first-child,
+.text-img-component .text-column > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo sem margem bottom adicional */
+.text-img-component .text-column > p:last-child,
+.text-img-component .text-column > p.western:last-child,
+.text-img-component .text-column > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+.text-img-component .image-column {
+    grid-area: imagem;
+    box-sizing: border-box;
+}
+
+.text-img-component .image-column img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.text-img-component .image-caption {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 0.9rem;
+    color: #64748b;
+    text-align: center;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Responsivo para telas menores que 900px */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+/* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+    
+    /* DESFAZER O GRID E USAR FLEXBOX PARA LINHAS */
+    .text-img-component .grid-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px !important;
+    }
+    
+    /* Forçar a ordem: imagem primeiro, texto depois */
+    .text-img-component.posicao-esquerda .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-esquerda .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    /* Garantir que as colunas ocupem 100% da largura */
+    .text-img-component .image-column,
+    .text-img-component .text-column {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Remover grid template quando em mobile */
+    .text-img-component .grid-container {
+        grid-template-columns: 1fr !important;
+        grid-template-areas: none !important;
+    }
+    
+    /* Ajustar tamanhos de fonte em mobile */
+    .text-img-component .text-column h1,
+    .text-img-component .text-column h1.western { font-size: 2em !important; }
+    .text-img-component .text-column h2,
+    .text-img-component .text-column h2.western { font-size: 1.75em !important; }
+    .text-img-component .text-column h3,
+    .text-img-component .text-column h3.western { font-size: 1.5em !important; }
+    .text-img-component .text-column h4,
+    .text-img-component .text-column h4.western { font-size: 1.25em !important; }
+    .text-img-component .text-column h5,
+    .text-img-component .text-column h5.western { font-size: 1.1em !important; }
+    .text-img-component .text-column h6,
+    .text-img-component .text-column h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-img-component .text-column p + p,
+    .text-img-component .text-column p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
+.text-component {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER QUALQUER CLASSE DO SUMMERNOTE - IMPORTANTE! */
+.text-component p,
+.text-component p.western,
+.text-component p[class*="western"],
+.text-component p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-component p + p,
+.text-component p.western + p.western,
+.text-component p[class*="western"] + p[class*="western"],
+.text-component p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* OPÇÃO: Adicionar linha divisória sutil (descomente se quiser) */
+/*
+.text-component p + p::before {
+    content: '';
+    position: absolute;
+    top: -0.75em;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+}
+*/
+
+/* SOBRESCREVER TÍTULOS DO SUMMERNOTE */
+.text-component h1,
+.text-component h2,
+.text-component h3,
+.text-component h4,
+.text-component h5,
+.text-component h6,
+.text-component h1.western,
+.text-component h2.western,
+.text-component h3.western,
+.text-component h4.western,
+.text-component h5.western,
+.text-component h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-component h1:first-child,
+.text-component h2:first-child,
+.text-component h3:first-child,
+.text-component h4:first-child,
+.text-component h5:first-child,
+.text-component h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-component h1,
+.text-component h1.western { font-size: 2.5em !important; }
+.text-component h2,
+.text-component h2.western { font-size: 2em !important; }
+.text-component h3,
+.text-component h3.western { font-size: 1.75em !important; }
+.text-component h4,
+.text-component h4.western { font-size: 1.5em !important; }
+.text-component h5,
+.text-component h5.western { font-size: 1.25em !important; }
+.text-component h6,
+.text-component h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo não tem margem top */
+.text-component > p:first-child,
+.text-component > p.western:first-child,
+.text-component > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo não tem margem bottom adicional */
+.text-component > p:last-child,
+.text-component > p.western:last-child,
+.text-component > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Listas */
+.text-component ul,
+.text-component ol,
+.text-component ul.western,
+.text-component ol.western {
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+    padding-left: 1.5em !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+}
+
+.text-component li,
+.text-component li.western {
+    margin-bottom: 0.5em !important;
+}
+
+.text-component li:last-child,
+.text-component li.western:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Blockquote */
+.text-component blockquote,
+.text-component blockquote.western {
+    border-left: 4px solid #2563eb !important;
+    padding-left: 1em !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+    font-style: italic !important;
+    color: #475569 !important;
+    font-family: 'Merriweather', serif !important;
+    font-size: 1.1em !important;
+    line-height: 1.4 !important;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .text-component {
+        max-width: calc(100% - 48px) !important;
+        margin-left: 24px !important;
+        margin-right: 24px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .text-component {
+        max-width: calc(100% - 32px) !important;
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+    
+    .text-component h1,
+    .text-component h1.western { font-size: 2em !important; }
+    .text-component h2,
+    .text-component h2.western { font-size: 1.75em !important; }
+    .text-component h3,
+    .text-component h3.western { font-size: 1.5em !important; }
+    .text-component h4,
+    .text-component h4.western { font-size: 1.25em !important; }
+    .text-component h5,
+    .text-component h5.western { font-size: 1.1em !important; }
+    .text-component h6,
+    .text-component h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-component p + p,
+    .text-component p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
+.text-img-component {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.text-img-component .grid-container {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Posição esquerda: imagem à esquerda, texto à direita */
+.text-img-component.posicao-esquerda .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "imagem texto";
+}
+
+/* Posição direita: texto à esquerda, imagem à direita */
+.text-img-component.posicao-direita .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "texto imagem";
+}
+
+.text-img-component .text-column {
+    font-family: Tahoma, Arial, sans-serif;
+    color: #020617;
+    grid-area: texto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER PARÁGRAFOS DO SUMMERNOTE */
+.text-img-component .text-column p,
+.text-img-component .text-column p.western,
+.text-img-component .text-column p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-img-component .text-column p + p,
+.text-img-component .text-column p.western + p.western,
+.text-img-component .text-column p[class*="western"] + p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* TÍTULOS - SOBRESCREVER SUMMERNOTE */
+.text-img-component .text-column h1,
+.text-img-component .text-column h2,
+.text-img-component .text-column h3,
+.text-img-component .text-column h4,
+.text-img-component .text-column h5,
+.text-img-component .text-column h6,
+.text-img-component .text-column h1.western,
+.text-img-component .text-column h2.western,
+.text-img-component .text-column h3.western,
+.text-img-component .text-column h4.western,
+.text-img-component .text-column h5.western,
+.text-img-component .text-column h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-img-component .text-column h1:first-child,
+.text-img-component .text-column h2:first-child,
+.text-img-component .text-column h3:first-child,
+.text-img-component .text-column h4:first-child,
+.text-img-component .text-column h5:first-child,
+.text-img-component .text-column h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-img-component .text-column h1,
+.text-img-component .text-column h1.western { font-size: 2.5em !important; }
+.text-img-component .text-column h2,
+.text-img-component .text-column h2.western { font-size: 2em !important; }
+.text-img-component .text-column h3,
+.text-img-component .text-column h3.western { font-size: 1.75em !important; }
+.text-img-component .text-column h4,
+.text-img-component .text-column h4.western { font-size: 1.5em !important; }
+.text-img-component .text-column h5,
+.text-img-component .text-column h5.western { font-size: 1.25em !important; }
+.text-img-component .text-column h6,
+.text-img-component .text-column h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo sem margem top */
+.text-img-component .text-column > p:first-child,
+.text-img-component .text-column > p.western:first-child,
+.text-img-component .text-column > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo sem margem bottom adicional */
+.text-img-component .text-column > p:last-child,
+.text-img-component .text-column > p.western:last-child,
+.text-img-component .text-column > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+.text-img-component .image-column {
+    grid-area: imagem;
+    box-sizing: border-box;
+}
+
+.text-img-component .image-column img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.text-img-component .image-caption {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 0.9rem;
+    color: #64748b;
+    text-align: center;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Responsivo para telas menores que 900px */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+/* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+    
+    /* DESFAZER O GRID E USAR FLEXBOX PARA LINHAS */
+    .text-img-component .grid-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px !important;
+    }
+    
+    /* Forçar a ordem: imagem primeiro, texto depois */
+    .text-img-component.posicao-esquerda .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-esquerda .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    /* Garantir que as colunas ocupem 100% da largura */
+    .text-img-component .image-column,
+    .text-img-component .text-column {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Remover grid template quando em mobile */
+    .text-img-component .grid-container {
+        grid-template-columns: 1fr !important;
+        grid-template-areas: none !important;
+    }
+    
+    /* Ajustar tamanhos de fonte em mobile */
+    .text-img-component .text-column h1,
+    .text-img-component .text-column h1.western { font-size: 2em !important; }
+    .text-img-component .text-column h2,
+    .text-img-component .text-column h2.western { font-size: 1.75em !important; }
+    .text-img-component .text-column h3,
+    .text-img-component .text-column h3.western { font-size: 1.5em !important; }
+    .text-img-component .text-column h4,
+    .text-img-component .text-column h4.western { font-size: 1.25em !important; }
+    .text-img-component .text-column h5,
+    .text-img-component .text-column h5.western { font-size: 1.1em !important; }
+    .text-img-component .text-column h6,
+    .text-img-component .text-column h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-img-component .text-column p + p,
+    .text-img-component .text-column p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
+.sumario-flutuante-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .sumario-flutuante-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sumario-flutuante-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+}
+
+/* Esconder em mobile (como no referencial) */
+@media (max-width: 1500px) {
+    .sumario-flutuante-component {
+        display: none !important;
+    }
+}
+/* Estilos para o sumário no artigo gerado */
+.sumario-flutuante-component {
+    position: fixed !important;
+    top: 34% !important;
+    left: 20px !important; /* FIXO NA BORDA ESQUERDA DA PÁGINA */
+    width: 280px !important;
+    max-width: 34ch !important;
+    background: #f8fafc !important;
+    border-left: 4px solid #2563eb !important;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1000 !important;
+    overflow-y: auto !important;
+    max-height: 70vh !important;
+    box-sizing: border-box !important;
+    transition: opacity 0.3s ease !important;
+}
+
+/* Ocultar quando não houver espaço suficiente (menos de 300px entre sumário e container) */
+@media (max-width: 1500px) {
+    .sumario-flutuante-component {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        visibility: hidden !important;
+    }
+}
+
+/* Ocultar em mobile */
+@media (max-width: 1500px) {
+    .sumario-flutuante-component {
+        display: none !important;
+    }
+}
+
+/* Ajustar para telas muito largas */
+@media (min-width: 1800px) {
+    .sumario-flutuante-component {
+        left: calc(50% - 800px) !important;
+    }
+}
 
                 @keyframes bannerPan {
                     0%   { transform: translateX(0); }
@@ -497,24 +1736,381 @@
             }
         </style>
         
-        <section class="article-banner" style="position: relative; height: clamp(220px, 25vh, 420px); overflow: hidden; padding-top: 0; width: 100%;">
-    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Inovação Digital e o Futuro das Organizações" class="banner-image" loading="eager" width="1600" height="900" style="position: absolute; inset: 0; width: 140%; height: 100%; object-fit: cover; left: -20%; animation: bannerPan 50s linear infinite; will-change: transform; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
-    
-    <div class="banner-overlay" style="position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 0 24px; background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.4) 30%, transparent 60%); color: #fff;">
-        <div class="banner-content" style="width: 100%; max-width: 900px; margin: 0 auto 0; padding-bottom: 32px; display: flex; flex-direction: column; gap: 8px;">
-            <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin: 0; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; transition: all 0.3s ease;">
-                Título do Artigo
-            </h1>
-            <p style="font-family: 'Merriweather', serif; font-size: .95rem; opacity: .9; margin: 0; line-height: 1.4; transition: all 0.3s ease;">
-                Subtítulo descritivo do artigo
-            </p>
-        </div>
-    </div>
-</section>
-<div class="text-img-component posicao-esquerda" style="margin: 0px auto 48px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 32px; align-items: center; box-sizing: border-box; grid-template-columns: 50fr 50fr; grid-template-areas: &quot;imagem texto&quot;;"><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="/img/governance.jpeg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div><div class="text-column" style="grid-area: texto; box-sizing: border-box;"><p>Este é um exemplo de texto formatado ao lado de uma imagem.</p><p>Segundo parágrafo com separação visual clara.</p></div></div></div>
+        <section class="article-banner" style="position: relative; height: clamp(220px, 25vh, 420px); overflow: hidden; padding-top: 0px; width: 100%; box-sizing: border-box;"><img src="./img/banner-exemplo.jpg" alt="Inovação Digital e o Futuro das Organizações" class="banner-image" loading="eager" width="1600" height="900" style="position: absolute; inset: 0px 0px 0px -20%; width: 140%; height: 100%; object-fit: cover; will-change: transform; image-rendering: -webkit-optimize-contrast; animation: 50s linear 0s infinite normal none running bannerPan;"><div class="banner-overlay" style="position: absolute; inset: 0px; display: flex; align-items: flex-end; padding: 0px 24px; background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.4) 30%, transparent 60%); color: rgb(255, 255, 255); box-sizing: border-box;"><div class="banner-content" style="width: 100%; max-width: 900px; margin: 0px auto; padding-bottom: 32px; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box;"><h1 id="titulo-banner-1767712224780" style="font-family: Montserrat, sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin: 0px; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; transition: 0.3s;">Título do Artigo</h1><p style="font-family: Merriweather, serif; font-size: 0.95rem; opacity: 0.9; margin: 0px; line-height: 1.4; transition: 0.3s;">Subtítulo descritivo do artigo</p></div></div><script>
+        (function() {
+            function adjustBannerText() {
+                const banner = document.querySelector('.article-banner');
+                if (!banner) return;
+                
+                const title = banner.querySelector('h1');
+                const subtitle = banner.querySelector('p');
+                const bannerContent = banner.querySelector('.banner-content');
+                const bannerOverlay = banner.querySelector('.banner-overlay');
+                
+                if (!title || !subtitle) return;
+                
+                // Desabilitar ajustes complexos em mobile para performance
+                if (window.innerWidth < 768) {
+                    title.style.fontSize = '';
+                    subtitle.style.fontSize = '';
+                    if (bannerContent) {
+                        bannerContent.style.gap = '';
+                        bannerContent.style.paddingBottom = '';
+                    }
+                    return;
+                }
+                
+                const bannerHeight = bannerOverlay.offsetHeight;
+                const bannerWidth = bannerOverlay.offsetWidth;
+                
+                // Reset para valores iniciais
+                title.style.fontSize = '';
+                subtitle.style.fontSize = '';
+                if (bannerContent) {
+                    bannerContent.style.gap = '';
+                    bannerContent.style.paddingBottom = '';
+                }
+                
+                // Calcula a altura disponível para o texto
+                const contentHeight = bannerHeight * 0.7;
+                const minContentHeight = 80;
+                const availableHeight = Math.max(contentHeight, minContentHeight);
+                
+                // Calcula altura ideal
+                const titleLineHeight = parseFloat(getComputedStyle(title).lineHeight);
+                const subtitleLineHeight = parseFloat(getComputedStyle(subtitle).lineHeight);
+                
+                const idealTitleHeight = titleLineHeight * 2;
+                const idealSubtitleHeight = subtitleLineHeight * 1;
+                const idealGap = 8;
+                const idealPaddingBottom = 32;
+                
+                const totalIdealHeight = idealTitleHeight + idealSubtitleHeight + idealGap + idealPaddingBottom;
+                
+                // Se a altura disponível for menor que a ideal, ajusta proporcionalmente
+                if (availableHeight < totalIdealHeight) {
+                    const scaleFactor = availableHeight / totalIdealHeight;
+                    
+                    // Ajusta tamanhos proporcionalmente
+                    const currentTitleSize = parseFloat(getComputedStyle(title).fontSize);
+                    const currentSubtitleSize = parseFloat(getComputedStyle(subtitle).fontSize);
+                    
+                    const newTitleSize = Math.max(currentTitleSize * scaleFactor, 16);
+                    const newSubtitleSize = Math.max(currentSubtitleSize * scaleFactor, 12);
+                    
+                    title.style.fontSize = `${newTitleSize}px`;
+                    subtitle.style.fontSize = `${newSubtitleSize}px`;
+                    
+                    // Ajusta gap e padding proporcionalmente
+                    if (bannerContent) {
+                        const newGap = idealGap * scaleFactor;
+                        const newPaddingBottom = idealPaddingBottom * scaleFactor * 0.7;
+                        bannerContent.style.gap = `${newGap}px`;
+                        bannerContent.style.paddingBottom = `${newPaddingBottom}px`;
+                    }
+                }
+                
+                // Ajuste fino para larguras muito pequenas
+                if (bannerWidth < 400) {
+                    const titleWidth = title.offsetWidth;
+                    const containerWidth = bannerContent ? bannerContent.offsetWidth : bannerWidth;
+                    
+                    // Se o título for muito largo, reduz um pouco a fonte
+                    if (titleWidth > containerWidth * 0.95) {
+                        const currentSize = parseFloat(getComputedStyle(title).fontSize);
+                        const reduction = 0.95 * (containerWidth / titleWidth);
+                        title.style.fontSize = `${Math.max(currentSize * reduction, 16)}px`;
+                    }
+                }
+            }
+            
+            // Otimizado para performance
+            let resizeTimer;
+            function optimizedResize() {
+                if (resizeTimer) clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(adjustBannerText, 150);
+            }
+            
+            // Executar após o componente ser renderizado
+            setTimeout(() => {
+                adjustBannerText();
+                window.addEventListener('resize', optimizedResize);
+            }, 100);
+        })();
+    </script></section>
+<div class="text-img-component posicao-esquerda" style="margin: 0px auto 48px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 32px; align-items: center; box-sizing: border-box; grid-template-columns: 50fr 50fr; grid-template-areas: &quot;imagem texto&quot;;"><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="./img/exemplo.jpg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div><div class="text-column" style="grid-area: texto; box-sizing: border-box;"><p>Este é um exemplo de texto formatado ao lado de uma imagem.</p><p>Segundo parágrafo com separação visual clara.</p></div></div></div>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto 32px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><h1 class="" id="titulo-1767712229982-0">tesrt</h1></div>
+<div class="text-img-component posicao-esquerda" style="margin: 0px auto 48px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 32px; align-items: center; box-sizing: border-box; grid-template-columns: 50fr 50fr; grid-template-areas: &quot;imagem texto&quot;;"><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="./img/exemplo.jpg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div><div class="text-column" style="grid-area: texto; box-sizing: border-box;"><p>Este é um exemplo de texto formatado ao lado de uma imagem.</p><p>Segundo parágrafo com separação visual clara.</p></div></div></div>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto 32px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><h1 class="" id="titulo-1767712231379-0">testete</h1></div>
+<div class="text-img-component posicao-esquerda" style="margin: 0px auto 48px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 32px; align-items: center; box-sizing: border-box; grid-template-columns: 50fr 50fr; grid-template-areas: &quot;imagem texto&quot;;"><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="./img/exemplo.jpg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div><div class="text-column" style="grid-area: texto; box-sizing: border-box;"><p>Este é um exemplo de texto formatado ao lado de uma imagem.</p><p>Segundo parágrafo com separação visual clara.</p></div></div></div>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto 32px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><h1 class="" id="titulo-1767712232178-0">test4</h1></div>
+<div class="text-img-component posicao-esquerda" style="margin: 0px auto 48px; padding: 0px 0px 32px; max-width: 900px; width: 100%; box-sizing: border-box;"><div class="grid-container" style="display: grid; gap: 32px; align-items: center; box-sizing: border-box; grid-template-columns: 50fr 50fr; grid-template-areas: &quot;imagem texto&quot;;"><div class="image-column" style="grid-area: imagem; box-sizing: border-box;"><img src="./img/exemplo.jpg" alt="Imagem ilustrativa" style="width: 100%; height: auto; border-radius: 8px; display: block; box-sizing: border-box;"></div><div class="text-column" style="grid-area: texto; box-sizing: border-box;"><p>Este é um exemplo de texto formatado ao lado de uma imagem.</p><p>Segundo parágrafo com separação visual clara.</p></div></div></div>
 
         
         
+        <div class="sumario-flutuante-gerado" style="
+            position: fixed;
+            top: 34%;
+            left: max(10px, calc(0% - 0px));
+            width: 300px;
+            max-width: 34ch;
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            overflow-y: auto;
+            max-height: 70vh;
+            box-sizing: border-box;
+            display: none;
+        ">
+            <h4 style="
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                margin-bottom: 16px;
+                color: #020617;
+                font-size: 0.9rem;
+            ">
+                Sumário
+            </h4>
+            <ul style="
+                list-style: none;
+                padding-left: 0;
+                margin: 0;
+            ">
+                <li style="
+                    margin-bottom: 12px;
+                    word-wrap: break-word;
+                    max-width: 34ch;
+                    margin-left: 0px;
+                ">
+                    <a href="#titulo-banner-1767712224780" 
+                    style="
+                            color: #2563eb;
+                            text-decoration: none;
+                            font-family: Tahoma, Arial, sans-serif;
+                            font-size: 0.95rem;
+                            font-weight: 600;
+                            line-height: 1.4;
+                            display: block;
+                            transition: color 0.3s;
+                            cursor: pointer;
+                    "
+                    class="sumario-link"
+                    data-target="titulo-banner-1767712224780">
+                        Título do Artigo
+                    </a>
+                </li>
+            
+                <li style="
+                    margin-bottom: 12px;
+                    word-wrap: break-word;
+                    max-width: 34ch;
+                    margin-left: 0px;
+                ">
+                    <a href="#titulo-1767712229982-0" 
+                    style="
+                            color: #2563eb;
+                            text-decoration: none;
+                            font-family: Tahoma, Arial, sans-serif;
+                            font-size: 0.85rem;
+                            font-weight: normal;
+                            line-height: 1.4;
+                            display: block;
+                            transition: color 0.3s;
+                            cursor: pointer;
+                    "
+                    class="sumario-link"
+                    data-target="titulo-1767712229982-0">
+                        tesrt
+                    </a>
+                </li>
+            
+                <li style="
+                    margin-bottom: 12px;
+                    word-wrap: break-word;
+                    max-width: 34ch;
+                    margin-left: 0px;
+                ">
+                    <a href="#titulo-1767712231379-0" 
+                    style="
+                            color: #2563eb;
+                            text-decoration: none;
+                            font-family: Tahoma, Arial, sans-serif;
+                            font-size: 0.85rem;
+                            font-weight: normal;
+                            line-height: 1.4;
+                            display: block;
+                            transition: color 0.3s;
+                            cursor: pointer;
+                    "
+                    class="sumario-link"
+                    data-target="titulo-1767712231379-0">
+                        testete
+                    </a>
+                </li>
+            
+                <li style="
+                    margin-bottom: 12px;
+                    word-wrap: break-word;
+                    max-width: 34ch;
+                    margin-left: 0px;
+                ">
+                    <a href="#titulo-1767712232178-0" 
+                    style="
+                            color: #2563eb;
+                            text-decoration: none;
+                            font-family: Tahoma, Arial, sans-serif;
+                            font-size: 0.85rem;
+                            font-weight: normal;
+                            line-height: 1.4;
+                            display: block;
+                            transition: color 0.3s;
+                            cursor: pointer;
+                    "
+                    class="sumario-link"
+                    data-target="titulo-1767712232178-0">
+                        test4
+                    </a>
+                </li>
+            
+            </ul>
+        </div>
+        
+        <script>
+            (function() {
+                console.log('Script do sumário sendo inicializado...');
+                
+                // Função para scroll suave com padding
+                function scrollToElementWithPadding(elementId, paddingTop = 100) {
+                    const element = document.getElementById(elementId);
+                    if (!element) {
+                        console.warn('Elemento não encontrado:', elementId);
+                        return;
+                    }
+                    
+                    // Verificar se estamos dentro do app shell
+                    const isInAppShell = document.querySelector('header[class*="gradient-animated"]') !== null;
+                    
+                    let finalPadding = paddingTop;
+                    
+                    // Se estiver no app shell, adicionar altura do header
+                    if (isInAppShell) {
+                        const header = document.querySelector('header[class*="gradient-animated"]');
+                        const headerHeight = header ? header.offsetHeight : 64;
+                        console.log('Detectado app shell, header height:', headerHeight);
+                        finalPadding = paddingTop + headerHeight;
+                    }
+                    
+                    console.log('Scrolling to element', elementId, 'with padding:', finalPadding);
+                    
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - finalPadding;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Destacar elemento temporariamente
+                    const originalOutline = element.style.outline;
+                    element.style.outline = '2px solid #2563eb';
+                    element.style.outlineOffset = '5px';
+                    element.style.transition = 'outline 0.3s ease';
+                    
+                    setTimeout(() => {
+                        element.style.outline = originalOutline;
+                        element.style.outlineOffset = '';
+                    }, 1500);
+                }
+                
+                // Função para inicializar o sumário
+                function initSumario() {
+                    console.log('Inicializando sumário...');
+                    
+                    const sumarioEl = document.querySelector('.sumario-flutuante-gerado');
+                    if (!sumarioEl) {
+                        console.log('Sumário não encontrado');
+                        return;
+                    }
+                    
+                    // Verificar se há espaço para mostrar o sumário
+                    function checkSumarioVisibility() {
+                        const windowWidth = window.innerWidth;
+                        const containerWidth = 900;
+                        const sumarioWidth = 300;
+                        const margins = 100;
+                        
+                        const requiredWidth = containerWidth + sumarioWidth + margins;
+                        
+                        if (windowWidth >= requiredWidth) {
+                            sumarioEl.style.display = 'block';
+                            console.log('Sumário visível - largura adequada');
+                            return true;
+                        } else {
+                            sumarioEl.style.display = 'none';
+                            console.log('Sumário oculto - largura insuficiente');
+                            return false;
+                        }
+                    }
+                    
+                    // Inicializar visibilidade
+                    checkSumarioVisibility();
+                    window.addEventListener('resize', checkSumarioVisibility);
+                    
+                    // Adicionar event listeners aos links do sumário
+                    const sumarioLinks = sumarioEl.querySelectorAll('.sumario-link');
+                    sumarioLinks.forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const targetId = this.getAttribute('href').substring(1);
+                            
+                            // Scroll suave com padding
+                            scrollToElementWithPadding(targetId, 100);
+                        });
+                    });
+                    
+                    console.log('Sumário inicializado com', sumarioLinks.length, 'links');
+                }
+                
+                // Inicializar quando o DOM estiver pronto
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initSumario);
+                } else {
+                    setTimeout(initSumario, 100);
+                }
+            })();
+        </script>
+        
+        <style>
+            /* Ocultar sumário quando não houver espaço */
+            @media (max-width: 1500px) {
+                .sumario-flutuante-gerado {
+                    display: none !important;
+                }
+            }
+            
+            /* Também ocultar em mobile */
+            @media (max-width: 1024px) {
+                .sumario-flutuante-gerado {
+                    display: none !important;
+                }
+            }
+            
+            /* Estilo para links do sumário */
+            .sumario-link:hover {
+                text-decoration: underline !important;
+                color: #1d4ed8 !important;
+            }
+            
+            /* Adicionar transição suave para posicionamento do sumário */
+            .sumario-flutuante-gerado {
+                transition: top 0.3s ease;
+            }
+        </style>
     </div>
     </body>
     </html>

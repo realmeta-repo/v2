@@ -1,0 +1,170 @@
+<template>
+<div class="sumario-flutuante-component" style="background:#f8fafc; border-left:4px solid var(--accent, #2563eb); padding:20px; border-radius:8px; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);">
+    <h4 style="font-family: 'Montserrat', sans-serif; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 0.08em; 
+            margin-bottom: 16px; 
+            color: var(--primary, #020617);">
+        Sumário
+    </h4>
+    <ul style="list-style: none; padding-left: 0; margin: 0;">
+        {{#each itens}}
+        <li style="margin-bottom: 12px; word-wrap: break-word; max-width: 34ch;">
+            <a href="#{{id}}" 
+            style="color: var(--accent, #2563eb); 
+                    text-decoration: none; 
+                    font-family: Tahoma, Arial, sans-serif;
+                    font-size: 0.9rem;
+                    line-height: 1.4;
+                    display: block;
+                    transition: color 0.3s;">
+                {{texto}}
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+</template>
+
+<script type="application/json">
+{
+    "name": "Sumário Flutuante",
+    "icon": "📑",
+    "description": "Sumário com links âncoras para navegação no artigo (visível apenas em desktop)",
+    "defaultConfig": {
+        "itens": [
+            {"id": "titulo-1", "texto": "A Transformação Digital nas Organizações"}
+        ],
+        "paddingTop": "0",
+        "paddingBottom": "32px"
+    }
+}
+</script>
+
+<style>
+.sumario-flutuante-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .sumario-flutuante-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sumario-flutuante-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+}
+
+/* Esconder em mobile (como no referencial) */
+@media (max-width: 1500px) {
+    .sumario-flutuante-component {
+        display: none !important;
+    }
+}
+/* Estilos para o sumário no artigo gerado */
+.sumario-flutuante-component {
+    position: fixed !important;
+    top: 34% !important;
+    left: 20px !important; /* FIXO NA BORDA ESQUERDA DA PÁGINA */
+    width: 280px !important;
+    max-width: 34ch !important;
+    background: #f8fafc !important;
+    border-left: 4px solid #2563eb !important;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1000 !important;
+    overflow-y: auto !important;
+    max-height: 70vh !important;
+    box-sizing: border-box !important;
+    transition: opacity 0.3s ease !important;
+}
+
+/* Ocultar quando não houver espaço suficiente (menos de 300px entre sumário e container) */
+@media (max-width: 1500px) {
+    .sumario-flutuante-component {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        visibility: hidden !important;
+    }
+}
+
+/* Ocultar em mobile */
+@media (max-width: 1500px) {
+    .sumario-flutuante-component {
+        display: none !important;
+    }
+}
+
+/* Ajustar para telas muito largas */
+@media (min-width: 1800px) {
+    .sumario-flutuante-component {
+        left: calc(50% - 800px) !important;
+    }
+}
+</style>
+
+<div data-form-template style="display: none;">
+    <div class="form-group">
+        <label>Itens do Sumário (um por linha, formato: id|texto)</label>
+        <textarea id="editItens" placeholder="titulo-1|A Transformação Digital nas Organizações&#10;titulo-2|Outro Título">{{itensFormatados}}</textarea>
+        <small style="color: #64748b; font-size: 0.8rem;">Ex: titulo-1|A Transformação Digital nas Organizações</small>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Padding Superior</label>
+            <input type="text" id="editPaddingTop" value="{{paddingTop}}" placeholder="0">
+            <small style="color: #64748b; font-size: 0.8rem;">Ex: 0, 16px, 2rem</small>
+        </div>
+        <div class="form-group">
+            <label>Padding Inferior</label>
+            <input type="text" id="editPaddingBottom" value="{{paddingBottom}}" placeholder="32px">
+            <small style="color: #64748b; font-size: 0.8rem;">Ex: 32px, 2rem, 0</small>
+        </div>
+    </div>
+</div>
+
+<script>
+// Script para processar os itens do sumário
+(function() {
+    'use strict';
+    
+    function initFormControls() {
+        const textarea = document.getElementById('editItens');
+        if (!textarea) return;
+        
+        // Converter o array de itens em texto para o textarea
+        const itens = JSON.parse('{{itens}}' || '[]');
+        const itensFormatados = itens.map(item => `${item.id}|${item.texto}`).join('\n');
+        textarea.value = itensFormatados;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('modalEdicao');
+        if (modal) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class' && modal.classList.contains('active')) {
+                        setTimeout(initFormControls, 100);
+                    }
+                });
+            });
+            observer.observe(modal, { attributes: true });
+        }
+    });
+})();
+</script>

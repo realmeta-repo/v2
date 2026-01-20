@@ -1,0 +1,578 @@
+<!-- knowledge.html - TODAS AS 4 CENAS -->
+<div id="knowledge-animation" class="knowledge-full">
+    <!-- Scene 1: Problem Banner -->
+    <div id="knowledge-scene-problem" class="knowledge-scene active">
+        <div class="knowledge-problem-container">
+            <canvas id="knowledge-freneticCanvas"></canvas>
+        </div>
+    </div>
+
+    <!-- Scene 2: First Impact Phrase -->
+    <div id="knowledge-scene-phrase1" class="knowledge-scene">
+        <div class="knowledge-impact-phrase">
+            <div class="knowledge-impact-text">Forget the chaos...</div>
+        </div>
+    </div>
+
+    <!-- Scene 3: Solution Banner -->
+    <div id="knowledge-scene-solution" class="knowledge-scene">
+        <div class="knowledge-solution-container">
+            <canvas id="knowledge-solutionCanvas"></canvas>
+        </div>
+    </div>
+
+    <!-- Scene 4: Second Impact Phrase -->
+    <div id="knowledge-scene-phrase2" class="knowledge-scene">
+        <div class="knowledge-impact-phrase">
+            <div class="knowledge-impact-text">Build more. Build with REALMETA</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ESTILOS ESPECÍFICOS PARA O KNOWLEDGE - TODAS AS CENAS */
+    .knowledge-full {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background: #fff;
+        overflow: hidden;
+    }
+
+    .knowledge-scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.8s ease-in-out;
+    }
+
+    .knowledge-scene.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* Scene 1: Problem */
+    .knowledge-problem-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    /* Scene 2 & 4: Impact Phrases */
+    .knowledge-impact-phrase {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-color: #fff;
+    }
+
+    .knowledge-impact-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900;
+        font-size: 4.5vw;
+        text-transform: uppercase;
+        color: #333;
+        letter-spacing: -0.5px;
+        line-height: 1.1;
+        padding: 0 10%;
+        max-width: 1200px;
+    }
+
+    /* Scene 3: Solution */
+    .knowledge-solution-container {
+        width: 100%;
+        height: 500px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-height: 500px;
+        overflow: hidden;
+    }
+
+    .knowledge-full canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<script>
+// Aguardar o DOM estar pronto
+setTimeout(() => {
+    // ======================= GERENCIAMENTO DE CENAS =======================
+    const scenes = [
+        { id: 'knowledge-scene-problem', duration: 3340 },    // 3.34 segundos
+        { id: 'knowledge-scene-phrase1', duration: 1640 },   // 1.64 segundos
+        { id: 'knowledge-scene-solution', duration: 15000 }, // 15 segundos
+        { id: 'knowledge-scene-phrase2', duration: 1640 }    // 1.64 segundos
+    ];
+
+    let currentSceneIndex = 0;
+    let sceneTimeout;
+
+    function switchToScene(index) {
+        // Esconder todas as cenas
+        document.querySelectorAll('.knowledge-scene').forEach(scene => {
+            scene.classList.remove('active');
+        });
+        
+        // Mostrar a cena alvo
+        const targetScene = document.getElementById(scenes[index].id);
+        if (targetScene) {
+            targetScene.classList.add('active');
+            
+            // Iniciar timeout para próxima cena
+            clearTimeout(sceneTimeout);
+            sceneTimeout = setTimeout(() => {
+                currentSceneIndex = (index + 1) % scenes.length;
+                switchToScene(currentSceneIndex);
+            }, scenes[index].duration);
+        }
+    }
+
+    // Iniciar o ciclo
+    switchToScene(0);
+
+    // ======================= CENA 1: PROBLEMA BANNER =======================
+    const problemCanvas = document.getElementById('knowledge-freneticCanvas');
+    if (problemCanvas) {
+        const problemCtx = problemCanvas.getContext('2d');
+
+        const COLOR_BASE = '100, 100, 100'; 
+        const MAX_PARTICLES = 65; 
+        const CONNECTION_DIST = 140; 
+        
+        const words = [
+            "Valuation", "Custo Brasil", "M&A", "Scale-up", "Market Share", "Pivotar", "Cultura", "ESG", 
+            "Lucro Real", "Compliance", "EBITDA", "Burn Rate", "Runway", "Cash Flow", "ARR", "MRR", 
+            "Unit Economics", "Bitributação", "Cap Table", "Rodada", "Bottom-line", "IPO", "Seed"
+        ];
+
+        const mathSymbols = ["ROI", "YoY", "QoQ", "Δ", "LTV>3xCAC", "Σ", "ICMS", "SELIC"];
+
+        let problemParticles = [];
+        let problemW, problemH;
+
+        class ProblemParticle {
+            constructor() {
+                this.reset();
+                this.life = Math.random() * Math.PI; 
+                this.lifeSpeed = 0.006 + Math.random() * 0.012; 
+            }
+
+            reset() {
+                const isWord = Math.random() > 0.2; 
+                this.text = isWord ? words[Math.floor(Math.random() * words.length)] : mathSymbols[Math.floor(Math.random() * mathSymbols.length)];
+                this.x = Math.random() * problemW;
+                this.y = Math.random() * problemH;
+                
+                this.size = isWord ? (12 + Math.random() * 18) : (18 + Math.random() * 20);
+                const fontStack = Math.random() > 0.5 ? 'bold "Segoe UI", sans-serif' : 'italic "Georgia", serif';
+                this.font = `${Math.floor(this.size)}px ${fontStack}`;
+                
+                this.vx = (Math.random() - 0.5) * 1.8;
+                this.vy = (Math.random() - 0.5) * 1.8;
+                this.angle = (Math.random() - 0.5) * 0.3; 
+                
+                this.hasCircle = Math.random() < 0.18; 
+                this.hasUnderline = Math.random() < 0.18; 
+                this.hasBox = Math.random() < 0.08;
+            }
+
+            update() {
+                this.life += this.lifeSpeed;
+                if (this.life > Math.PI) {
+                    this.life = 0;
+                    this.reset();
+                }
+                this.alpha = Math.sin(this.life);
+                
+                this.x += this.vx + (Math.random() - 0.5) * 1.5;
+                this.y += this.vy + (Math.random() - 0.5) * 1.5;
+
+                if(this.x < 50 || this.x > problemW - 50) this.vx *= -1;
+                if(this.y < 50 || this.y > problemH - 50) this.vy *= -1;
+            }
+
+            draw(ctx) {
+                if (this.alpha <= 0.02) return;
+
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                
+                ctx.fillStyle = `rgba(${COLOR_BASE}, ${this.alpha})`;
+                ctx.font = this.font;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(this.text, 0, 0);
+
+                const metrics = ctx.measureText(this.text);
+                const tw = metrics.width;
+                const th = this.size;
+                ctx.strokeStyle = `rgba(${COLOR_BASE}, ${this.alpha * 0.4})`;
+                ctx.lineWidth = 1.2;
+
+                if (this.hasCircle) {
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, tw/1.6 + 6, th/1.2 + 6, Math.random()*0.1, 0, Math.PI * 2);
+                    ctx.stroke();
+                } else if (this.hasUnderline) {
+                    ctx.beginPath();
+                    ctx.moveTo(-tw/2 - 2, th/2 + 4);
+                    ctx.quadraticCurveTo(0, th/2 + 9, tw/2 + 2, th/2 + 3);
+                    ctx.stroke();
+                } else if (this.hasBox) {
+                    ctx.beginPath();
+                    ctx.rect(-tw/2 - 5, -th/2 - 5, tw + 10, th + 10);
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+            }
+        }
+
+        function resizeProblemCanvas() {
+            const container = problemCanvas.parentElement;
+            if (container) {
+                problemW = problemCanvas.width = container.clientWidth;
+                problemH = problemCanvas.height = container.clientHeight;
+            }
+        }
+
+        function initProblemBanner() {
+            resizeProblemCanvas();
+            problemParticles = [];
+            for (let i = 0; i < MAX_PARTICLES; i++) {
+                const p = new ProblemParticle();
+                p.life = Math.random() * Math.PI; 
+                problemParticles.push(p);
+            }
+        }
+
+        function animateProblemBanner() {
+            // Animar apenas se a cena de problema estiver ativa
+            const problemScene = document.getElementById('knowledge-scene-problem');
+            if (problemScene && problemScene.classList.contains('active')) {
+                problemCtx.clearRect(0, 0, problemW, problemH);
+
+                // Linhas de conexão
+                for (let i = 0; i < problemParticles.length; i++) {
+                    for (let j = i + 1; j < problemParticles.length; j++) {
+                        const p1 = problemParticles[i];
+                        const p2 = problemParticles[j];
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+
+                        if (dist < CONNECTION_DIST) {
+                            const lineAlpha = Math.min(p1.alpha, p2.alpha) * (1 - dist / CONNECTION_DIST);
+                            problemCtx.strokeStyle = `rgba(${COLOR_BASE}, ${lineAlpha * 0.4})`;
+                            problemCtx.lineWidth = 0.6;
+                            problemCtx.beginPath();
+                            problemCtx.moveTo(p1.x, p1.y);
+                            problemCtx.lineTo(p2.x, p2.y);
+                            problemCtx.stroke();
+                        }
+                    }
+                }
+
+                problemParticles.forEach(p => {
+                    p.update();
+                    p.draw(problemCtx);
+                });
+            }
+            requestAnimationFrame(animateProblemBanner);
+        }
+
+        // Inicializar banner do problema
+        resizeProblemCanvas();
+        initProblemBanner();
+        animateProblemBanner();
+
+        // Redimensionar quando a janela mudar
+        window.addEventListener('resize', () => {
+            resizeProblemCanvas();
+            initProblemBanner();
+        });
+    }
+
+    // ======================= CENA 3: SOLUTION BANNER =======================
+    const solutionCanvas = document.getElementById('knowledge-solutionCanvas');
+    if (solutionCanvas) {
+        const solutionCtx = solutionCanvas.getContext('2d');
+
+        const GRAY_50 = "rgba(128, 128, 128, 0.5)";
+        const GRAY_20 = "rgba(128, 128, 128, 0.15)";
+        const GRAY_SOLID = "rgba(128, 128, 128, 0.8)";
+        const COLORS = { red: "#FF4444", orange: "#FF9800", green: "#4CAF50" };
+
+        let solutionWidth, solutionHeight, solutionStartTime = null;
+        let isMobile = false;
+        let phase = 'initial';
+
+        const nodes = [
+            { id: 'res', label: "RESEARCH", angle: (5 * Math.PI) / 6, children: [
+                { label: "DEMAND", val: 5, target: 5, nextUpdate: 0 },
+                { label: "PURPOSE", val: 5, target: 5, nextUpdate: 0 }
+            ]},
+            { id: 'dev', label: "DEVELOPMENT", angle: -Math.PI / 2, children: [
+                { label: "STRATEGY", val: 5, target: 5, nextUpdate: 0 },
+                { label: "DESIGN", val: 5, target: 5, nextUpdate: 0 }
+            ]},
+            { id: 'dist', label: "DISTRIBUTION", angle: Math.PI / 6, children: [
+                { label: "OPERATIONS", val: 5, target: 5, nextUpdate: 0 },
+                { label: "IMPACTS", val: 5, target: 5, nextUpdate: 0 }
+            ]}
+        ];
+
+        function resizeSolutionCanvas() {
+            const container = solutionCanvas.parentElement;
+            if (container) {
+                solutionWidth = container.clientWidth;
+                solutionHeight = container.clientHeight;
+                isMobile = solutionWidth < 768;
+                
+                solutionCanvas.width = solutionWidth * window.devicePixelRatio;
+                solutionCanvas.height = solutionHeight * window.devicePixelRatio;
+                solutionCanvas.style.width = solutionWidth + 'px';
+                solutionCanvas.style.height = solutionHeight + 'px';
+                solutionCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            }
+        }
+
+        function getBadgeColor(val) {
+            if (val < 4) return COLORS.red;
+            if (val <= 7) return COLORS.orange;
+            return COLORS.green;
+        }
+
+        function updateSolutionLogic(timestamp) {
+            nodes.forEach(parent => {
+                let sum = 0;
+                parent.children.forEach(child => {
+                    if (timestamp > child.nextUpdate) {
+                        if (child.val === child.target) {
+                            child.target = Math.floor(Math.random() * 10) + 1;
+                        } else {
+                            child.val += (child.target > child.val) ? 1 : -1;
+                        }
+                        child.nextUpdate = timestamp + 300 + Math.random() * 400;
+                    }
+                    sum += child.val;
+                });
+                parent.val = Math.round(sum / parent.children.length);
+            });
+        }
+
+        function drawBadge(val, x, y, label, fontSize, alpha) {
+            if (alpha < 0.05) return;
+            solutionCtx.save();
+            solutionCtx.globalAlpha = alpha;
+            solutionCtx.font = `700 ${fontSize}px Montserrat`;
+            const textWidth = solutionCtx.measureText(label.toUpperCase()).width;
+            const badgeSize = isMobile ? 8 : 9;
+            const badgeX = x + (textWidth / 2) + 10;
+            const badgeY = y - (fontSize * 0.5);
+            solutionCtx.beginPath();
+            solutionCtx.arc(badgeX, badgeY, badgeSize, 0, Math.PI * 2);
+            solutionCtx.fillStyle = getBadgeColor(val);
+            solutionCtx.fill();
+            solutionCtx.fillStyle = "#FFF";
+            solutionCtx.font = `700 ${isMobile ? 9 : 10}px Montserrat`;
+            solutionCtx.textAlign = "center";
+            solutionCtx.textBaseline = "middle";
+            solutionCtx.fillText(val, badgeX, badgeY);
+            solutionCtx.restore();
+        }
+
+        function drawTreeLine(x1, y1, x2, y2, t) {
+            solutionCtx.beginPath();
+            solutionCtx.strokeStyle = GRAY_50;
+            solutionCtx.lineWidth = 1.5;
+            solutionCtx.moveTo(x1, y1);
+            const cp1y = y1 + (y2 - y1) * 0.6;
+            const steps = 20;
+            const maxI = t * steps;
+            for (let i = 0; i <= maxI; i++) {
+                const localT = i / steps;
+                const tx = Math.pow(1 - localT, 3) * x1 + 3 * Math.pow(1 - localT, 2) * localT * x1 + 3 * (1 - localT) * Math.pow(localT, 2) * x2 + Math.pow(localT, 3) * x2;
+                const ty = Math.pow(1 - localT, 3) * y1 + 3 * Math.pow(1 - localT, 2) * localT * cp1y + 3 * (1 - localT) * Math.pow(localT, 2) * cp1y + Math.pow(localT, 3) * y2;
+                if (i === 0) solutionCtx.moveTo(tx, ty); else solutionCtx.lineTo(tx, ty);
+            }
+            solutionCtx.stroke();
+        }
+
+        function drawRadarSystem(cx, cy, radius, alpha) {
+            if (alpha <= 0) return;
+            solutionCtx.save();
+            solutionCtx.globalAlpha = alpha;
+            solutionCtx.strokeStyle = GRAY_20;
+            solutionCtx.lineWidth = 1;
+            solutionCtx.setLineDash([4, 4]); 
+            for (let i = 1; i <= 5; i++) {
+                solutionCtx.beginPath();
+                solutionCtx.arc(cx, cy, (radius / 5) * i, 0, Math.PI * 2);
+                solutionCtx.stroke();
+            }
+            solutionCtx.setLineDash([]);
+            solutionCtx.strokeStyle = GRAY_50; 
+            nodes.forEach(node => {
+                solutionCtx.beginPath();
+                solutionCtx.moveTo(cx, cy);
+                solutionCtx.lineTo(cx + Math.cos(node.angle) * radius, cy + Math.sin(node.angle) * radius);
+                solutionCtx.stroke();
+            });
+            solutionCtx.restore();
+        }
+
+        function animateSolutionBanner(timestamp) {
+            // Animar apenas se a cena de solução estiver ativa
+            const solutionScene = document.getElementById('knowledge-scene-solution');
+            if (solutionScene && solutionScene.classList.contains('active')) {
+                if (!solutionStartTime) {
+                    solutionStartTime = timestamp;
+                    phase = 'initial';
+                }
+                
+                const elapsed = timestamp - solutionStartTime;
+                updateSolutionLogic(timestamp);
+                solutionCtx.clearRect(0, 0, solutionWidth, solutionHeight);
+
+                let treeAlpha = 1, radarAlpha = 0, radarMoveProg = 0, expandProg = 0;
+
+                if (elapsed < 2000) phase = 'initial';
+                else if (elapsed < 3000) { phase = 'expand'; expandProg = (elapsed - 2000) / 1000; }
+                else if (elapsed < 7000) { phase = 'wait'; expandProg = 1; }
+                else if (elapsed < 8000) { phase = 'contract'; expandProg = 1; treeAlpha = 1 - (elapsed - 7000) / 1000; }
+                else {
+                    phase = 'radar'; expandProg = 1; treeAlpha = 0;
+                    const radarTime = elapsed - 8000;
+                    radarMoveProg = Math.min(radarTime / 2000, 1);
+                    radarAlpha = Math.min(radarTime / 1000, 1);
+                }
+
+                const easeExpand = 1 - Math.pow(1 - expandProg, 3);
+                const easeRadar = 1 - Math.pow(1 - radarMoveProg, 3); 
+
+                const radarCX = solutionWidth / 2;
+                const radarCY = solutionHeight / 2;
+                const radarRadius = isMobile ? 110 : 130;
+                const textPadding = isMobile ? 35 : 45;
+
+                if (phase === 'radar') drawRadarSystem(radarCX, radarCY, radarRadius, radarAlpha);
+
+                const radarPolyPoints = [];
+
+                nodes.forEach((parent, i) => {
+                    let treeX, treeY;
+                    if (!isMobile) {
+                        treeX = (solutionWidth / 4) * (i + 1);
+                        treeY = radarCY - (100 * easeExpand);
+                    } else {
+                        const mobileGap = 120;
+                        if (parent.id === 'dev') {
+                            treeX = solutionWidth / 2;
+                            treeY = radarCY - 30 - (easeExpand * 100);
+                        } else {
+                            treeX = (parent.id === 'res') ? solutionWidth * 0.25 : solutionWidth * 0.75;
+                            treeY = radarCY + 30 + (easeExpand * 80);
+                        }
+                    }
+
+                    const radarTargetX = radarCX + Math.cos(parent.angle) * (radarRadius + textPadding);
+                    const radarTargetY = radarCY + Math.sin(parent.angle) * (radarRadius + textPadding);
+
+                    let currentX = treeX + (radarTargetX - treeX) * easeRadar;
+                    let currentY = treeY + (radarTargetY - treeY) * easeRadar;
+
+                    const pFontSize = isMobile ? 13 : 15;
+
+                    if (treeAlpha > 0 && phase !== 'radar') {
+                        const childY = currentY + 110;
+                        parent.children.forEach((child, ci) => {
+                            const childX = ci === 0 ? currentX - (isMobile ? 40 : 70) : currentX + (isMobile ? 40 : 70);
+                            solutionCtx.save();
+                            solutionCtx.globalAlpha = treeAlpha;
+                            drawTreeLine(currentX, currentY + 10, childX, childY - 20, easeExpand);
+                            if (easeExpand > 0.8) {
+                                const tA = Math.min((easeExpand - 0.8) * 5, 1) * treeAlpha;
+                                solutionCtx.globalAlpha = tA;
+                                solutionCtx.font = "700 11px Montserrat"; 
+                                solutionCtx.textAlign = "center"; 
+                                solutionCtx.fillStyle = GRAY_SOLID;
+                                solutionCtx.fillText(child.label, childX, childY);
+                                drawBadge(child.val, childX, childY, child.label, 11, tA);
+                            }
+                            solutionCtx.restore();
+                        });
+                    }
+
+                    solutionCtx.globalAlpha = 1;
+                    solutionCtx.font = `700 ${pFontSize}px Montserrat`; 
+                    solutionCtx.fillStyle = GRAY_SOLID; 
+                    solutionCtx.textAlign = "center";
+                    solutionCtx.fillText(parent.label, currentX, currentY);
+                    drawBadge(parent.val, currentX, currentY, parent.label, pFontSize, 1);
+
+                    if (phase === 'radar') {
+                        const px = radarCX + Math.cos(parent.angle) * (radarRadius * (parent.val / 10));
+                        const py = radarCY + Math.sin(parent.angle) * (radarRadius * (parent.val / 10));
+                        radarPolyPoints.push({ x: px, y: py, color: getBadgeColor(parent.val) });
+                    }
+                });
+
+                if (phase === 'radar' && radarPolyPoints.length === 3) {
+                    solutionCtx.save();
+                    solutionCtx.globalAlpha = radarAlpha;
+                    solutionCtx.beginPath();
+                    solutionCtx.moveTo(radarPolyPoints[0].x, radarPolyPoints[0].y);
+                    solutionCtx.lineTo(radarPolyPoints[1].x, radarPolyPoints[1].y);
+                    solutionCtx.lineTo(radarPolyPoints[2].x, radarPolyPoints[2].y);
+                    solutionCtx.closePath();
+                    solutionCtx.fillStyle = GRAY_20; 
+                    solutionCtx.fill();
+                    solutionCtx.strokeStyle = GRAY_SOLID; 
+                    solutionCtx.lineWidth = 2; 
+                    solutionCtx.stroke();
+                    radarPolyPoints.forEach(p => {
+                        solutionCtx.beginPath(); 
+                        solutionCtx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+                        solutionCtx.fillStyle = p.color; 
+                        solutionCtx.fill();
+                        solutionCtx.strokeStyle = "#fff"; 
+                        solutionCtx.lineWidth = 2; 
+                        solutionCtx.stroke();
+                    });
+                    solutionCtx.restore();
+                }
+            } else {
+                // Resetar animação quando a cena não está ativa
+                solutionStartTime = null;
+            }
+            requestAnimationFrame(animateSolutionBanner);
+        }
+
+        // Inicializar banner da solução
+        resizeSolutionCanvas();
+        
+        // Iniciar animação após um pequeno delay
+        setTimeout(() => {
+            requestAnimationFrame(animateSolutionBanner);
+        }, 100);
+
+        // Redimensionar quando a janela mudar
+        window.addEventListener('resize', resizeSolutionCanvas);
+    }
+}, 100);
+</script>

@@ -1,0 +1,1277 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Merriweather:wght@400&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(120deg,#020617,#042f2e,#020c1b,#020617);
+    --animation-duration: 36s;
+    --gold-color: #D4AF37; /* Cor dourada */
+    --zoho-green: #12AA67;
+    --zoho-success-bg: #F5FAF5;
+    --zoho-success-border: #A9D3AB;
+    --zoho-success-text: #132C14;
+}
+
+/* ================= RESET ================= */
+* { box-sizing: border-box; }
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Tahoma, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color: #020617;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* ================= ANIMAÇÃO DO GRADIENTE ================= */
+.gradient-animated {
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientFlow var(--animation-duration) linear infinite;
+}
+
+@keyframes gradientFlow {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+}
+
+/* ================= HEADER / FOOTER ================= */
+header, footer {
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientFlow var(--animation-duration) linear infinite;
+    color: #e5e7eb;
+    z-index: 100;
+    position: fixed;
+    left: 0;
+    right: 0;
+    transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: transform, height;
+}
+
+header {
+    height: 64px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    height: 120px;
+    bottom: 0;
+    padding: 32px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 800;
+    letter-spacing: .12em;
+    font-size: .95rem;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    display: block;
+    font-size: 1.5rem;
+    z-index: 101;
+}
+
+nav {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientFlow var(--animation-duration) linear infinite;
+    display: none;
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
+    z-index: 99;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+nav.open {
+    display: flex;
+}
+
+nav a {
+    color: #cbd5f5;
+    text-decoration: none;
+    font-size: .75rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    padding: 8px 0;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+nav a:hover {
+    color: #fff;
+}
+
+/* ================= MENU ATIVO ================= */
+/* Item de menu da HEADER ativo */
+nav a.active {
+    color: var(--gold-color) !important;
+}
+
+/* Botão do FOOTER MOBILE ativo */
+.footer-mobile-btn.active {
+    color: var(--gold-color) !important;
+}
+
+/* Para o footer mobile, destacar o círculo quando ativo */
+.footer-mobile-btn.active .footer-mobile-icon-container {
+    border-color: var(--gold-color) !important;
+}
+
+/* Para o footer mobile, destacar o ícone quando ativo */
+.footer-mobile-btn.active .footer-mobile-icon {
+    filter: brightness(0) invert(0.8) sepia(0.5) saturate(5) hue-rotate(-10deg) !important;
+}
+
+/* Para o texto do footer mobile quando ativo */
+.footer-mobile-btn.active .footer-mobile-text {
+    color: var(--gold-color) !important;
+}
+
+/* Hover para itens ativos - manter dourado */
+nav a.active:hover,
+.footer-mobile-btn.active:hover {
+    color: var(--gold-color) !important;
+    opacity: 0.9 !important;
+}
+
+/* ================= MAIN CONTENT ================= */
+main {
+    flex: 1;
+    padding: 0px 0 140px;
+    position: relative;
+    z-index: 1;
+}
+
+#app {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    opacity: 1 !important;
+}
+
+/* ================= ESTADO DE PISCADA ================= */
+body.blinking header {
+    height: 50.1vh;
+    transform: translateY(0);
+}
+
+body.blinking footer {
+    height: 50.1vh;
+    transform: translateY(0);
+}
+
+body.content-hidden #app {
+    z-index: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+body.content-visible #app {
+    z-index: 2;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+body.blinking header,
+body.blinking footer {
+    z-index: 50.1;
+}
+
+body:not(.blinking) header,
+body:not(.blinking) footer {
+    z-index: 100;
+}
+
+/* ================= ESTADO INICIAL - JÁ FECHADO ================= */
+body.initial-loading {
+    overflow: hidden;
+}
+
+body.initial-loading header {
+    height: 50.1vh !important;
+    transform: translateY(0) !important;
+    transition: none !important;
+}
+
+body.initial-loading footer {
+    height: 50.1vh !important;
+    transform: translateY(0) !important;
+    transition: none !important;
+}
+
+body.initial-loading #app {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: none !important;
+}
+
+/* ================= ESTADO PÁLPEBRAS PERMANENTEMENTE FECHADAS ================= */
+body.eyelids-closed {
+    overflow: hidden;
+}
+
+body.eyelids-closed header {
+    height: 50.1vh !important;
+    transform: translateY(0) !important;
+}
+
+body.eyelids-closed footer {
+    height: 50.1vh !important;
+    transform: translateY(0) !important;
+}
+
+body.eyelids-closed #app {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+/* ================= REMOVER SOMBRAS DURANTE ANIMAÇÕES ================= */
+body.blinking header,
+body.blinking footer,
+body.initial-loading header,
+body.initial-loading footer,
+body.eyelids-closed header,
+body.eyelids-closed footer {
+    box-shadow: none !important;
+}
+/* ================= GARANTIR QUE NÃO HÁ BORDAS ================= */
+/* Remover qualquer borda que possa aparecer */
+header, footer {
+    border: none !important;
+    outline: none !important;
+    will-change: height, transform;
+    transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+/* ================= CONTACT OVERLAY (EXIBIDO QUANDO AS PÁLPEBRAS ESTÃO FECHADAS) ================= */
+.contact-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 150;
+    pointer-events: none; /* Permite cliques no header/footer */
+}
+
+body.eyelids-closed .contact-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Permite cliques no header/footer */
+}
+
+/* Estado quando o formulário está sendo enviado */
+body.eyelids-closed.form-sending .contact-overlay,
+body.eyelids-closed.form-success .contact-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Texto maior - o dobro do tamanho atual */
+.contact-text {
+    color: var(--gold-color);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 1.5rem; /* Dobrado de .75rem para 1.5rem */
+    text-align: center;
+    margin-bottom: 15px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: 0.2s; /* REDUZIDO de 0.7s para 0.2s */
+    line-height: 1.2;
+}
+
+/* Quando estiver enviando ou sucesso, esconder o texto */
+body.form-sending .contact-text,
+body.form-success .contact-text {
+    display: none;
+}
+
+/* Container dos campos de entrada - 10% MENOR */
+.contact-fields-container {
+    width: 225px; /* REDUZIDO de 250px para 225px (10% menor) */
+    max-width: 90vw;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: 1.0s; /* ADICIONADO delay para aparecer após o título */
+    pointer-events: auto; /* Permite interação com o formulário */
+}
+
+/* Quando estiver enviando ou sucesso, esconder os campos */
+body.form-sending .contact-fields-container,
+body.form-success .contact-fields-container {
+    display: none;
+}
+
+/* Campo de texto com inner shadow mais pronunciada - SEMPRE VISÍVEL */
+.contact-input-container {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+/* Inner shadow mais forte e sempre visível */
+.contact-input {
+    width: 100%;
+    padding: 10px 9px 6px 9px;
+    background: white;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #020617;
+    /* Inner shadow mais forte e sempre visível */
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 0 4px 8px rgba(0, 0, 0, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* Borda dourada apenas no foco (mantido) */
+.contact-input:focus {
+    border-color: var(--gold-color);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 0 4px 8px rgba(0, 0, 0, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+        0 0 0 2px rgba(212, 175, 55, 0.2); /* Mantém o efeito glow */
+}
+
+.contact-input::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 11px; /* REDUZIDO para caber melhor nos campos */
+}
+
+/* Placeholder piscante com atrasos diferentes para cada campo */
+@keyframes blinkPlaceholder {
+    0%, 94.9% { opacity: 1; }
+    95%, 95.1% { opacity: 0; }
+    95.2%, 100% { opacity: 1; }
+}
+
+.contact-input:not(:focus):placeholder-shown::placeholder {
+    animation: blinkPlaceholder 2.1s infinite;
+}
+
+/* Atrasos específicos para cada campo */
+#contactName:not(:focus):placeholder-shown::placeholder {
+    animation-delay: 0.3s;
+}
+
+#contactEmail:not(:focus):placeholder-shown::placeholder {
+    animation-delay: 0.6s;
+}
+
+#contactPhone:not(:focus):placeholder-shown::placeholder {
+    animation-delay: 0.9s;
+}
+
+/* Botão com dimensões ajustadas - 5px MAIS PRA CIMA */
+.contact-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 2px solid var(--gold-color);
+    border-radius: 8px;
+    color: var(--gold-color);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: 1.4s; /* ADICIONADO delay para aparecer após os campos */
+    position: relative;
+    overflow: hidden;
+    min-width: 160px;
+    max-width: 200px;
+    margin-top: 0px; /* ALTERADO de 5px para 0px (5px mais pra cima) */
+    pointer-events: auto; /* Permite interação */
+}
+
+/* Estado do botão quando está enviando */
+.contact-button.sending {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 200;
+    background: rgba(18, 170, 103, 0.1);
+    border-color: var(--zoho-green);
+    color: var(--zoho-green);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 30px rgba(18, 170, 103, 0.2);
+}
+
+.contact-button.sending .send-icon {
+    fill: var(--zoho-green);
+    animation: pulse 1.5s infinite;
+}
+
+/* Estado do botão quando é sucesso */
+.contact-button.success {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 200;
+    background: var(--zoho-success-bg);
+    border-color: var(--zoho-success-border);
+    color: var(--zoho-success-text);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 30px rgba(18, 170, 103, 0.2);
+    min-width: 240px;
+    max-width: 300px;
+}
+
+.contact-button.success .send-icon {
+    fill: var(--zoho-green);
+}
+
+.contact-button.success .success-icon {
+    display: block;
+    width: 18px;
+    height: 18px;
+    fill: var(--zoho-green);
+}
+
+.success-icon {
+    display: none;
+}
+
+.contact-button:hover {
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.contact-button:active {
+    transform: translateY(0);
+}
+
+.contact-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.contact-button:hover::before {
+    left: 100%;
+}
+
+/* Ícone de enviar proporcional ao botão */
+.send-icon {
+    width: 14px;
+    height: 14px;
+    fill: var(--gold-color);
+    transition: transform 0.3s ease;
+}
+
+.contact-button:hover .send-icon {
+    transform: translateX(3px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* Animações para desaparecimento - APENAS FADE OUT SIMPLES */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Classes para desaparecimento em ordem - tempo total 0.9s (0.3s cada com delays) */
+.fade-out-button {
+    animation: fadeOut 0.3s ease forwards !important;
+}
+
+.fade-out-fields {
+    animation: fadeOut 0.3s ease forwards !important;
+    animation-delay: 0.3s !important;
+}
+
+.fade-out-text {
+    animation: fadeOut 0.3s ease forwards !important;
+    animation-delay: 0.6s !important;
+}
+
+/* Container unificado para campo de telefone */
+.phone-input-container {
+    display: flex;
+    margin-bottom: 8px;
+    width: 100%;
+    position: relative;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    background: white;
+    /* Inner shadow mais forte e sempre visível */
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 0 4px 8px rgba(0, 0, 0, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    pointer-events: auto; /* Permite interação */
+}
+
+.phone-input-container:focus-within {
+    border-color: var(--gold-color);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 0 4px 8px rgba(0, 0, 0, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+        0 0 0 2px rgba(212, 175, 55, 0.2); /* Mantém o efeito glow */
+}
+
+/* Seletor de país com linha divisória */
+.country-flag-container {
+    position: relative;
+    flex: 0 0 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(212, 175, 55, 0.3); /* Linha divisória */
+}
+
+.country-display {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    pointer-events: none;
+}
+
+.flag-icon {
+    width: 18px;
+    height: 13px;
+    border-radius: 2px;
+    box-shadow: 0 0 1px rgba(0,0,0,0.3);
+}
+
+.country-code-display {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #020617;
+}
+
+/* Select oculto que cobre toda a área */
+.country-select {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.01; /* Quase invisível mas clicável */
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* Campo de telefone com estilo unificado */
+.phone-input {
+    flex: 1;
+    padding: 10px 9px 6px 9px; /* Mesmo padding dos outros campos */
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #020617;
+    outline: none;
+    box-shadow: none;
+}
+
+.phone-input::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 11px; /* REDUZIDO para caber melhor no campo */
+}
+
+/* Placeholder piscante para o telefone também */
+.phone-input:not(:focus):placeholder-shown::placeholder {
+    animation: blinkPlaceholder 2.1s infinite;
+    animation-delay: 0.9s;
+}
+
+/* ================= FOOTER GRID ================= */
+.footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.footer-grid h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.footer-grid p, .footer-grid a {
+    font-family: 'Merriweather', serif;
+    font-size: 0.9rem;
+    color: #cbd5f5;
+    text-decoration: none;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.footer-grid a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* ================= ESTILOS PARA LINKS CLICÁVEIS ================= */
+a[data-page], a[href$=".html"]:not([href^="http"]):not([href^="#"]):not([href^="mailto"]):not([href^="tel:"]) {
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+a[data-page]:hover, a[href$=".html"]:not([href^="http"]):not([href^="#"]):not([href^="mailto"]):not([href^="tel:"]):hover {
+    opacity: 0.8;
+}
+
+/* ================= MENSAGEM ZOHO - ESTILO OFICIAL ================= */
+.wf_customMessageBox {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #132C14;
+    background: #F5FAF5;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.25);
+    max-width: 90%;
+    width: max-content;
+    word-break: break-word;
+    z-index: 999999;
+    border-radius: 6px;
+    border: 1px solid #A9D3AB;
+    min-width: 100px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.wf_customMessageBox.show {
+    opacity: 1;
+    visibility: visible;
+    animation: zohoMessageSlideIn 0.3s ease forwards;
+}
+
+.wf_customCircle {
+    position: relative;
+    background-color: #12AA67;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    flex: none;
+    margin-right: 7px;
+}
+
+.wf_customCheckMark {
+    box-sizing: unset !important;
+    position: absolute;
+    transform: rotate(45deg) translate(-50%, -50%);
+    left: 6px;
+    top: 9px;
+    height: 8px;
+    width: 3px;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
+
+.wf_customClose {
+    box-sizing: border-box;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    cursor: pointer;
+    flex: none;
+}
+
+.wf_customClose::after,
+.wf_customClose::before {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 12px;
+    height: 1.5px;
+    background: #616E88;
+    transform: rotate(45deg);
+    border-radius: 5px;
+    top: 8px;
+    left: 3px;
+}
+
+.wf_customClose::after {
+    transform: rotate(-45deg);
+}
+
+/* Animações para a mensagem */
+@keyframes zohoMessageSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes zohoMessageSlideOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+}
+
+/* ================= RESPONSIVO ================= */
+@media (min-width: 768px) {
+    nav {
+        position: static;
+        display: flex !important;
+        flex-direction: row;
+        background: none !important;
+        animation: none !important;
+        padding: 0;
+        gap: 24px;
+        box-shadow: none;
+    }
+    
+    .menu-toggle {
+        display: none;
+    }
+    
+    .footer-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    body.blinking header {
+        height: 50vh;
+    }
+    
+    body.blinking footer {
+        height: 50vh;
+    }
+    
+    .contact-text {
+        font-size: 1.7rem; /* Ajustado para desktop */
+        margin-bottom: 20px;
+    }
+    
+    .contact-fields-container {
+        width: 252px; /* REDUZIDO de 280px para 252px (10% menor) */
+    }
+    
+    .contact-input, .phone-input {
+        font-size: 14px;
+        padding: 11px 10px 7px 10px; /* Ajustado padding */
+    }
+    
+    .contact-input::placeholder,
+    .phone-input::placeholder {
+        font-size: 12px; /* Ajustado para desktop */
+    }
+    
+    .country-flag-container {
+        flex: 0 0 75px;
+    }
+    
+    .flag-icon {
+        width: 20px;
+        height: 15px;
+    }
+    
+    .country-code-display {
+        font-size: 14px;
+    }
+    
+    .phone-input-container {
+        padding-right: 0;
+    }
+    
+    .contact-button {
+        font-size: 12px;
+        padding: 9px 18px;
+        min-width: 180px;
+        max-width: 220px;
+        margin-top: 0px; /* ALTERADO de 8px para 0px (5px mais pra cima) */
+    }
+    
+    .contact-button.sending,
+    .contact-button.success {
+        min-width: 220px;
+        max-width: 280px;
+    }
+    
+    .send-icon {
+        width: 15px;
+        height: 15px;
+    }
+    
+    .contact-button.success .success-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    /* Responsivo para a mensagem Zoho */
+    .wf_customMessageBox {
+        width: auto;
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-fields-container {
+        width: 202px; /* REDUZIDO de 250px para 225px (10% menor) */
+    }
+    
+    .contact-text {
+        font-size: 1.3rem; /* Ajustado para mobile */
+        margin-bottom: 12px;
+    }
+    
+    .contact-button {
+        min-width: 150px;
+        max-width: 190px;
+        font-size: 10px;
+        padding: 7px 14px;
+        margin-top: 0px; /* ALTERADO de 5px para 0px (5px mais pra cima) */
+    }
+    
+    .contact-button.sending,
+    .contact-button.success {
+        min-width: 180px;
+        max-width: 240px;
+        font-size: 10px;
+    }
+    
+    .country-flag-container {
+        flex: 0 0 70px;
+    }
+    
+    .contact-button.sending,
+    .contact-button.success {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Garantir que o overlay de contato não cubra a mensagem */
+.contact-overlay {
+    z-index: 150;
+}
+
+body.eyelids-closed .contact-overlay {
+    z-index: 150;
+}
+
+/* Header e footer devem ficar abaixo da mensagem */
+header, footer {
+    z-index: 100;
+}
+
+/* Estilo para a logo */
+.logo-image {
+    height: 40px; /* Altura ajustada para caber no header */
+    width: auto;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.logo-image:hover {
+    opacity: 0.9;
+}
+
+/* Ajuste para mobile */
+@media (max-width: 767px) {
+    .logo-image {
+        height: 35px; /* Um pouco menor em mobile */
+    }
+}
+
+/* Ajuste para desktop */
+@media (min-width: 768px) {
+    .logo-image {
+        height: 45px; /* Um pouco maior em desktop */
+    }
+}
+
+/* ================= FOOTER SOCIAL ICONS - BOTÕES PEQUENOS (COR INVERTIDA) ================= */
+.footer-social {
+    display: flex;
+    gap: 10px; /* Gap reduzido proporcionalmente */
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+/* Estilo base: borda branca, fundo transparente */
+.footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;  /* Reduzido pela metade (era 48px) */
+    height: 24px; /* Reduzido pela metade (era 48px) */
+    border: 2px solid #e5e7eb; /* Borda BRANCA por padrão */
+    border-radius: 6px;         /* Raio levemente reduzido */
+    color: #e5e7eb;             /* Ícone BRANCO por padrão */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Efeito de hover: borda e ícone ficam DOURADOS */
+.footer-social-link:hover {
+    border-color: var(--gold-color); /* Borda DOURADA no hover */
+    color: var(--gold-color);         /* Ícone DOURADO no hover */
+    background-color: transparent;    /* Fundo permanece transparente */
+    transform: translateY(-2px);      /* Elevação mais sutil */
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+}
+
+/* Ícones SVG herdam a cor do elemento pai (.footer-social-link) */
+.footer-social-icon {
+    width: 12px;  /* Reduzido pela metade (era 22-24px) */
+    height: 12px; /* Reduzido pela metade (era 22-24px) */
+    fill: currentColor; /* Herda a cor do .footer-social-link */
+    transition: fill 0.3s ease;
+}
+
+/* Ajustes responsivos para os novos tamanhos */
+@media (min-width: 768px) {
+    .footer-social {
+        gap: 12px;
+    }
+    .footer-social-link {
+        width: 28px;
+        height: 28px;
+    }
+    .footer-social-icon {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-social {
+        gap: 8px;
+    }
+    .footer-social-link {
+        width: 22px;
+        height: 22px;
+    }
+    .footer-social-icon {
+        width: 11px;
+        height: 11px;
+    }
+}
+/* ================= FOOTER MOBILE - NOVOS BOTÕES (VERSÃO CÍRCULO) ================= */
+.footer-mobile-buttons {
+    display: none;
+}
+
+@media (max-width: 899px) {
+    /* Esconder o footer grid original em mobile */
+    .footer-grid {
+        display: none;
+    }
+    
+    /* Mostrar os novos botões em mobile */
+    .footer-mobile-buttons {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 0 0px;
+    }
+    
+    /* Estilo dos botões do footer mobile - VERSÃO COM CÍRCULO APENAS NO ÍCONE */
+    .footer-mobile-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none; /* REMOVIDO: sem borda no botão inteiro */
+        color: #e5e7eb;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 0.7rem;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        padding: 12px 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 30%;
+        height: 80px;
+        text-decoration: none;
+        outline: none;
+    }
+    
+    .footer-mobile-btn:hover {
+        color: var(--gold-color);
+        background: transparent;
+    }
+    
+    /* Container do ícone com círculo */
+    .footer-mobile-icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px; /* Largura fixa para círculo */
+        height: 56px; /* Altura fixa para círculo */
+        border: 2px solid #e5e7eb; /* Borda branca */
+        border-radius: 50%; /* Torna circular */
+        margin-bottom: 8px;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .footer-mobile-btn:hover .footer-mobile-icon-container {
+        border-color: var(--gold-color); /* Borda dourada no hover */
+        background: rgba(212, 175, 55, 0.1); /* Fundo dourado sutil no hover */
+        transform: scale(1.05); /* Leve aumento no hover */
+    }
+    
+    /* Estilo dos ícones dentro do círculo */
+    .footer-mobile-icon {
+        width: 24px;
+        height: 24px;
+        filter: brightness(0) invert(1); /* Ícone branco por padrão */
+        transition: filter 0.3s ease;
+    }
+    
+    .footer-mobile-btn:hover .footer-mobile-icon {
+        filter: brightness(0) invert(0.8) sepia(0.5) saturate(5) hue-rotate(-10deg); /* Ícone dourado no hover */
+    }
+    
+    /* Texto abaixo do círculo */
+    .footer-mobile-text {
+        margin-top: 4px;
+        text-align: center;
+        transition: color 0.3s ease;
+    }
+    
+    /* Esconder o menu do header em mobile */
+    .menu-toggle {
+        display: none;
+    }
+    
+    nav {
+        display: none !important;
+    }
+}
+
+/* Ajuste para telas muito pequenas */
+@media (max-width: 480px) {
+    .footer-mobile-btn {
+        padding: 10px 6px;
+        height: 70px;
+        font-size: 0.6rem;
+    }
+    
+    .footer-mobile-icon-container {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .footer-mobile-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Ajuste para tablets pequenos */
+@media (min-width: 600px) and (max-width: 899px) {
+    .footer-mobile-icon-container {
+        width: 64px;
+        height: 64px;
+    }
+    
+    .footer-mobile-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .footer-mobile-text {
+        font-size: 0.75rem;
+    }
+}
+/* ================= AJUSTE DE ALTURA PARA FOOTER MOBILE (80px) COM CENTRALIZAÇÃO ================= */
+@media (max-width: 899px) {
+    /* Ajuste de altura específico para footer mobile */
+    footer {
+        height: 80px !important; /* Força altura de 80px no mobile */
+        padding: 0 !important; /* Remove padding para controle preciso */
+        align-items: center; /* Centraliza verticalmente */
+        justify-content: center; /* Centraliza horizontalmente */
+    }
+    
+    /* Ajuste para manter animações funcionando */
+    body.blinking footer,
+    body.initial-loading footer,
+    body.eyelids-closed footer {
+        height: 50vh !important; /* Mantém animação original durante transições */
+    }
+    
+    /* Container dos botões - centralizado */
+    .footer-mobile-buttons {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 100%; /* Usa toda a altura do footer (80px) */
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+    
+    /* Botões individuais - completamente centralizados */
+    .footer-mobile-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; /* Centraliza conteúdo verticalmente */
+        height: 100%; /* Ocupa toda a altura disponível */
+        width: 30%;
+        padding: 8px 4px;
+        margin: 0;
+    }
+    
+    /* Mantém o estilo dos círculos */
+    .footer-mobile-icon-container {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 6px; /* Espaçamento ajustado */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .footer-mobile-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .footer-mobile-text {
+        font-size: 0.65rem;
+        line-height: 1;
+        text-align: center;
+    }
+}
+
+/* Ajuste fino para telas muito pequenas - mantendo centralização */
+@media (max-width: 480px) {
+    footer {
+        height: 80px !important; /* Mantém 80px mesmo em telas pequenas */
+    }
+    
+    .footer-mobile-buttons {
+        padding: 0 10px;
+    }
+    
+    .footer-mobile-icon-container {
+        width: 36px;
+        height: 36px;
+        margin-bottom: 4px;
+    }
+    
+    .footer-mobile-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .footer-mobile-text {
+        font-size: 0.6rem;
+    }
+}
+
+/* Ajuste para tablets (600px-899px) - botões um pouco maiores */
+@media (min-width: 600px) and (max-width: 899px) {
+    .footer-mobile-icon-container {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 8px;
+    }
+    
+    .footer-mobile-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .footer-mobile-text {
+        font-size: 0.7rem;
+    }
+}
