@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
         'company-statute': 'company-statute.html',
         'energy': 'apps/energy.html',
         'automacao-industrial': 'apps/automacao-industrial.html',
-        'health-biotech': 'apps/health-biotech.html'
+        'health-biotech': 'apps/health-biotech.html',
+        'education': 'apps/education.html'
     };
     
     // ================= NOVAS FUNÇÕES PARA FADEOUT DO OVERLAY =================
