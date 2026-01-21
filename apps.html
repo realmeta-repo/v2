@@ -680,7 +680,7 @@
             if (scrollPosition >= pageEnd) {
                 const totalLoaded = currentPage * APPS_PER_PAGE;
                 if (totalLoaded < allApps.length) {
-                    console.log('Carregando...');
+                    console.log('Carregando mais apps via scroll...');
                     loadApps(currentPage + 1);
                 }
             }
@@ -741,31 +741,28 @@
         });
     }
 
-    // Ouvir eventos do blink animation
-    window.addEventListener('pageLoaded', function(e) {
-        if (e.detail.page === 'apps') {
-            // Aguardar um pouco para garantir que o grid foi renderizado
-            setTimeout(() => {
-                resumeGridAnimations();
-            }, 100);
-        }
-    });
-
-    // Pausar animações quando o blink começar
-    document.addEventListener('DOMContentLoaded', function() {
-        // Observar mudanças no body para detectar blink
+    // Observar mudanças de estado do blink
+    function observeBlinkState() {
         const observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if (mutation.attributeName === 'class') {
                     const body = document.body;
-                    if (body.classList.contains('blink-animation-active')) {
+                    
+                    if (body.classList.contains('blinking') || 
+                        body.classList.contains('blink-animation-active')) {
+                        // Pausar animações do grid durante blink
                         pauseGridAnimations();
-                    } else if (body.classList.contains('initial-loading')) {
-                        // Já está pausado durante loading inicial
+                    } else if (body.classList.contains('eyelids-closed')) {
+                        // Pálpebras fechadas (overlay de contato)
+                        pauseGridAnimations();
                     } else {
                         // Verificar se estamos na página de apps
-                        if (window.location.hash === '#apps' || 
-                            document.querySelector('nav a[data-page="apps"].active')) {
+                        const isAppsPage = document.querySelector('nav a[data-page="apps"].active') !== null ||
+                                          window.location.hash === '#apps' ||
+                                          currentPage === 'apps';
+                        
+                        if (isAppsPage) {
+                            // Retomar animações
                             setTimeout(resumeGridAnimations, 100);
                         }
                     }
@@ -774,7 +771,14 @@
         });
         
         observer.observe(document.body, { attributes: true });
-    });
+    }
+
+    // Inicializar observador quando o DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', observeBlinkState);
+    } else {
+        setTimeout(observeBlinkState, 100);
+    }
     
 })();
 </script>

@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Pausar outras animações
             body.classList.add('blink-animation-active');
-            isBlinkAnimationActive = true;
             
             // Adicionar classes de fadeout
             contactButton.classList.add('fade-out-button');
@@ -77,10 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactText.style.animation = 'none';
                 contactFields.style.animation = 'none';
                 contactButton.style.animation = 'none';
-                
-                // Remover classe de pausa
-                body.classList.remove('blink-animation-active');
-                isBlinkAnimationActive = false;
                 
                 console.log('Fadeout do overlay completo');
                 resolve();
@@ -365,22 +360,33 @@ document.addEventListener('DOMContentLoaded', function() {
             // Pausar outras animações
             body.classList.add('blink-animation-active');
             
-            // 1. Iniciar fechamento das pálpebras
+            // DESABILITAR SCROLL
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+            
+            // 1. INICIAR FECHAMENTO DAS PÁLPEBRAS (700ms)
+            console.log('Iniciando fechamento das pálpebras para Contact...');
             body.classList.add('blinking');
+            
+            // Forçar reflow para garantir transição
+            void body.offsetHeight;
             void header.offsetHeight;
+            void footer.offsetHeight;
             
-            // 2. Aguardar fechamento completo (700ms)
+            // 2. AGUARDAR FECHAMENTO COMPLETO (700ms)
             await new Promise(resolve => setTimeout(resolve, 700));
-            
             console.log('Pálpebras fechadas completamente - Contact');
             
-            // 3. Adicionar estado de pálpebras fechadas
+            // 3. ADICIONAR ESTADO DE PÁLPEBRAS FECHADAS
             body.classList.add('eyelids-closed');
             areEyelidsClosed = true;
             updateActiveMenu('contact');
             currentPage = 'contact';
             
             // 4. Resetar animações do overlay
+            resetOverlayAnimations();
+            
+            // Configurar animações com delays apropriados
             contactText.style.animation = 'fadeIn 0.5s ease forwards';
             contactText.style.animationDelay = '0.2s';
             
@@ -399,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
             contactEmail.value = '';
             contactPhone.value = '';
             
-            // 7. Focar no primeiro campo
+            // 7. Focar no primeiro campo após um pequeno delay
             setTimeout(() => {
                 contactName.focus();
             }, 300);
@@ -408,16 +414,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('Erro ao fechar pálpebras:', error);
-            body.classList.remove('blinking', 'eyelids-closed');
+            body.classList.remove('blinking', 'eyelids-closed', 'blink-animation-active');
             areEyelidsClosed = false;
         } finally {
-            // Não remover blink-animation-active aqui porque as pálpebras ficam fechadas
-            // A remoção acontecerá quando sair do contact
+            // Não remover blink-animation-active aqui - mantemos para pausar outras animações
             isBlinking = false;
         }
     }
     
-    // ✅ FUNÇÃO OTIMIZADA PARA ABRIR PÁLPEBRAS E CARREGAR PÁGINA
+    // ✅ FUNÇÃO OTIMIZADA PARA ABRIR PÁLPEBRAS E CARREGAR PÁGINA (CORRIGIDA)
     async function openEyelidsAndLoadPage(pageId) {
         if (isBlinking) return;
         
@@ -425,36 +430,56 @@ document.addEventListener('DOMContentLoaded', function() {
         isBlinkAnimationActive = true;
         
         try {
-            // Pausar animações de outras páginas
-            body.classList.add('blink-animation-active');
-            
             console.log(`Carregando: ${pageId}`);
             
-            // 1. INICIAR FECHAMENTO DAS PÁLPEBRAS (700ms)
+            // 0. GARANTIR QUE O SCROLL ESTÁ DESABILITADO
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+            
+            // 1. PRIMEIRO: Pausar animações de outras páginas
+            body.classList.add('blink-animation-active');
+            
+            // 2. INICIAR FECHAMENTO DAS PÁLPEBRAS (700ms)
+            console.log('Iniciando fechamento das pálpebras...');
             body.classList.add('blinking');
+            
+            // Forçar reflow para garantir que a transição CSS comece
+            void body.offsetHeight;
             void header.offsetHeight;
+            void footer.offsetHeight;
             
-            // 2. AGUARDAR FECHAMENTO COMPLETO
+            // 3. AGUARDAR FECHAMENTO COMPLETO (700ms)
             await new Promise(resolve => setTimeout(resolve, 700));
+            console.log('Fechamento das pálpebras completo');
             
-            // 3. CARREGAR CONTEÚDO ENQUANTO ESTÁ OCULTO
+            // 4. CARREGAR CONTEÚDO ENQUANTO ESTÁ OCULTO
             body.classList.add('content-hidden');
             const newContent = await loadPageContent(pageId);
             
-            // 4. INSERIR CONTEÚDO
+            // 5. INSERIR CONTEÚDO
             await insertContent(newContent, pageId);
             
-            // 5. REMOVER ESTADOS E AGUARDAR ABERTURA
-            body.classList.remove('content-hidden', 'blinking');
+            // 6. REMOVER ESTADO DE CONTEÚDO OCULTO
+            body.classList.remove('content-hidden');
             
-            // 6. AGUARDAR ABERTURA DAS PÁLPEBRAS (700ms)
+            // 7. INICIAR ABERTURA DAS PÁLPEBRAS
+            console.log('Iniciando abertura das pálpebras...');
+            body.classList.remove('blinking');
+            
+            // Forçar reflow novamente
+            void body.offsetHeight;
+            void header.offsetHeight;
+            void footer.offsetHeight;
+            
+            // 8. AGUARDAR ABERTURA COMPLETA (700ms)
             await new Promise(resolve => setTimeout(resolve, 700));
+            console.log('Abertura das pálpebras completa');
             
             console.log(`Página ${pageId} carregada com sucesso`);
             
         } catch (error) {
             console.error('Erro durante transição:', error);
-            body.classList.remove('blinking', 'content-hidden');
+            body.classList.remove('blinking', 'content-hidden', 'blink-animation-active');
             
             app.innerHTML = `<div style="max-width:1200px; margin:0 auto; padding:40px 24px;">
                 <h1>Erro de Transição</h1>
@@ -466,7 +491,39 @@ document.addEventListener('DOMContentLoaded', function() {
             body.classList.remove('blink-animation-active');
             isBlinkAnimationActive = false;
             isBlinking = false;
+            
+            // RESTAURAR SCROLL APÓS A ANIMAÇÃO
+            setTimeout(() => {
+                if (!body.classList.contains('blinking') && 
+                    !body.classList.contains('eyelids-closed') && 
+                    !body.classList.contains('initial-loading')) {
+                    document.documentElement.style.overflow = 'auto';
+                    document.body.style.overflow = 'auto';
+                }
+            }, 700); // Aguardar tempo da animação
         }
+    }
+    
+    // ✅ FUNÇÃO PARA SAIR DO ESTADO DE CONTATO (OVERLAY)
+    async function exitContactState() {
+        console.log('Saindo do estado de contato...');
+        
+        // 1. Primeiro fazer fadeout do overlay
+        await fadeOutContactOverlay();
+        
+        // 2. Aguardar um pouco para transição suave
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // 3. Remover estado de pálpebras fechadas
+        body.classList.remove('eyelids-closed', 'blink-animation-active');
+        areEyelidsClosed = false;
+        isBlinkAnimationActive = false;
+        
+        // 4. RESTAURAR SCROLL
+        document.documentElement.style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
+        
+        console.log('Estado de contato removido');
     }
     
     // ✅ FUNÇÃO PRINCIPAL PARA NAVEGAÇÃO (ATUALIZADA)
@@ -691,20 +748,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactEmail.value = '';
                 contactPhone.value = '';
                 
-                setTimeout(() => {
-                    body.classList.remove('form-success', 'eyelids-closed');
-                    areEyelidsClosed = false;
+                setTimeout(async () => {
+                    body.classList.remove('form-success');
                     resetFormState();
                     
-                    // ✅ AGORA USAMOS fadeOutContactOverlay ANTES DE ABRIR PÁLPEBRAS
-                    fadeOutContactOverlay().then(() => {
-                        // Remover estado de pálpebras fechadas
-                        body.classList.remove('eyelids-closed');
-                        areEyelidsClosed = false;
-                        
-                        // Agora fazer transição para a página 'value'
-                        navigateToPage('value');
-                    });
+                    // 1. Primeiro sair do estado de contato
+                    await exitContactState();
+                    
+                    // 2. Aguardar um frame para garantir que as transições CSS foram resetadas
+                    await new Promise(resolve => requestAnimationFrame(resolve));
+                    
+                    // 3. Agora fazer transição para a página 'value'
+                    await navigateToPage('value');
                 }, 5000);
                 
             } else {

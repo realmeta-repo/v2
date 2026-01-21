@@ -267,6 +267,50 @@ header, footer {
     will-change: height, transform;
     transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1);
 }
+
+/* ================= CORREÇÃO DA BARRA DE SCROLL DURANTE ANIMAÇÃO ================= */
+
+/* Remover completamente a barra de scroll durante todas as fases do blink */
+body.blinking,
+body.initial-loading,
+body.eyelids-closed,
+body.blink-animation-active {
+    overflow: hidden !important;
+}
+
+/* Garantir que o html também não tenha scroll */
+html body.blinking,
+html body.initial-loading,
+html body.eyelids-closed,
+html body.blink-animation-active {
+    overflow: hidden !important;
+}
+
+/* Remover barra de scroll do main durante animação */
+body.blinking main,
+body.initial-loading main,
+body.eyelids-closed main,
+body.blink-animation-active main {
+    overflow: hidden !important;
+}
+
+/* Garantir que o conteúdo principal não cause overflow */
+body.blinking #app,
+body.initial-loading #app,
+body.eyelids-closed #app,
+body.blink-animation-active #app {
+    overflow: hidden !important;
+    position: fixed; /* Adicionado para prevenir qualquer scroll */
+    width: 100%;
+    height: 100%;
+}
+
+/* Resetar após a animação */
+body:not(.blinking):not(.initial-loading):not(.eyelids-closed):not(.blink-animation-active) {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
 /* ================= CONTACT OVERLAY (EXIBIDO QUANDO AS PÁLPEBRAS ESTÃO FECHADAS) ================= */
 .contact-overlay {
     display: none;
@@ -1336,4 +1380,55 @@ header, footer {
 /* Reduzir qualidade de renderização durante animação */
 .blink-animation-active #app img {
     image-rendering: pixelated;
+}
+
+/* ================= CORREÇÃO DA TRANSIÇÃO DO BLINK ANIMATION ================= */
+/* Garantir que header e footer mantenham a transição durante o blink */
+body.blink-animation-active header,
+body.blink-animation-active footer {
+    transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1) !important;
+    animation-play-state: running !important;
+}
+
+/* Estado de blink ativo - transição normal */
+body.blinking header,
+body.blinking footer {
+    transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1) !important;
+    animation-play-state: running !important;
+}
+
+/* Estado inicial loading - sem transição */
+body.initial-loading header,
+body.initial-loading footer {
+    transition: none !important;
+}
+
+/* Estado eyelids closed - transição instantânea */
+body.eyelids-closed header,
+body.eyelids-closed footer {
+    transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1) !important;
+}
+
+/* Manter as animações do gradient durante blink */
+body.blink-animation-active .gradient-animated,
+body.blinking .gradient-animated,
+body.eyelids-closed .gradient-animated {
+    animation-play-state: running !important;
+}
+
+/* Pausar especificamente as animações dos cards durante blink */
+body.blink-animation-active .work-grid-card-image-layer {
+    animation-play-state: paused !important;
+}
+
+/* Garantir que a transição de altura do header/footer funcione */
+header, footer {
+    transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: height, transform;
+}
+
+/* Reset para quando não está em blink */
+body:not(.blinking):not(.initial-loading):not(.eyelids-closed) header,
+body:not(.blinking):not(.initial-loading):not(.eyelids-closed) footer {
+    transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1);
 }
