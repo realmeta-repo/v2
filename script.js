@@ -1,3 +1,68 @@
+// ================= HANDLER PARA GITHUB PAGES =================
+
+// Mapeamento de rotas para pageIds (adicione todas as suas rotas)
+const githubPagesRouteMappings = {
+    '/': 'apps',
+    '/value': 'value',
+    '/knowledge': 'knowledge',
+    '/insights': 'insights',
+    '/contact': 'contact',
+    '/privacy': 'privacy',
+    '/terms': 'terms',
+    '/mission': 'mission',
+    '/vision': 'vision',
+    '/values': 'values',
+    '/company-statute': 'company-statute',
+    '/apps/energy': 'energy',
+    '/apps/automacao-industrial': 'automacao-industrial',
+    '/apps/health-biotech': 'health-biotech',
+    '/apps/education': 'education',
+    '/apps/agrobusiness': 'agrobusiness',
+    '/apps/mobility': 'mobility',
+    '/insights/armadilha-ia': 'ia-armadilha'
+};
+
+// Função para obter pageId a partir de uma rota GitHub Pages
+function getPageIdFromGitHubPagesRoute(route) {
+    // Remove barras finais
+    const cleanRoute = route.replace(/\/$/, '');
+    
+    // Verifica mapeamento direto
+    if (githubPagesRouteMappings[cleanRoute]) {
+        return githubPagesRouteMappings[cleanRoute];
+    }
+    
+    // Verifica padrões dinâmicos
+    if (cleanRoute.startsWith('/insights/')) {
+        const articleName = cleanRoute.replace('/insights/', '');
+        return articleName === 'armadilha-ia' ? 'ia-armadilha' : articleName;
+    }
+    
+    if (cleanRoute.startsWith('/apps/')) {
+        const appName = cleanRoute.replace('/apps/', '');
+        return appName;
+    }
+    
+    return 'apps';
+}
+
+// Listener para rota inicial do GitHub Pages
+window.addEventListener('triggerInitialRoute', function(e) {
+    if (e.detail && e.detail.route) {
+        const pageId = getPageIdFromGitHubPagesRoute(e.detail.route);
+        console.log('GitHub Pages - Navegando para rota inicial:', e.detail.route, '->', pageId);
+        
+        // Navegar para a página após um pequeno delay
+        setTimeout(function() {
+            if (typeof navigateToPage === 'function') {
+                navigateToPage(pageId);
+            }
+        }, 500);
+    }
+});
+
+// ================= FIM DO HANDLER GITHUB PAGES =================
+
 document.addEventListener('DOMContentLoaded', function() {
     // Elementos principais
     const body = document.body;
@@ -828,7 +893,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <svg class="success-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <svg class="success-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3/2000/svg" style="display: none;">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
                 <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
