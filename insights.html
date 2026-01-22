@@ -1,4 +1,4 @@
-<!-- insights.html - Grid com sombras melhoradas -->
+<!-- insights.html - Grid com URLs limpas -->
 <div style="width:100%; max-width:100%; margin:0 auto; padding:76px 0 40px 0; box-sizing:border-box;">
 
     <!-- Container do grid -->
@@ -290,6 +290,11 @@
         'ia-armadilha': 'insights/armadilha-ia.html'
     };
     
+    // Mapeamento de pageIds para URLs limpas
+    const articleURLs = {
+        'ia-armadilha': '/insights/armadilha-ia'
+    };
+    
     // Aguardar DOM
     function waitForDOM() {
         return new Promise(resolve => {
@@ -346,7 +351,7 @@
             
             // Determinar data-page
             const dataPage = Object.keys(articleFiles).find(key => articleFiles[key] === fileName) || 
-                           fileName.replace('.html', '');
+                           fileName.replace('.html', '').replace('insights/', '');
             
             return {
                 dataPage,
@@ -363,11 +368,17 @@
         }
     }
     
-    // Criar card com sombras melhoradas
+    // Criar card com URLs limpas
     function createArticleCard(article) {
         const card = document.createElement('a');
         card.className = 'grid-card';
         card.setAttribute('data-page', article.dataPage);
+        
+        // Usar URL limpa se disponível, caso contrário usar data-page
+        const articleURL = articleURLs[article.dataPage] || 
+                          (window.getURLFromPageId ? window.getURLFromPageId(article.dataPage) : 
+                          `/${article.dataPage}`);
+        card.href = articleURL;
         
         // Formatar tags para exibição
         const tagsText = article.tags.length > 0 ? 
@@ -399,7 +410,7 @@
             </div>
         `;
         
-        // Evento de clique para abrir artigo
+        // Evento de clique para abrir artigo via SPA
         card.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -529,6 +540,9 @@
             if (gridContainer) {
                 gridContainer.style.display = 'grid';
             }
+            
+            // Disparar evento para o app shell saber que o grid está pronto
+            window.dispatchEvent(new CustomEvent('insightsGridReady'));
         }, 200);
     }
     
@@ -540,9 +554,13 @@
     }
     
     // Expor função para adicionar artigos dinamicamente
-    window.addInsightsArticle = function(fileName, dataPage) {
+    window.addInsightsArticle = function(fileName, dataPage, url) {
         if (!articleFiles[dataPage]) {
             articleFiles[dataPage] = fileName;
+            
+            if (url) {
+                articleURLs[dataPage] = url;
+            }
             
             // Recarregar artigos se estiver na primeira página
             if (currentPage === 1 && allArticles.length < ARTICLES_PER_PAGE) {

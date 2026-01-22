@@ -49,6 +49,107 @@ document.addEventListener('DOMContentLoaded', function() {
         'ia-armadilha': 'insights/armadilha-ia.html'
     };
     
+    // ================= SISTEMA DE ROTAS =================
+    
+    // Mapeamento de URLs para pageIds
+    const routeMappings = {
+        '/': 'apps',
+        '/index.html': 'apps',
+        '/value': 'value',
+        '/knowledge': 'knowledge',
+        '/insights': 'insights',
+        '/contact': 'contact',
+        '/privacy': 'privacy',
+        '/terms': 'terms',
+        '/mission': 'mission',
+        '/vision': 'vision',
+        '/values': 'values',
+        '/company-statute': 'company-statute',
+        '/apps/energy': 'energy',
+        '/apps/automacao-industrial': 'automacao-industrial',
+        '/apps/health-biotech': 'health-biotech',
+        '/apps/education': 'education',
+        '/apps/agrobusiness': 'agrobusiness',
+        '/apps/mobility': 'mobility',
+        '/insights/armadilha-ia': 'ia-armadilha'
+    };
+    
+    // Mapeamento inverso: pageId -> URL
+    const pageIdToRoute = {};
+    Object.keys(routeMappings).forEach(route => {
+        const pageId = routeMappings[route];
+        pageIdToRoute[pageId] = route;
+    });
+    
+    // Função para obter pageId a partir da URL
+    function getPageIdFromURL() {
+        const path = window.location.pathname;
+        const hash = window.location.hash.substring(1);
+        
+        // Primeiro verifica mapeamento direto
+        if (routeMappings[path]) {
+            return routeMappings[path];
+        }
+        
+        // Verifica se é um artigo de insights
+        if (path.startsWith('/insights/')) {
+            const articleName = path.replace('/insights/', '').replace('.html', '');
+            return articleName === 'armadilha-ia' ? 'ia-armadilha' : articleName;
+        }
+        
+        // Verifica se é um app
+        if (path.startsWith('/apps/')) {
+            const appName = path.replace('/apps/', '').replace('.html', '');
+            return appName;
+        }
+        
+        // Fallback para hash (para compatibilidade)
+        if (hash && pageFiles[hash]) {
+            return hash;
+        }
+        
+        // Fallback padrão
+        return 'apps';
+    }
+    
+    // Função para obter URL a partir do pageId
+    function getURLFromPageId(pageId) {
+        // Primeiro verifica mapeamento direto
+        if (pageIdToRoute[pageId]) {
+            return pageIdToRoute[pageId];
+        }
+        
+        // Verifica se é um artigo de insights
+        if (pageFiles[pageId] && pageFiles[pageId].includes('insights/')) {
+            const fileName = pageFiles[pageId].replace('insights/', '').replace('.html', '');
+            return `/insights/${fileName}`;
+        }
+        
+        // Verifica se é um app
+        if (pageFiles[pageId] && pageFiles[pageId].includes('apps/')) {
+            const fileName = pageFiles[pageId].replace('apps/', '').replace('.html', '');
+            return `/apps/${fileName}`;
+        }
+        
+        // Fallback para página principal
+        return '/';
+    }
+    
+    // Atualizar URL no navegador
+    function updateBrowserURL(pageId, replace = false) {
+        const url = getURLFromPageId(pageId);
+        const title = `REALMETA - ${pageId.charAt(0).toUpperCase() + pageId.slice(1)}`;
+        
+        if (replace) {
+            window.history.replaceState({ pageId }, title, url);
+        } else {
+            window.history.pushState({ pageId }, title, url);
+        }
+        
+        // Atualizar título da página
+        document.title = title;
+    }
+    
     // ================= NOVAS FUNÇÕES PARA FADEOUT DO OVERLAY =================
     
     function fadeOutContactOverlay() {
@@ -527,8 +628,8 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Estado de contato removido');
     }
     
-    // ✅ FUNÇÃO PRINCIPAL PARA NAVEGAÇÃO (ATUALIZADA)
-    async function navigateToPage(pageId) {
+    // ✅ FUNÇÃO PRINCIPAL PARA NAVEGAÇÃO (ATUALIZADA COM ROTAS)
+    async function navigateToPage(pageId, updateHistory = true) {
         if (isBlinking) return;
         
         console.log(`Navegando para: ${pageId}, estado atual: ${currentPage}, pálpebras fechadas: ${areEyelidsClosed}`);
@@ -551,6 +652,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Se veio de outra página, fechar pálpebras normalmente
             await justCloseEyelids();
+            
+            // Atualizar URL
+            if (updateHistory) {
+                updateBrowserURL(pageId);
+            }
             return;
         }
         
@@ -570,11 +676,37 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 4. Agora fazer transição normal para nova página
             await openEyelidsAndLoadPage(pageId);
+            
+            // Atualizar URL
+            if (updateHistory) {
+                updateBrowserURL(pageId);
+            }
             return;
         }
         
         // Para outras páginas, fazer transição normal
         await openEyelidsAndLoadPage(pageId);
+        
+        // Atualizar URL
+        if (updateHistory) {
+            updateBrowserURL(pageId);
+        }
+    }
+    
+    // ✅ HANDLER PARA BOTÃO VOLTAR/AVANÇAR DO NAVEGADOR
+    function setupHistoryNavigation() {
+        window.addEventListener('popstate', function(event) {
+            console.log('Popstate event:', event.state);
+            
+            if (event.state && event.state.pageId) {
+                // Navegar para a página salva no estado
+                navigateToPage(event.state.pageId, false);
+            } else {
+                // Se não houver estado, obter da URL
+                const pageId = getPageIdFromURL();
+                navigateToPage(pageId, false);
+            }
+        });
     }
     
     // ✅ FUNÇÕES DE VALIDAÇÃO
@@ -759,7 +891,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 2. Aguardar um frame para garantir que as transições CSS foram resetadas
                     await new Promise(resolve => requestAnimationFrame(resolve));
                     
-                    // 3. Agora fazer transição para a página 'value'
+                    // 3. Agora fazer transição para a página 'value' com atualização de URL
                     await navigateToPage('value');
                 }, 5000);
                 
@@ -912,7 +1044,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // ✅ HANDLER GLOBAL PARA TODOS OS MENUS (ATUALIZADO)
+    // ✅ HANDLER GLOBAL PARA TODOS OS MENUS (ATUALIZADO COM ROTAS)
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
         
@@ -921,6 +1053,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const href = link.getAttribute('href');
         const pageId = link.getAttribute('data-page');
         
+        // Ignorar links externos, email, tel, etc.
         if (href && (href.startsWith('http') || 
             href.startsWith('mailto:') || 
             href.startsWith('tel:') || 
@@ -930,44 +1063,53 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        e.preventDefault();
-        
-        if (pageId) {
-            console.log(`Link clicado: ${pageId}, página atual: ${currentPage}`);
+        // Se for um link interno, prevenir comportamento padrão e navegar via SPA
+        if (href && (href.startsWith('/') || href.endsWith('.html'))) {
+            e.preventDefault();
             
-            // Se clicar no mesmo item do menu (exceto contact), recarregar a página
-            if (pageId === currentPage && pageId !== 'contact') {
-                console.log(`Mesmo item de menu clicado: ${pageId}, RECARREGANDO...`);
-                navigateToPage(pageId);
-                return;
+            let targetPageId = pageId;
+            
+            // Se não tiver data-page, tentar obter da URL
+            if (!targetPageId && href) {
+                // Remover .html e barras
+                const path = href.replace('.html', '').replace(/^\//, '');
+                // Procurar no mapeamento de rotas
+                for (const [route, pid] of Object.entries(routeMappings)) {
+                    if (route.replace(/^\//, '') === path) {
+                        targetPageId = pid;
+                        break;
+                    }
+                }
+                
+                // Se ainda não encontrou, usar como pageId
+                if (!targetPageId) {
+                    targetPageId = path || 'apps';
+                }
             }
             
+            console.log(`Link clicado: ${href}, pageId: ${targetPageId}, página atual: ${currentPage}`);
+            
             // Navegar para a página
-            navigateToPage(pageId);
-            return;
-        }
-        
-        if (href && href.endsWith('.html')) {
-            const fileName = href.replace('.html', '');
-            if (pageFiles[fileName]) {
-                navigateToPage(fileName);
-            } else {
-                console.warn(`Página não mapeada: ${href}`);
-                // Tentar carregar mesmo assim
-                navigateToPage(fileName);
+            if (targetPageId) {
+                navigateToPage(targetPageId);
             }
             return;
         }
     });
     
+    // Expor funções globais
     window.blinkAnimation = navigateToPage;
+    window.getURLFromPageId = getURLFromPageId;
     
     window.addEventListener('triggerBlink', function (e) {
         if (!e.detail || !e.detail.page) return;
         navigateToPage(e.detail.page);
     });
-        
-    // ✅ EXECUTAR CARREGAMENTO INICIAL SIMPLIFICADO
+    
+    // Configurar navegação por histórico
+    setupHistoryNavigation();
+    
+    // ✅ EXECUTAR CARREGAMENTO INICIAL BASEADO NA URL
     setTimeout(() => {
         initialLoad();
         
@@ -975,16 +1117,20 @@ document.addEventListener('DOMContentLoaded', function() {
         resetOverlayAnimations();
     }, 100);
     
-    // ✅ FUNÇÃO PRINCIPAL: Carregamento inicial
+    // ✅ FUNÇÃO PRINCIPAL: Carregamento inicial baseado na URL
     async function initialLoad() {
         console.log('Iniciando carregamento inicial');
         
         try {
+            // Obter página inicial da URL
+            const initialPageId = getPageIdFromURL();
+            console.log(`Carregando página inicial da URL: ${initialPageId}`);
+            
             // Carregar conteúdo da primeira página
-            const content = await loadPageContent('apps');
+            const content = await loadPageContent(initialPageId);
             
             // Inserir conteúdo no DOM (ainda invisível)
-            await insertContent(content, 'apps');
+            await insertContent(content, initialPageId);
             
             // Aguardar um frame para garantir renderização
             await new Promise(resolve => requestAnimationFrame(resolve));
@@ -994,6 +1140,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Aguardar animação de abertura completa (700ms)
             await new Promise(resolve => setTimeout(resolve, 700));
+            
+            // Atualizar estado do navegador com a página inicial
+            updateBrowserURL(initialPageId, true);
             
             console.log('Carregamento inicial completo');
             
