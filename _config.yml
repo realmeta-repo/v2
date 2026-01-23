@@ -1,0 +1,18 @@
+# Configurações do GitHub Pages
+title: REALMETA - Automação de 5ª Geração
+description: Automação de 5ª Geração para transformação digital
+baseurl: "" # Deixe vazio se estiver na raiz
+url: "https://realmeta.com.br" # Seu domínio
+
+# Configurações para SPA
+permalink: pretty
+
+# Desativa o Jekyll para arquivos com underscore
+include:
+  - _redirects
+
+# Configurações do tema (use null para não usar tema)
+theme: null
+
+# Plugins (opcional)
+plugins: []

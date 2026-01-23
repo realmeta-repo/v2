@@ -1,0 +1,61 @@
+# .htaccess para SPA REALMETA
+# Colocar na raiz do site (mesma pasta do index.html)
+
+# Ativar rewrite engine
+RewriteEngine On
+
+# Definir base para subdiretórios
+RewriteBase /
+
+# Se acessar uma URL existente como arquivo, servir normalmente
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Se não for um arquivo/diretório, redirecionar para index.html
+RewriteRule ^ index.html [L]
+
+# Cache e performance
+<IfModule mod_expires.c>
+  ExpiresActive On
+  
+  # Cache de imagens por 1 mês
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  
+  # Cache de CSS e JS por 1 semana
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  
+  # Cache de fontes por 1 mês
+  ExpiresByType font/ttf "access plus 1 month"
+  ExpiresByType font/woff "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 month"
+</IfModule>
+
+# GZIP Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Segurança - Proteger contra hotlink
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https://(www\.)?realmeta\.com\.br/.*$ [NC]
+RewriteRule \.(jpg|jpeg|png|gif|svg)$ - [F]
+
+# Forçar HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Forçar www ou non-www (ESCOLHA UMA DAS DUAS)
+
+# Opção 1: Forçar www (recomendado para SEO)
+# RewriteCond %{HTTP_HOST} ^realmeta\.com\.br [NC]
+# RewriteRule ^(.*)$ https://www.realmeta.com.br/$1 [R=301,L]
+
+# Opção 2: Forçar non-www
+RewriteCond %{HTTP_HOST} ^www\.realmeta\.com\.br [NC]
+RewriteRule ^(.*)$ https://realmeta.com.br/$1 [R=301,L]
