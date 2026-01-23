@@ -52,20 +52,39 @@
         })();
     </script>
 
-    <!-- Script para GitHub Pages (SPA) -->
+    <!-- Script para GitHub Pages (SPA) - VERSÃO ATUALIZADA -->
     <script>
         // Handler para GitHub Pages - Executa imediatamente
         (function() {
+            console.log('Handler GitHub Pages iniciado - URL atual:', window.location.href);
+            
             // Verifica se estamos em uma rota específica (após redirecionamento do 404.html)
             const urlParams = new URLSearchParams(window.location.search);
             const routeParam = urlParams.get('route');
             
+            // Se veio de um redirecionamento do 404.html
             if (routeParam && routeParam !== '/') {
+                console.log('GitHub Pages - Rota capturada do 404:', routeParam);
+                
                 // Limpa o parâmetro da URL (para URLs limpas)
                 window.history.replaceState({}, '', routeParam);
                 
                 // Armazena a rota para o carregamento inicial
                 sessionStorage.setItem('initialRoute', routeParam);
+            }
+            
+            // Se a URL já tem uma rota direta (sem parâmetro route), trata como rota inicial
+            if (!routeParam && window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
+                const currentPath = window.location.pathname + window.location.search;
+                console.log('GitHub Pages - Acesso direto detectado:', currentPath);
+                
+                sessionStorage.setItem('initialRoute', currentPath);
+                window.history.replaceState({}, '', '/');
+                
+                // Recarrega com a rota limpa
+                setTimeout(() => {
+                    window.location.reload();
+                }, 50);
             }
             
             // Verifica se há uma rota armazenada
@@ -76,6 +95,7 @@
                 // Dispara evento para navegar para a rota
                 window.addEventListener('DOMContentLoaded', function() {
                     setTimeout(function() {
+                        console.log('GitHub Pages - Disparando evento para rota inicial:', storedRoute);
                         const event = new CustomEvent('triggerInitialRoute', {
                             detail: { route: storedRoute }
                         });

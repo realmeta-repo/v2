@@ -16,3 +16,7 @@ theme: null
 
 # Plugins (opcional)
 plugins: []
+
+# IMPORTANTE: Configurar para SPA
+exclude: []
+include: []

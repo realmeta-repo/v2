@@ -1,3 +1,30 @@
+// ================= DETECÇÃO DE ROTA INICIAL =================
+(function() {
+    console.log('Script.js iniciando - Detecção de rota inicial');
+    
+    // Se não estamos na página inicial e não temos parâmetros de rota
+    if (window.location.pathname !== '/' && 
+        window.location.pathname !== '/index.html' && 
+        !window.location.search.includes('route=')) {
+        
+        console.log('Acesso direto detectado:', window.location.pathname + window.location.search);
+        
+        // Redireciona via JavaScript mantendo a rota como parâmetro
+        const currentPath = window.location.pathname;
+        const currentSearch = window.location.search;
+        const searchParams = new URLSearchParams(currentSearch);
+        searchParams.set('route', currentPath + currentSearch);
+        
+        // Se já estamos em index.html, apenas adiciona o parâmetro
+        if (window.location.pathname === '/index.html') {
+            window.history.replaceState({}, '', '/index.html?' + searchParams.toString());
+        } else {
+            // Redireciona para index.html com a rota
+            window.location.href = '/index.html?' + searchParams.toString();
+        }
+    }
+})();
+
 // ================= HANDLER PARA GITHUB PAGES =================
 
 // Mapeamento de rotas para pageIds (adicione todas as suas rotas)
@@ -24,25 +51,31 @@ const githubPagesRouteMappings = {
 
 // Função para obter pageId a partir de uma rota GitHub Pages
 function getPageIdFromGitHubPagesRoute(route) {
-    // Remove barras finais
-    const cleanRoute = route.replace(/\/$/, '');
+    // Remove barras finais e parâmetros de query
+    const cleanRoute = route.replace(/\/$/, '').split('?')[0];
+    
+    console.log('getPageIdFromGitHubPagesRoute - Rota limpa:', cleanRoute);
     
     // Verifica mapeamento direto
     if (githubPagesRouteMappings[cleanRoute]) {
+        console.log('Mapeamento direto encontrado:', githubPagesRouteMappings[cleanRoute]);
         return githubPagesRouteMappings[cleanRoute];
     }
     
     // Verifica padrões dinâmicos
     if (cleanRoute.startsWith('/insights/')) {
         const articleName = cleanRoute.replace('/insights/', '');
+        console.log('Artigo de insights detectado:', articleName);
         return articleName === 'armadilha-ia' ? 'ia-armadilha' : articleName;
     }
     
     if (cleanRoute.startsWith('/apps/')) {
         const appName = cleanRoute.replace('/apps/', '');
+        console.log('App detectado:', appName);
         return appName;
     }
     
+    console.log('Nenhum mapeamento encontrado, usando fallback: apps');
     return 'apps';
 }
 
@@ -64,6 +97,8 @@ window.addEventListener('triggerInitialRoute', function(e) {
 // ================= FIM DO HANDLER GITHUB PAGES =================
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Iniciando SPA');
+    
     // Elementos principais
     const body = document.body;
     const header = document.querySelector('header');
@@ -87,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isBlinking = false;
     let currentPage = 'apps';
     let areEyelidsClosed = false;
-    let isBlinkAnimationActive = false; // Nova variável para controle global
+    let isBlinkAnimationActive = false;
     
     // Cache de conteúdo
     let contentCache = {};
@@ -151,52 +186,65 @@ document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
         const hash = window.location.hash.substring(1);
         
+        console.log('getPageIdFromURL - Path:', path, 'Hash:', hash);
+        
         // Primeiro verifica mapeamento direto
         if (routeMappings[path]) {
+            console.log('Mapeamento direto encontrado:', routeMappings[path]);
             return routeMappings[path];
         }
         
         // Verifica se é um artigo de insights
         if (path.startsWith('/insights/')) {
             const articleName = path.replace('/insights/', '').replace('.html', '');
+            console.log('Artigo de insights detectado:', articleName);
             return articleName === 'armadilha-ia' ? 'ia-armadilha' : articleName;
         }
         
         // Verifica se é um app
         if (path.startsWith('/apps/')) {
             const appName = path.replace('/apps/', '').replace('.html', '');
+            console.log('App detectado:', appName);
             return appName;
         }
         
         // Fallback para hash (para compatibilidade)
         if (hash && pageFiles[hash]) {
+            console.log('Hash fallback:', hash);
             return hash;
         }
         
         // Fallback padrão
+        console.log('Fallback padrão: apps');
         return 'apps';
     }
     
     // Função para obter URL a partir do pageId
     function getURLFromPageId(pageId) {
+        console.log('getURLFromPageId:', pageId);
+        
         // Primeiro verifica mapeamento direto
         if (pageIdToRoute[pageId]) {
+            console.log('Rota encontrada:', pageIdToRoute[pageId]);
             return pageIdToRoute[pageId];
         }
         
         // Verifica se é um artigo de insights
         if (pageFiles[pageId] && pageFiles[pageId].includes('insights/')) {
             const fileName = pageFiles[pageId].replace('insights/', '').replace('.html', '');
+            console.log('Rota de insights:', `/insights/${fileName}`);
             return `/insights/${fileName}`;
         }
         
         // Verifica se é um app
         if (pageFiles[pageId] && pageFiles[pageId].includes('apps/')) {
             const fileName = pageFiles[pageId].replace('apps/', '').replace('.html', '');
+            console.log('Rota de app:', `/apps/${fileName}`);
             return `/apps/${fileName}`;
         }
         
         // Fallback para página principal
+        console.log('Fallback para página principal');
         return '/';
     }
     
@@ -204,6 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateBrowserURL(pageId, replace = false) {
         const url = getURLFromPageId(pageId);
         const title = `REALMETA - ${pageId.charAt(0).toUpperCase() + pageId.slice(1)}`;
+        
+        console.log('updateBrowserURL:', { pageId, url, replace });
         
         if (replace) {
             window.history.replaceState({ pageId }, title, url);
@@ -246,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 console.log('Fadeout do overlay completo');
                 resolve();
-            }, 900); // 0.9s para todas as animações
+            }, 900);
         });
     }
     
@@ -279,7 +329,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Função para limpar tags de arquivo
     function cleanFileTags(html) {
         let cleaned = html.replace(/^[\s\S]*?<div[^>]*>/i, function(match) {
             const divMatch = match.match(/<div[^>]*>/i);
@@ -441,6 +490,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ✅ FUNÇÃO PARA CARREGAR CONTEÚDO
     async function loadPageContent(pageId) {
         if (!pageFiles[pageId]) {
+            console.log(`Página ${pageId} não encontrada, usando apps como fallback`);
             pageId = 'apps';
         }
         
@@ -451,6 +501,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const fileName = pageFiles[pageId];
+        console.log(`Carregando arquivo: ${fileName} para página: ${pageId}`);
         
         try {
             const response = await fetch(fileName);
@@ -667,7 +718,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.documentElement.style.overflow = 'auto';
                     document.body.style.overflow = 'auto';
                 }
-            }, 700); // Aguardar tempo da animação
+            }, 700);
         }
     }
     
@@ -893,7 +944,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <svg class="success-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3/2000/svg" style="display: none;">
+            <svg class="success-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
                 <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -1182,14 +1233,25 @@ document.addEventListener('DOMContentLoaded', function() {
         resetOverlayAnimations();
     }, 100);
     
-    // ✅ FUNÇÃO PRINCIPAL: Carregamento inicial baseado na URL
+    // ✅ FUNÇÃO PRINCIPAL: Carregamento inicial baseado na URL (ATUALIZADA)
     async function initialLoad() {
         console.log('Iniciando carregamento inicial');
         
         try {
-            // Obter página inicial da URL
-            const initialPageId = getPageIdFromURL();
-            console.log(`Carregando página inicial da URL: ${initialPageId}`);
+            // Verificar se há rota no sessionStorage (de redirecionamento)
+            const sessionRoute = sessionStorage.getItem('initialRoute');
+            let initialPageId = 'apps';
+            
+            if (sessionRoute) {
+                console.log(`Usando rota do sessionStorage: ${sessionRoute}`);
+                // Usar a rota armazenada para obter o pageId
+                initialPageId = getPageIdFromGitHubPagesRoute(sessionRoute);
+                sessionStorage.removeItem('initialRoute');
+            } else {
+                // Obter página inicial da URL
+                initialPageId = getPageIdFromURL();
+                console.log(`Carregando página inicial da URL: ${initialPageId}`);
+            }
             
             // Carregar conteúdo da primeira página
             const content = await loadPageContent(initialPageId);
