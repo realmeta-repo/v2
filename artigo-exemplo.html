@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REALMETA | Artigo Exemplo</title>
+    <link rel="icon" type="image/png" href="/img/icon.png">
+  <script type="module" crossorigin src="/assets/router-By2Xk5f_.js"></script>
+  <script type="module" crossorigin src="/assets/main-CgdbHrI0.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/router-BIIRtE6Y.css">
+</head>
+
+<body class="is-transitioning">
+    <header id="site-header" class="site-header">
+    <div class="header-content">
+        <a href="/" class="site-logo">
+            <img src="/img/logotipo-realmeta.png" alt="REALMETA" id="header-logo">
+        </a>
+        <nav>
+            <a href="/" class="nav-link">APPS</a>
+            <a href="/value.html" class="nav-link">VALUE</a>
+            <a href="/knowledge.html" class="nav-link">KNOWLEDGE</a>
+            <a href="/insights.html" class="nav-link">INSIGHTS</a>
+            <a href="/contact.html" class="nav-link">CONTACT</a>
+        </nav>
+    </div>
+</header>
+
+    <main id="app-content" class="app-content">
+        <style>
+            .article-tags span, .text-img-component, .image-component, .cta-component, .sumario-flutuante-wrapper {
+                 /* Placeholders para estilos especificos */
+            }
+        </style>
+
+        <!-- COMPONENTE 1: BANNER -->
+        <section class="article-banner"
+            style="position: relative; height: clamp(260px, 30vh, 500px); overflow: hidden; padding-top: 0; padding-bottom: 12px; width: 100%; box-sizing: border-box;">
+            <img src="/img/mobility.jpg" alt="Mobility Banner" class="banner-image" loading="eager" width="1600" height="900"
+                style="position: absolute; inset: 0 0 0 -20%; width: 140%; height: 100%; object-fit: cover; animation: bannerPan 50s linear infinite;">
+            <div class="banner-overlay"
+                style="position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 0 24px 12px; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.4) 30%, transparent 60%); color: #fff; box-sizing: border-box;">
+                <div style="width: 100%; max-width: 900px; margin: 0 auto; padding-bottom: 32px; display: flex; flex-direction: column; gap: 8px;">
+                    <h1 id="titulo-banner-1" style="font-family: Montserrat, sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2;">
+                        Título Principal Gigante
+                    </h1>
+                    <p style="font-family: Merriweather, serif; font-size: 0.95rem; opacity: 0.9; margin: 0; line-height: 1.4;">
+                        Subtitulo inspirador logo abaixo.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPONENTE 2: TEXTO SIMPLES COM TÍTULO -->
+        <div class="text-component" style="color: #020617; margin: 0 auto; padding: 32px 0 0 0; max-width: 900px; width: 100%; box-sizing: border-box;">
+            <h2 id="titulo-auto-1">Meu Primeiro Subtítulo H2</h2>
+            <p>Este é o bloco de texto padrão no CMS. Ele deve suportar negrito, itálico e links perfeitamente e alinhas à esquerda por default com as fontes de `style.css` v3.</p>
+        </div>
+
+        <!-- COMPONENTE 3: TEXTO + IMAGEM (Tamanho customizável, digamos 40% da imagem, 60% texto) -->
+        <div class="text-img-component" style="display: flex; gap: 32px; align-items: center; max-width: 900px; margin: 0 auto; padding: 32px 0; width: 100%; box-sizing: border-box; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3 id="titulo-auto-2">Contextualizando com Imagens</h3>
+                <p>Às vezes precisamos que uma imagem ilustre a ideia lateralmente.</p>
+            </div>
+            <div style="flex-basis: 40%; min-width: 250px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <img src="/img/health.jpg" alt="Ilustração" style="width: 100%; height: auto; display: block;">
+            </div>
+        </div>
+
+        <!-- COMPONENTE 4: IMAGEM (Largura cheia normal com legenda) -->
+        <div class="image-component" style="max-width: 900px; margin: 0 auto; padding: 12px 0 32px 0; width: 100%; box-sizing: border-box;">
+            <div style="border-radius: 8px; overflow: hidden; max-width: 80%; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <img src="/img/biotech.jpg" alt="Biotech" style="width: 100%; height: auto; display: block;">
+            </div>
+            <p style="text-align: center; color: #64748b; font-size: 0.85rem; margin-top: 12px; font-style: italic;">
+                Legenda explicativa da imagem fornecida pelo autor.
+            </p>
+        </div>
+
+        <!-- COMPONENTE 5: BLOCKQUOTE COM FUNDO GRADIENTE -->
+        <div class="blockquote-component"
+            style="background: linear-gradient(to right, #00b395, #00807d); color: #fff; padding: 12px 48px; border-radius: 8px; margin: 32px auto; text-align: left; position: relative; overflow: hidden; border-left: 4px solid #008563; max-width: 900px; width: 100%; box-sizing: border-box;">
+            <div style="position: absolute; inset: 0 0 0 -20%; width: 140%; height: 100%; background-image: url('/img/mobility.jpg'); background-size: cover; background-position: center; opacity: 0.5; z-index: 0; animation: bannerPan 50s linear infinite;">
+            </div>
+            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 1;"></div>
+            <blockquote style="font-family: Merriweather, serif; font-size: 1.2rem; font-style: italic; line-height: 1.6; margin: 0; position: relative; z-index: 2;">
+                <h2>"A sabedoria vem não de evitar erros, mas de corrigi-los usando tecnologia e métricas reais."</h2>
+            </blockquote>
+        </div>
+
+        <!-- COMPONENTE 6: CTA (Call To Action Botão) -->
+        <div class="cta-component" style="max-width: 900px; margin: 0 auto; padding: 48px 0; text-align: center; width: 100%; box-sizing: border-box;">
+            <a href="/contact.html" style="display: inline-block; background-color: var(--primary-color, #222); color: #fff; padding: 16px 48px; border-radius: 4px; text-decoration: none; font-family: Montserrat, sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; transition: background-color 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                ENTRE EM CONTATO
+            </a>
+        </div>
+
+        <!-- COMPONENTE 7: HASHTAGS -->
+        <div class="hashtags-component" style="margin: 0 auto; padding: 12px 0 48px 0; max-width: 900px; width: 100%; box-sizing: border-box;">
+            <div class="article-tags" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-start;">
+                <span style="background: rgba(0,133,99,0.1); color: #008563; padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 500; font-family: Montserrat, sans-serif;">inovacao</span>
+                <span style="background: rgba(0,133,99,0.1); color: #008563; padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 500; font-family: Montserrat, sans-serif;">tecnologia</span>
+                <span style="background: rgba(0,133,99,0.1); color: #008563; padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 500; font-family: Montserrat, sans-serif;">smartcities</span>
+            </div>
+        </div>
+
+    </main>
+
+    <footer id="site-footer" class="site-footer">
+    <div class="footer-content">
+
+        <div class="footer-col" id="col-why">
+            <h3>WHY</h3>
+            <div class="footer-links">
+                <a href="/mission.html">Mission</a>
+                <a href="/vision.html">Vision</a>
+                <a href="/values.html">Values</a>
+            </div>
+        </div>
+        <div class="footer-col" id="col-how">
+            <h3>HOW</h3>
+            <div class="footer-links">
+                <a href="/company-statute.html">Statute & Compliance</a>
+                <a href="/terms.html">Terms of Services</a>
+                <a href="/privacy.html">Data Privacy</a>
+            </div>
+        </div>
+        <div class="footer-col" id="col-contact">
+            <h3>CONTACT</h3>
+            <div class="footer-links">
+                <a href="mailto:jmanacleto@realmeta.com.br" class="contact-email">jmanacleto@realmeta.com.br</a>
+                <div class="social-icons">
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="https://x.com" target="_blank" aria-label="X">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Navigation (< 900px) -->
+    <nav class="mobile-nav">
+        <a href="/" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/compass.svg" alt="Apps">
+            </div>
+            <span>APPS</span>
+        </a>
+        <a href="/knowledge.html" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/star.svg" alt="Knowledge">
+            </div>
+            <span>KNOWLEDGE</span>
+        </a>
+        <a href="/insights.html" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/eclipse.svg" alt="Insights">
+            </div>
+            <span>INSIGHTS</span>
+        </a>
+    </nav>
+</footer>
+    
+</body>
+</html>

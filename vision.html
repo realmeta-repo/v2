@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visão</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800;900&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/router-By2Xk5f_.js"></script>
+  <script type="module" crossorigin src="/assets/main-CgdbHrI0.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/router-BIIRtE6Y.css">
+</head>
+<body class="is-transitioning">
+    <header id="site-header" class="site-header">
+    <div class="header-content">
+        <a href="/" class="site-logo">
+            <img src="/img/logotipo-realmeta.png" alt="REALMETA" id="header-logo">
+        </a>
+        <nav>
+            <a href="/" class="nav-link">APPS</a>
+            <a href="/value.html" class="nav-link">VALUE</a>
+            <a href="/knowledge.html" class="nav-link">KNOWLEDGE</a>
+            <a href="/insights.html" class="nav-link">INSIGHTS</a>
+            <a href="/contact.html" class="nav-link">CONTACT</a>
+        </nav>
+    </div>
+</header>
+
+    <main id="app-content" class="app-content">
+        
+    <div class="article-container" style="max-width: 100%; margin: 0 auto; padding: 0; width: 100%; box-sizing: border-box;">
+        <style>
+            /* Estilos base do artigo */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            /* Estilos de largura máxima para componentes não-banner */
+            .text-component,
+            .text-img-component,
+            .image-component,
+            .cta-component,
+            .blockquote-component,
+            .hashtags-component {
+                max-width: 900px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Responsividade para telas menores que 900px */
+            @media (max-width: 900px) {
+                .text-component,
+                .text-img-component,
+                .image-component,
+                .cta-component,
+                .blockquote-component,
+                .hashtags-component {
+                    max-width: calc(100% - 48px) !important;
+                    margin-left: 24px !important;
+                    margin-right: 24px !important;
+                }
+            }
+            
+            /* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+            @media (max-width: 600px) {
+                .text-component,
+                .text-img-component,
+                .image-component,
+                .cta-component,
+                .blockquote-component,
+                .hashtags-component {
+                    max-width: calc(100% - 32px) !important;
+                    margin-left: 16px !important;
+                    margin-right: 16px !important;
+                }
+                
+                /* Transformar colunas em linhas para texto+img */
+                .text-img-component .grid-container {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    gap: 24px !important;
+                }
+                
+                /* Forçar a ordem: imagem primeiro, texto depois */
+                .text-img-component.posicao-esquerda .grid-container .image-column,
+                .text-img-component.posicao-direita .grid-container .image-column {
+                    order: 1 !important;
+                }
+                
+                .text-img-component.posicao-direita .grid-container .text-column,
+                .text-img-component.posicao-esquerda .grid-container .text-column {
+                    order: 2 !important;
+                }
+                
+                /* Garantir que as colunas ocupem 100% da largura */
+                .text-img-component .image-column,
+                .text-img-component .text-column {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+                
+                /* Remover grid template quando em mobile */
+                .text-img-component .grid-container {
+                    grid-template-columns: 1fr !important;
+                    grid-template-areas: none !important;
+                }
+            }
+            
+            /* Estilos dos componentes */
+            /* Estilos herdados pelo CMS V3 */
+/* Os estilos do Summernote e responsividade já são herdados de style.css no V3 */
+/* Manteremos apenas o reset crítico para o editor-view */
+.text-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.text-component p,
+.text-component span,
+.text-component a,
+.text-component li,
+.text-component div {
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    text-align: justify !important;
+}
+
+.text-component p + p {
+    margin-top: 1.25em !important;
+}
+
+.text-component h1, .text-component h2, .text-component h3, .text-component h4, .text-component h5, .text-component h6 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 0.5em !important;
+    line-height: 1.2 !important;
+}
+.hashtags-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+@media (max-width: 900px) {
+    .hashtags-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+                @keyframes bannerPan {
+                    0%   { transform: translateX(0); }
+                    50%  { transform: translateX(8%); }
+                    100% { transform: translateX(0); }
+                }
+                
+                @media (prefers-reduced-motion: reduce) {
+                    .banner-image {
+                        animation: none !important;
+                    }
+                }
+            
+            
+            /* Estilos específicos para o banner */
+            .article-banner {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                contain: paint;
+                box-sizing: border-box !important;
+            }
+            
+            /* Ajuste de padding superior para o banner no mobile */
+            @media (max-width: 768px) {
+                .banner-overlay {
+                    padding-top: 64px !important; /* Acomoda o header do appshell */
+                    align-items: flex-end !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .banner-overlay {
+                    padding-top: 64px !important; /* Acomoda o header do appshell */
+                }
+            }
+            
+            /* Responsividade */
+            @media (max-width: 768px) {
+                .article-banner {
+                    height: clamp(180px, 22vh, 300px) !important;
+                }
+                
+                .banner-overlay {
+                    padding: 0 18px !important;
+                    background: linear-gradient(to top,
+                        rgba(0,0,0,.9),
+                        rgba(0,0,0,.5) 25%,
+                        transparent 50%) !important;
+                    align-items: flex-end !important;
+                    padding-top: 64px !important;
+                }
+                
+                .banner-content {
+                    padding-bottom: 24px !important;
+                    gap: 6px !important;
+                    margin-bottom: 0 !important;
+                }
+                
+                .banner-overlay h1 {
+                    font-size: clamp(1.2rem, 5.5vw, 1.8rem) !important;
+                    letter-spacing: .06em !important;
+                    line-height: 1.15 !important;
+                }
+                
+                .banner-overlay p {
+                    font-size: 0.85rem !important;
+                    opacity: 0.95 !important;
+                    line-height: 1.3 !important;
+                }
+                
+                .grid-container {
+                    grid-template-columns: 1fr !important;
+                    gap: 20px !important;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .article-banner {
+                    height: clamp(160px, 20vh, 260px) !important;
+                }
+                
+                .banner-overlay {
+                    padding: 0 16px !important;
+                    background: linear-gradient(to top,
+                        rgba(0,0,0,.92),
+                        rgba(0,0,0,.6) 20%,
+                        transparent 45%) !important;
+                    padding-top: 64px !important;
+                }
+                
+                .banner-content {
+                    padding-bottom: 20px !important;
+                    gap: 4px !important;
+                }
+                
+                .banner-overlay h1 {
+                    font-size: clamp(1rem, 6vw, 1.5rem) !important;
+                    letter-spacing: .05em !important;
+                    line-height: 1.1 !important;
+                }
+                
+                .banner-overlay p {
+                    font-size: 0.8rem !important;
+                    line-height: 1.25 !important;
+                }
+            }
+        </style>
+        
+        <section class="article-banner" style="position: relative; height: clamp(300px, 35vh, 600px); overflow: hidden; padding-top: 0px; padding-bottom: 0px; width: 100%; box-sizing: border-box;"><img src="/img/vision1.jpg" alt="Inovação Digital e o Futuro das Organizações" class="banner-image" loading="eager" width="1600" height="900" style="position: absolute; inset: 0px 0px 0px -20%; width: 140%; height: 100%; object-fit: cover; animation: 50s linear 0s infinite normal none running bannerPan;"><div class="banner-overlay" style="position: absolute; inset: 0px; display: flex; align-items: flex-end; padding: 0px 24px 12px; background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.4) 30%, transparent 60%); color: rgb(255, 255, 255); box-sizing: border-box;"><div style="width: 100%; max-width: 900px; margin: 0px auto; padding-bottom: 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;"><div style="display: flex; flex-direction: column; gap: 8px; flex: 1 1 300px;"><h1 id="titulo-banner-1774465465136" style="font-family: Montserrat, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; margin: 0px; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2;">Visão</h1><p style="font-family: Merriweather, serif; font-size: 0.95rem; opacity: 0.9; margin: 0px; line-height: 1.4;">Nosso compromisso é com um futuro saudável</p></div><a href="/contact.html" style="display: inline-block !important; padding: 12px 32px !important; text-decoration: none !important; font-family: Montserrat, sans-serif !important; font-weight: 800 !important; font-size: 0.9rem !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; border-radius: 99px !important; transition: 0.3s !important; background-color: transparent !important; border: 2px solid rgb(255, 255, 255) !important; color: rgb(255, 255, 255) !important; flex: 0 0 auto; margin-top: 0px !important;">Acessar futuro</a></div></div></section>
+<div class="text-component" style="color: rgb(2, 6, 23); margin: 0px auto; padding-top: 24px; padding-bottom: 24px; max-width: 900px; width: 100%; box-sizing: border-box;"><p class="western" align="JUSTIFY" style="margin-bottom: 0cm">Democratizar
+o acesso à 5ª revolução industrial por meio da nossa tecnologia
+no formato <i>whitelabel</i>.&nbsp;</p><p class="western" align="JUSTIFY" style="margin-bottom: 0cm">O objetivo é estabelecer apenas um
+cliente-parceiro por segmento industrial, <b>fundindo a inteligência
+REALMETA com a expertise humana</b>.</p><p class="western" align="JUSTIFY" style="margin-bottom: 0cm">E por
+meio destas parcerias, escalar à nível global operações de 5ª
+geração, reordenando cadeias de suprimentos completas para o nosso
+<b>novo paradigma regenerativo e sinérgico</b>.</p><p class="western" align="JUSTIFY" style="margin-bottom: 0cm">O nosso
+compromisso, é com ofertar um <b>futuro saudável</b> para as próximas
+gerações.<br><br>
+</p><p>
+
+
+
+
+</p><p class="western" align="JUSTIFY" style="margin-bottom: 0cm"><br>
+</p></div>
+<div class="hashtags-component" data-id="1774465929432" style="margin: 0px auto; padding: 0px 0px 24px; width: 100%; max-width: 900px; box-sizing: border-box;"><div class="article-tags" style="display: flex; flex-wrap: wrap; gap: 12px;"><span style="font-family: Tahoma, Arial, sans-serif; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(235, 235, 235); color: rgb(56, 56, 56); font-weight: normal; border: none;">inovação</span><span style="font-family: Tahoma, Arial, sans-serif; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(235, 235, 235); color: rgb(56, 56, 56); font-weight: normal; border: none;">transformação digital</span><span style="font-family: Tahoma, Arial, sans-serif; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(235, 235, 235); color: rgb(56, 56, 56); font-weight: normal; border: none;">inteligência</span><span style="font-family: Tahoma, Arial, sans-serif; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: rgb(235, 235, 235); color: rgb(56, 56, 56); font-weight: normal; border: none;">governança</span></div></div>
+
+        
+        
+        
+        
+        <script type="application/json" id="article-data">
+        {
+            "componentes": [
+  {
+    "id": "1774465465136",
+    "tipo": "banner",
+    "config": {
+      "imagemNome": "vision1.jpg",
+      "imagemAlt": "Inovação Digital e o Futuro das Organizações",
+      "titulo": "Visão",
+      "subtitulo": "Nosso compromisso é com um futuro saudável",
+      "botaoAtivo": true,
+      "posicaoBotao": "side",
+      "estiloBotao": "white",
+      "corBotao": "#2563eb",
+      "textoBotao": "Acessar futuro",
+      "botaoContato": true,
+      "urlBotao": "#",
+      "larguraBotao": "auto",
+      "alturaBanner": "clamp(300px, 35vh, 600px)",
+      "animacaoAtiva": true,
+      "paddingBottom": "0px",
+      "paddingTop": "0"
+    }
+  },
+  {
+    "id": "1774465839385",
+    "tipo": "text",
+    "config": {
+      "conteudo": "<p class=\"western\" align=\"JUSTIFY\" style=\"margin-bottom: 0cm\">Democratizar\no acesso à 5ª revolução industrial por meio da nossa tecnologia\nno formato <i>whitelabel</i>.&nbsp;</p><p class=\"western\" align=\"JUSTIFY\" style=\"margin-bottom: 0cm\">O objetivo é estabelecer apenas um\ncliente-parceiro por segmento industrial, <b>fundindo a inteligência\nREALMETA com a expertise humana</b>.</p><p class=\"western\" align=\"JUSTIFY\" style=\"margin-bottom: 0cm\">E por\nmeio destas parcerias, escalar à nível global operações de 5ª\ngeração, reordenando cadeias de suprimentos completas para o nosso\n<b>novo paradigma regenerativo e sinérgico</b>.</p><p class=\"western\" align=\"JUSTIFY\" style=\"margin-bottom: 0cm\">O nosso\ncompromisso, é com ofertar um <b>futuro saudável</b> para as próximas\ngerações.<br><br>\n</p><p>\n\n\n\n\n</p><p class=\"western\" align=\"JUSTIFY\" style=\"margin-bottom: 0cm\"><br>\n</p>",
+      "paddingTop": "24px",
+      "paddingBottom": "24px",
+      "corTexto": "#020617",
+      "margem": "0 auto"
+    }
+  },
+  {
+    "id": "1774465929432",
+    "tipo": "hashtags",
+    "config": {
+      "tags": [
+        "inovação",
+        "transformação digital",
+        "inteligência",
+        "governança"
+      ],
+      "paddingTop": "0",
+      "paddingBottom": "24px"
+    }
+  }
+],
+            "geradoEm": "2026-03-25T19:12:51.297Z",
+            "versaoEditor": "1.0"
+        }
+        </script>
+    </div>
+    </main>
+
+    <footer id="site-footer" class="site-footer">
+    <div class="footer-content">
+
+        <div class="footer-col" id="col-why">
+            <h3>WHY</h3>
+            <div class="footer-links">
+                <a href="/mission.html">Mission</a>
+                <a href="/vision.html">Vision</a>
+                <a href="/values.html">Values</a>
+            </div>
+        </div>
+        <div class="footer-col" id="col-how">
+            <h3>HOW</h3>
+            <div class="footer-links">
+                <a href="/company-statute.html">Statute & Compliance</a>
+                <a href="/terms.html">Terms of Services</a>
+                <a href="/privacy.html">Data Privacy</a>
+            </div>
+        </div>
+        <div class="footer-col" id="col-contact">
+            <h3>CONTACT</h3>
+            <div class="footer-links">
+                <a href="mailto:jmanacleto@realmeta.com.br" class="contact-email">jmanacleto@realmeta.com.br</a>
+                <div class="social-icons">
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="https://x.com" target="_blank" aria-label="X">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Navigation (< 900px) -->
+    <nav class="mobile-nav">
+        <a href="/" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/compass.svg" alt="Apps">
+            </div>
+            <span>APPS</span>
+        </a>
+        <a href="/knowledge.html" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/star.svg" alt="Knowledge">
+            </div>
+            <span>KNOWLEDGE</span>
+        </a>
+        <a href="/insights.html" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/eclipse.svg" alt="Insights">
+            </div>
+            <span>INSIGHTS</span>
+        </a>
+    </nav>
+</footer>
+
+</body>
+</html>

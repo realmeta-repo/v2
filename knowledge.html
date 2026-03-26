@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REALMETA | Knowledge</title>
+    <link rel="icon" type="image/png" href="/img/icon.png">
+  <script type="module" crossorigin src="/assets/router-By2Xk5f_.js"></script>
+  <script type="module" crossorigin src="/assets/main-BYQN1Vbh.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/router-BIIRtE6Y.css">
+</head>
+
+<body class="is-transitioning">
+    <header id="site-header" class="site-header">
+    <div class="header-content">
+        <a href="/" class="site-logo">
+            <img src="/img/logotipo-realmeta.png" alt="REALMETA" id="header-logo">
+        </a>
+        <nav>
+            <a href="/" class="nav-link">APPS</a>
+            <a href="/value.html" class="nav-link">VALUE</a>
+            <a href="/knowledge.html" class="nav-link">KNOWLEDGE</a>
+            <a href="/insights.html" class="nav-link">INSIGHTS</a>
+            <a href="/contact.html" class="nav-link">CONTACT</a>
+        </nav>
+    </div>
+</header>
+    <main id="app-content" class="app-content">
+        <!-- Desktop Layout (> 900px) -->
+        <div id="knowledge-desktop-layout" class="knowledge-desktop-only">
+            <div class="knowledge-pane-top">
+                <div class="knowledge-divider-phrase" style="top: 40px; transform: none;">
+                    <div class="knowledge-impact-text" style="font-size: 1.22vw;">PROCESSO DE DECISÃO NA SUA EMPRESA HOJE:</div>
+                </div>
+                <canvas id="desktop-freneticCanvas"></canvas>
+            </div>
+            
+            <div class="knowledge-divider-phrase" id="desktop-solution-phrase">
+                <div class="knowledge-impact-text" style="font-size: 1.22vw;">PROCESSO DE DECISÃO REALMETA:</div>
+            </div>
+
+            <div class="knowledge-pane-bottom">
+                <div style="position: absolute; top: 20px; right: 30px; font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 14px; color: #777; z-index: 10; letter-spacing: 0.5px;">
+                    Qualidade Total: <span id="desktop-quality-val" style="font-weight: 700; color: #222;">0</span>%
+                </div>
+                <div class="knowledge-solution-container-desktop">
+                    <canvas id="desktop-solutionCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Layout (< 900px) -->
+        <div id="knowledge-animation" class="knowledge-full knowledge-mobile-only">
+            <!-- Scene 1: Problem Banner -->
+            <div id="knowledge-scene-problem" class="knowledge-scene active">
+                <div class="knowledge-divider-phrase" style="top: 20px; transform: none;">
+                    <div class="knowledge-impact-text" style="font-size: clamp(8.4px, 2.45vw, 12.6px); padding: 0.5rem 1rem;">PROCESSO DE DECISÃO NA SUA EMPRESA HOJE:</div>
+                </div>
+                <div class="knowledge-problem-container">
+                    <canvas id="knowledge-freneticCanvas"></canvas>
+                </div>
+                <!-- Conteúdo semântico para crawlers e IAs — oculto visualmente -->
+                <div class="sr-only">
+                    <h2>O problema: excesso de dados, falta de clareza</h2>
+                    <p>Empresas modernas são bombardeadas com dados de múltiplas fontes. Dashboards complexos,
+                        relatórios intermináveis e ruído de informação tornam difícil identificar o que realmente
+                        importa para o negócio.</p>
+                </div>
+            </div>
+
+            <!-- Scene 2: First Impact Phrase -->
+            <div id="knowledge-scene-phrase1" class="knowledge-scene">
+                <div class="knowledge-impact-phrase">
+                    <div class="knowledge-impact-text">Forget the chaos...</div>
+                </div>
+                <div class="sr-only">
+                    <p>Esqueça o caos. Existe uma forma mais inteligente de enxergar seus dados operacionais.</p>
+                </div>
+            </div>
+
+            <!-- Scene 3: Solution Banner -->
+            <div id="knowledge-scene-solution" class="knowledge-scene">
+                <div class="knowledge-divider-phrase" id="mobile-solution-phrase" style="top: 20px; transform: none; width: 100%; transition: opacity 1s ease;">
+                    <div class="knowledge-impact-text" style="font-size: clamp(8.4px, 2.45vw, 12.6px); padding: 0.5rem 1rem;">PROCESSO DE DECISÃO REALMETA:</div>
+                    <div style="padding-left: 1rem; margin-top: -6px;">
+                        <span style="font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: clamp(8.4px, 2.1vw, 10.5px); color: #777; letter-spacing: 0.5px;">
+                            Qualidade Total: <span id="quality-val" style="font-weight: 700; color: #222;">0</span>%
+                        </span>
+                    </div>
+                </div>
+                <div class="knowledge-solution-container">
+                    <canvas id="knowledge-solutionCanvas"></canvas>
+                </div>
+                <!-- Conteúdo semântico para crawlers e IAs — oculto visualmente -->
+                <div class="sr-only">
+                    <h2>A solução REALMETA: inteligência de negócios em um único gráfico</h2>
+                    <p>A metodologia REALMETA unifica todos os dados da operação em uma interface singular de
+                        visualização. Com processamento híbrido entre inteligência artificial e especialistas humanos,
+                        transformamos complexidade em clareza e decisão.</p>
+                    <p>Nosso método funciona em três etapas: coleta de dados via sensores, processamento híbrido de IA +
+                        pessoas, e interface homem-máquina simplificada para ação imediata.</p>
+                </div>
+            </div>
+
+            <!-- Scene 4: Second Impact Phrase -->
+            <div id="knowledge-scene-phrase2" class="knowledge-scene">
+                <div class="knowledge-impact-phrase">
+                    <div class="knowledge-impact-text">Build more. Build with REALMETA</div>
+                </div>
+                <div class="sr-only">
+                    <p>Construa mais. Construa com REALMETA — inteligência de negócios, P&D e transformação digital para
+                        a 5ª revolução industrial.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer id="site-footer" class="site-footer">
+    <div class="footer-content">
+
+        <div class="footer-col" id="col-why">
+            <h3>WHY</h3>
+            <div class="footer-links">
+                <a href="/mission.html">Mission</a>
+                <a href="/vision.html">Vision</a>
+                <a href="/values.html">Values</a>
+            </div>
+        </div>
+        <div class="footer-col" id="col-how">
+            <h3>HOW</h3>
+            <div class="footer-links">
+                <a href="/company-statute.html">Statute & Compliance</a>
+                <a href="/terms.html">Terms of Services</a>
+                <a href="/privacy.html">Data Privacy</a>
+            </div>
+        </div>
+        <div class="footer-col" id="col-contact">
+            <h3>CONTACT</h3>
+            <div class="footer-links">
+                <a href="mailto:jmanacleto@realmeta.com.br" class="contact-email">jmanacleto@realmeta.com.br</a>
+                <div class="social-icons">
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="https://x.com" target="_blank" aria-label="X">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Navigation (< 900px) -->
+    <nav class="mobile-nav">
+        <a href="/" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/compass.svg" alt="Apps">
+            </div>
+            <span>APPS</span>
+        </a>
+        <a href="/knowledge.html" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/star.svg" alt="Knowledge">
+            </div>
+            <span>KNOWLEDGE</span>
+        </a>
+        <a href="/insights.html" class="mobile-nav-item nav-link">
+            <div class="mobile-nav-icon">
+                <img src="/img/eclipse.svg" alt="Insights">
+            </div>
+            <span>INSIGHTS</span>
+        </a>
+    </nav>
+</footer>
+</body>
+
+</html>

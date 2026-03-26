@@ -1,0 +1,88 @@
+{
+    "articles": [
+        {
+            "slug": "energy",
+            "titulo": "Gestão Energética",
+            "subtitulo": "Inteligência de alto nível para o setor de energia",
+            "imagemSlug": "energy-distribuition",
+            "thumbnailSlug": "energy-distribuition-thumb",
+            "palavrasChave": [
+                "energia",
+                "setor elétrico",
+                "sustentabilidade",
+                "automação",
+                "eficiência"
+            ]
+        },
+        {
+            "slug": "automacao-industrial",
+            "titulo": "Automação Industrial",
+            "subtitulo": "Indústria 5.0: a simbiose perfeita entre homem e máquina",
+            "imagemSlug": "5th-industry",
+            "thumbnailSlug": "5th-industry-thumb",
+            "palavrasChave": [
+                "indústria 5.0",
+                "manufatura",
+                "robótica",
+                "automação",
+                "digital-twin"
+            ]
+        },
+        {
+            "slug": "health-biotech",
+            "titulo": "Saúde e Biotecnologia",
+            "subtitulo": "Biodados epigenéticos - o novo petróleo",
+            "imagemSlug": "biotech",
+            "thumbnailSlug": "biotech-thumb",
+            "palavrasChave": [
+                "saúde",
+                "biotecnologia",
+                "epigenética",
+                "genômica",
+                "P&D"
+            ]
+        },
+        {
+            "slug": "education",
+            "titulo": "Educação do Futuro",
+            "subtitulo": "Não é sobre ser mais tecnológico, é sobre ser mais humano",
+            "imagemSlug": "education3",
+            "thumbnailSlug": "education3-thumb",
+            "palavrasChave": [
+                "educação",
+                "aprendizado",
+                "humanização",
+                "pedagogia",
+                "ia"
+            ]
+        },
+        {
+            "slug": "agrobusiness",
+            "titulo": "Agronegócio 5.0",
+            "subtitulo": "Dados epigenéticos para o campo do futuro",
+            "imagemSlug": "agrobusiness",
+            "thumbnailSlug": "agrobusiness-thumb",
+            "palavrasChave": [
+                "agronegócio",
+                "campo",
+                "sustentabilidade",
+                "precisão",
+                "produtividade"
+            ]
+        },
+        {
+            "slug": "mobility",
+            "titulo": "Mobilidade 5.0",
+            "subtitulo": "Crescimento multimodal em rede",
+            "imagemSlug": "mobility",
+            "thumbnailSlug": "mobility-thumb",
+            "palavrasChave": [
+                "mobilidade",
+                "smart-city",
+                "transporte",
+                "multimodal",
+                "urbano"
+            ]
+        }
+    ]
+}
