@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Ansiedade Cognitiva - Refinado</title>
+    <style>
+        body { margin: 0; padding: 0; background-color: #ffffff; overflow: hidden; }
+        #banner-container {
+            width: 100%;
+            height: 350px; 
+            background-color: #ffffff;
+            position: relative;
+            border-bottom: 2px solid #d0d0d0;
+            overflow: hidden;
+        }
+        canvas { display: block; width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+
+    <div id="banner-container">
+        <canvas id="freneticCanvas"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('freneticCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const COLOR_BASE = '100, 100, 100'; 
+        const MAX_PARTICLES = 65; 
+        const CONNECTION_DIST = 140; 
+        
+        const words = [
+            "Valuation", "Custo Brasil", "M&A", "Scale-up", "Market Share", "Pivotar", "Cultura", "ESG", 
+            "Lucro Real", "Compliance", "EBITDA", "Burn Rate", "Runway", "Cash Flow", "ARR", "MRR", 
+            "Unit Economics", "Bitributação", "Cap Table", "Rodada", "Bottom-line", "IPO", "Seed",
+            "Churn", "Retenção", "CAC", "LTV", "PMF", "PLG", "NPS", "Upsell", "Funil", "Discovery", 
+            "Roadmap", "Métrica de Vaidade", "Alinhamento", "Engajamento", "Product-Led", "Conversion",
+            "GenAI", "LLM", "Dívida Técnica", "Scalability", "Cybersec", "API First", "Microservices", 
+            "Legado", "LGPD", "Pix", "Open Finance", "Sustentação", "Deploy", "Cloud", "Data Lake", 
+            "Tech Debt", "Machine Learning", "Supply Chain", "Lean", "OEE", "Gargalo", "Logística", 
+            "S&OP", "Indústria 4.0", "Digital Twin", "Tax Transformation", "Overhead", "Headcount"
+        ];
+
+        const mathSymbols = ["ROI", "YoY", "QoQ", "Δ", "LTV>3xCAC", "Σ", "ICMS", "SELIC", "AI", "24/7", "4.0", "R$", "KPI", "f(x)", "≠", "∫"];
+
+        let particles = [];
+        let w, h;
+
+        class Particle {
+            constructor() {
+                this.reset();
+                // Inicia em pontos aleatórios do ciclo para não nascerem todos juntos
+                this.life = Math.random() * Math.PI; 
+                // TEMPO DE LEITURA: Reduzi a velocidade do ciclo de visibilidade
+                this.lifeSpeed = 0.006 + Math.random() * 0.012; 
+            }
+
+            reset() {
+                const isWord = Math.random() > 0.2; 
+                this.text = isWord ? words[Math.floor(Math.random() * words.length)] : mathSymbols[Math.floor(Math.random() * mathSymbols.length)];
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                
+                // Variedade de tamanhos para profundidade visual
+                this.size = isWord ? (12 + Math.random() * 18) : (18 + Math.random() * 20);
+                const fontStack = Math.random() > 0.5 ? 'bold "Segoe UI", sans-serif' : 'italic "Georgia", serif';
+                this.font = `${Math.floor(this.size)}px ${fontStack}`;
+                
+                // MOVIMENTO FRENÉTICO: Mantido para passar ansiedade
+                this.vx = (Math.random() - 0.5) * 1.8;
+                this.vy = (Math.random() - 0.5) * 1.8;
+                this.angle = (Math.random() - 0.5) * 0.3; 
+                
+                this.hasCircle = Math.random() < 0.18; 
+                this.hasUnderline = Math.random() < 0.18; 
+                this.hasBox = Math.random() < 0.08;
+            }
+
+            update() {
+                this.life += this.lifeSpeed;
+                if (this.life > Math.PI) {
+                    this.life = 0;
+                    this.reset();
+                }
+                this.alpha = Math.sin(this.life);
+                
+                // TREMOR (JITTER): Mantido para sensação de instabilidade nervosa
+                this.x += this.vx + (Math.random() - 0.5) * 1.5;
+                this.y += this.vy + (Math.random() - 0.5) * 1.5;
+
+                // Rebater nas bordas
+                if(this.x < 50 || this.x > w - 50) this.vx *= -1;
+                if(this.y < 50 || this.y > h - 50) this.vy *= -1;
+            }
+
+            draw(ctx) {
+                if (this.alpha <= 0.02) return;
+
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                
+                ctx.fillStyle = `rgba(${COLOR_BASE}, ${this.alpha})`;
+                ctx.font = this.font;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(this.text, 0, 0);
+
+                const metrics = ctx.measureText(this.text);
+                const tw = metrics.width;
+                const th = this.size;
+                ctx.strokeStyle = `rgba(${COLOR_BASE}, ${this.alpha * 0.4})`;
+                ctx.lineWidth = 1.2;
+
+                // Rabiscos manuais
+                if (this.hasCircle) {
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, tw/1.6 + 6, th/1.2 + 6, Math.random()*0.1, 0, Math.PI * 2);
+                    ctx.stroke();
+                } else if (this.hasUnderline) {
+                    ctx.beginPath();
+                    ctx.moveTo(-tw/2 - 2, th/2 + 4);
+                    ctx.quadraticCurveTo(0, th/2 + 9, tw/2 + 2, th/2 + 3);
+                    ctx.stroke();
+                } else if (this.hasBox) {
+                    ctx.beginPath();
+                    ctx.rect(-tw/2 - 5, -th/2 - 5, tw + 10, th + 10);
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+            }
+        }
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = 350;
+        }
+
+        function init() {
+            resize();
+            particles = [];
+            for (let i = 0; i < MAX_PARTICLES; i++) {
+                const p = new Particle();
+                p.life = Math.random() * Math.PI; 
+                particles.push(p);
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+
+            // Linhas de Conexão (Rede Neural / Constelação)
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p1 = particles[i];
+                    const p2 = particles[j];
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+
+                    if (dist < CONNECTION_DIST) {
+                        const lineAlpha = Math.min(p1.alpha, p2.alpha) * (1 - dist / CONNECTION_DIST);
+                        ctx.strokeStyle = `rgba(${COLOR_BASE}, ${lineAlpha * 0.4})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            particles.forEach(p => {
+                p.update();
+                p.draw(ctx);
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => { resize(); init(); });
+        init();
+        animate();
+    </script>
+</body>
+</html>

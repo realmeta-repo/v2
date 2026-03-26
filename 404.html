@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REALMETA - Redirecionando...</title>
+    <script>
+        // Captura a rota atual
+        const currentPath = window.location.pathname + window.location.search;
+        
+        // Redireciona para index.html com a rota como parâmetro
+        const newURL = window.location.origin + '/index.html?route=' + encodeURIComponent(currentPath);
+        
+        console.log('404.html - Redirecionando para:', newURL);
+        window.location.href = newURL;
+    </script>
+</head>
+<body>
+    <p style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+        Redirecionando para REALMETA...
+    </p>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<template>
+<div class="hashtags-component" style="margin: 0; padding: 0;">
+    <div class="article-tags">
+        {{#each tags}}
+        <span>{{this}}</span>
+        {{/each}}
+    </div>
+</div>
+</template>
+
+<script type="application/json">
+{
+    "name": "Hashtags",
+    "icon": "🏷️",
+    "description": "Lista de tags ou hashtags para o artigo",
+    "defaultConfig": {
+        "tags": ["inovação", "transformação digital", "inteligência", "governança"],
+        "paddingTop": "0",
+        "paddingBottom": "32px"
+    }
+}
+</script>
+
+<style>
+.hashtags-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.hashtags-component .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.hashtags-component .article-tags span {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 10px; /* Alterado de .7rem para 10px */
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #ebebeb; /* Cinza médio 30% - alterado de transparent */
+    color: #383838; /* Preto - alterado de #6B7280 */
+    border: none; /* Removida a borda de 1px solid #E5E7EB */
+    font-weight: normal; /* Garantir peso normal */
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .hashtags-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hashtags-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+}
+</style>
+
+<div data-form-template style="display: none;">
+    <div class="form-group">
+        <label>Tags (separadas por vírgula)</label>
+        <input type="text" id="editTags" value="{{tagsString}}" placeholder="inovação, transformação digital, inteligência">
+        <small style="color: #c5c5c5; font-size: 0.8rem;">Ex: inovação, transformação digital, inteligência</small>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Padding Superior</label>
+            <input type="text" id="editPaddingTop" value="{{paddingTop}}" placeholder="0">
+            <small style="color: #c5c5c5; font-size: 0.8rem;">Ex: 0, 16px, 2rem</small>
+        </div>
+        <div class="form-group">
+            <label>Padding Inferior</label>
+            <input type="text" id="editPaddingBottom" value="{{paddingBottom}}" placeholder="32px">
+            <small style="color: #c5c5c5; font-size: 0.8rem;">Ex: 32px, 2rem, 0</small>
+        </div>
+    </div>
+</div>
+
+<script>
+// Script para processar as tags
+(function() {
+    'use strict';
+    
+    function initFormControls() {
+        const input = document.getElementById('editTags');
+        if (!input) return;
+        
+        // Converter array de tags em string para o input
+        const tags = JSON.parse('{{tags}}' || '[]');
+        input.value = tags.join(', ');
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('modalEdicao');
+        if (modal) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class' && modal.classList.contains('active')) {
+                        setTimeout(initFormControls, 100);
+                    }
+                });
+            });
+            observer.observe(modal, { attributes: true });
+        }
+    });
+})();
+</script>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Banner Final - Altura Limitada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            margin: 0; 
+            background: #fff; 
+            font-family: 'Montserrat', sans-serif; 
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        #canvasContainer { 
+            width: 100vw; 
+            height: 500px; /* Altura fixa máxima */
+            max-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+
+<div id="canvasContainer">
+    <canvas id="bannerCanvas"></canvas>
+</div>
+
+<script>
+const canvas = document.getElementById('bannerCanvas');
+const ctx = canvas.getContext('2d');
+
+const GRAY_50 = "rgba(128, 128, 128, 0.5)";
+const GRAY_20 = "rgba(128, 128, 128, 0.15)";
+const GRAY_SOLID = "rgba(128, 128, 128, 0.8)";
+const COLORS = { red: "#FF4444", orange: "#FF9800", green: "#4CAF50" };
+
+let width, height, startTime = null;
+let isMobile = false;
+let phase = 'initial'; 
+
+const nodes = [
+    { id: 'res', label: "RESEARCH", angle: (5 * Math.PI) / 6, children: [
+        { label: "DEMAND", val: 5, target: 5, nextUpdate: 0 },
+        { label: "PURPOSE", val: 5, target: 5, nextUpdate: 0 }
+    ]},
+    { id: 'dev', label: "DEVELOPMENT", angle: -Math.PI / 2, children: [
+        { label: "STRATEGY", val: 5, target: 5, nextUpdate: 0 },
+        { label: "DESIGN", val: 5, target: 5, nextUpdate: 0 }
+    ]},
+    { id: 'dist', label: "DISTRIBUTION", angle: Math.PI / 6, children: [
+        { label: "OPERATIONS", val: 5, target: 5, nextUpdate: 0 },
+        { label: "IMPACTS", val: 5, target: 5, nextUpdate: 0 }
+    ]}
+];
+
+function resize() {
+    width = window.innerWidth;
+    height = 500; // Altura travada em 500px
+    isMobile = width < 768;
+    
+    canvas.width = width * window.devicePixelRatio;
+    canvas.height = height * window.devicePixelRatio;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+window.addEventListener('resize', resize);
+resize();
+
+function getBadgeColor(val) {
+    if (val < 4) return COLORS.red;
+    if (val <= 7) return COLORS.orange;
+    return COLORS.green;
+}
+
+function updateLogic(timestamp) {
+    nodes.forEach(parent => {
+        let sum = 0;
+        parent.children.forEach(child => {
+            if (timestamp > child.nextUpdate) {
+                if (child.val === child.target) {
+                    child.target = Math.floor(Math.random() * 10) + 1;
+                } else {
+                    child.val += (child.target > child.val) ? 1 : -1;
+                }
+                child.nextUpdate = timestamp + 300 + Math.random() * 400;
+            }
+            sum += child.val;
+        });
+        parent.val = Math.round(sum / parent.children.length);
+    });
+}
+
+function drawBadge(val, x, y, label, fontSize, alpha) {
+    if (alpha < 0.05) return;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.font = `700 ${fontSize}px Montserrat`;
+    const textWidth = ctx.measureText(label.toUpperCase()).width;
+    const badgeSize = isMobile ? 8 : 9;
+    const badgeX = x + (textWidth / 2) + 10;
+    const badgeY = y - (fontSize * 0.5);
+    ctx.beginPath();
+    ctx.arc(badgeX, badgeY, badgeSize, 0, Math.PI * 2);
+    ctx.fillStyle = getBadgeColor(val);
+    ctx.fill();
+    ctx.fillStyle = "#FFF";
+    ctx.font = `700 ${isMobile ? 9 : 10}px Montserrat`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(val, badgeX, badgeY);
+    ctx.restore();
+}
+
+function drawTreeLine(x1, y1, x2, y2, t) {
+    ctx.beginPath();
+    ctx.strokeStyle = GRAY_50;
+    ctx.lineWidth = 1.5;
+    ctx.moveTo(x1, y1);
+    const cp1y = y1 + (y2 - y1) * 0.6;
+    const steps = 20;
+    const maxI = t * steps;
+    for (let i = 0; i <= maxI; i++) {
+        const localT = i / steps;
+        const tx = Math.pow(1 - localT, 3) * x1 + 3 * Math.pow(1 - localT, 2) * localT * x1 + 3 * (1 - localT) * Math.pow(localT, 2) * x2 + Math.pow(localT, 3) * x2;
+        const ty = Math.pow(1 - localT, 3) * y1 + 3 * Math.pow(1 - localT, 2) * localT * cp1y + 3 * (1 - localT) * Math.pow(localT, 2) * cp1y + Math.pow(localT, 3) * y2;
+        if (i === 0) ctx.moveTo(tx, ty); else ctx.lineTo(tx, ty);
+    }
+    ctx.stroke();
+}
+
+function drawRadarSystem(cx, cy, radius, alpha) {
+    if (alpha <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = GRAY_20;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]); 
+    for (let i = 1; i <= 5; i++) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, (radius / 5) * i, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.strokeStyle = GRAY_50; 
+    nodes.forEach(node => {
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(node.angle) * radius, cy + Math.sin(node.angle) * radius);
+        ctx.stroke();
+    });
+    ctx.restore();
+}
+
+function animate(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    updateLogic(timestamp);
+    ctx.clearRect(0, 0, width, height);
+
+    const tTimeline = { fadeIn: 1000, pause1: 5000, expand: 2000, pause2: 5000, fadeOut: 1000, radarMove: 2000 };
+
+    let treeAlpha = 1, radarAlpha = 0, radarMoveProg = 0, expandProg = 0;
+
+    if (elapsed < 6000) phase = 'initial';
+    else if (elapsed < 8000) { phase = 'expand'; expandProg = (elapsed - 6000) / 2000; }
+    else if (elapsed < 13000) { phase = 'wait'; expandProg = 1; }
+    else if (elapsed < 14000) { phase = 'contract'; expandProg = 1; treeAlpha = 1 - (elapsed - 13000) / 1000; }
+    else {
+        phase = 'radar'; expandProg = 1; treeAlpha = 0;
+        const radarTime = elapsed - 14000;
+        radarMoveProg = Math.min(radarTime / 2000, 1);
+        radarAlpha = Math.min(radarTime / 1000, 1);
+    }
+
+    const easeExpand = 1 - Math.pow(1 - expandProg, 3);
+    const easeRadar = 1 - Math.pow(1 - radarMoveProg, 3); 
+
+    const radarCX = width / 2;
+    const radarCY = 250; // Centro fixo da altura de 500px
+    const radarRadius = isMobile ? 110 : 130;
+    const textPadding = isMobile ? 35 : 45;
+
+    if (phase === 'radar') drawRadarSystem(radarCX, radarCY, radarRadius, radarAlpha);
+
+    const radarPolyPoints = [];
+
+    nodes.forEach((parent, i) => {
+        let treeX, treeY;
+        if (!isMobile) {
+            treeX = (width / 4) * (i + 1);
+            treeY = 250 - (100 * easeExpand); // Sobe do centro 250 para 150
+        } else {
+            const mobileGap = 120; // Reduzido para caber em 500px
+            if (parent.id === 'dev') {
+                treeX = width / 2;
+                treeY = 220 - (easeExpand * 100); // DEVELOPMENT limitado no topo
+            } else {
+                treeX = (parent.id === 'res') ? width * 0.25 : width * 0.75;
+                treeY = 280 + (easeExpand * 80);
+            }
+        }
+
+        const radarTargetX = radarCX + Math.cos(parent.angle) * (radarRadius + textPadding);
+        const radarTargetY = radarCY + Math.sin(parent.angle) * (radarRadius + textPadding);
+
+        let currentX = treeX + (radarTargetX - treeX) * easeRadar;
+        let currentY = treeY + (radarTargetY - treeY) * easeRadar;
+
+        const pFontSize = isMobile ? 13 : 15;
+
+        if (treeAlpha > 0 && phase !== 'radar') {
+            const childY = currentY + 110;
+            parent.children.forEach((child, ci) => {
+                const childX = ci === 0 ? currentX - (isMobile ? 40 : 70) : currentX + (isMobile ? 40 : 70);
+                ctx.save();
+                ctx.globalAlpha = treeAlpha;
+                drawTreeLine(currentX, currentY + 10, childX, childY - 20, easeExpand);
+                if (easeExpand > 0.8) {
+                    const tA = Math.min((easeExpand - 0.8) * 5, 1) * treeAlpha;
+                    ctx.globalAlpha = tA;
+                    ctx.font = "700 11px Montserrat"; ctx.textAlign = "center"; ctx.fillStyle = GRAY_SOLID;
+                    ctx.fillText(child.label, childX, childY);
+                    drawBadge(child.val, childX, childY, child.label, 11, tA);
+                }
+                ctx.restore();
+            });
+        }
+
+        ctx.globalAlpha = 1;
+        ctx.font = `700 ${pFontSize}px Montserrat`; ctx.fillStyle = GRAY_SOLID; ctx.textAlign = "center";
+        ctx.fillText(parent.label, currentX, currentY);
+        drawBadge(parent.val, currentX, currentY, parent.label, pFontSize, 1);
+
+        if (phase === 'radar') {
+            const px = radarCX + Math.cos(parent.angle) * (radarRadius * (parent.val / 10));
+            const py = radarCY + Math.sin(parent.angle) * (radarRadius * (parent.val / 10));
+            radarPolyPoints.push({ x: px, y: py, color: getBadgeColor(parent.val) });
+        }
+    });
+
+    if (phase === 'radar' && radarPolyPoints.length === 3) {
+        ctx.save();
+        ctx.globalAlpha = radarAlpha;
+        ctx.beginPath();
+        ctx.moveTo(radarPolyPoints[0].x, radarPolyPoints[0].y);
+        ctx.lineTo(radarPolyPoints[1].x, radarPolyPoints[1].y);
+        ctx.lineTo(radarPolyPoints[2].x, radarPolyPoints[2].y);
+        ctx.closePath();
+        ctx.fillStyle = GRAY_20; ctx.fill();
+        ctx.strokeStyle = GRAY_SOLID; ctx.lineWidth = 2; ctx.stroke();
+        radarPolyPoints.forEach(p => {
+            ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = p.color; ctx.fill();
+            ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.stroke();
+        });
+        ctx.restore();
+    }
+    requestAnimationFrame(animate);
+}
+document.fonts.ready.then(() => requestAnimationFrame(animate));
+</script>
+</body>
+</html>

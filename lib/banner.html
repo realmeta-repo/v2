@@ -1,0 +1,446 @@
+<template>
+<section class="article-banner" style="position: relative; height: {{alturaBanner}}; overflow: hidden; padding-top: {{paddingTop}}; padding-bottom: {{paddingBottom}}; width: 100%;">
+    <img
+        src="{{imagemUrl}}"
+        alt="{{imagemAlt}}"
+        class="banner-image"
+        loading="eager"
+        width="1600"
+        height="900"
+        style="position: absolute; inset: 0; width: 140%; height: 100%; object-fit: cover; left: -20%; animation: {{animacaoAtiva ? 'bannerPan 50s linear infinite' : 'none'}}; will-change: transform; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+    
+    <div class="banner-overlay" style="position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 0 24px; background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.4) 30%, transparent 60%); color: #fff;">
+        <div class="banner-content" style="width: 100%; max-width: 900px; margin: 0 auto 0; padding-bottom: 32px; display: flex; flex-direction: column; gap: 8px;">
+            <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin: 0; font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; transition: all 0.3s ease;">
+                {{titulo}}
+            </h1>
+            <p style="font-family: 'Merriweather', serif; font-size: .95rem; opacity: .9; margin: 0 0 12px 0; line-height: 1.4; transition: all 0.3s ease;">
+                {{subtitulo}}
+            </p>
+        </div>
+    </div>
+</section>
+</template>
+<style>
+    :root {
+        color-scheme: only light;
+    }
+    
+    .article-banner {
+        contain: paint;
+    }
+    
+    @keyframes bannerPan {
+        0%   { transform: translateX(0); }
+        50%  { transform: translateX(8%); }
+        100% { transform: translateX(0); }
+    }
+    
+    @media (max-width: 768px) {
+        .article-banner {
+            height: clamp(180px, 22vh, 300px) !important;
+        }
+        
+        .banner-overlay {
+            padding: 0 18px !important;
+            background: linear-gradient(to top,
+                rgba(0,0,0,.9),
+                rgba(0,0,0,.5) 25%,
+                transparent 50%) !important;
+            align-items: flex-end !important; /* Alterado de 'center' para 'flex-end' */
+            padding-top: 64px !important; /* Adicionado padding superior para o header */
+        }
+        
+        .banner-content {
+            padding-bottom: 24px !important;
+            gap: 6px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .banner-overlay h1 {
+            font-size: clamp(1.2rem, 5.5vw, 1.8rem) !important;
+            letter-spacing: .06em !important;
+            line-height: 1.15 !important;
+        }
+        
+        .banner-overlay p {
+            font-size: 0.85rem !important;
+            opacity: 0.95 !important;
+            line-height: 1.3 !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .article-banner {
+            height: clamp(160px, 20vh, 260px) !important;
+        }
+        
+        .banner-overlay {
+            padding: 0 16px !important;
+            background: linear-gradient(to top,
+                rgba(0,0,0,.92),
+                rgba(0,0,0,.6) 20%,
+                transparent 45%) !important;
+            padding-top: 64px !important; /* Padding superior consistente */
+        }
+        
+        .banner-content {
+            padding-bottom: 20px !important;
+            gap: 4px !important;
+        }
+        
+        .banner-overlay h1 {
+            font-size: clamp(1rem, 6vw, 1.5rem) !important;
+            letter-spacing: .05em !important;
+            line-height: 1.1 !important;
+        }
+        
+        .banner-overlay p {
+            font-size: 0.8rem !important;
+            line-height: 1.25 !important;
+        }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+        .banner-image {
+            animation: none !important;
+        }
+    }
+</style>
+
+<script>
+// Função de criação do componente banner
+function criarElemento(config, id, isEditor = false) {
+    // Criar o elemento section
+    const section = document.createElement('section');
+    section.className = 'article-banner';
+    section.style.position = 'relative';
+    section.style.height = config.alturaBanner || 'clamp(220px, 25vh, 420px)';
+    section.style.overflow = 'hidden';
+    section.style.paddingTop = config.paddingTop || '0';
+    section.style.paddingBottom = config.paddingBottom || '0';
+    section.style.width = '100%';
+    section.style.boxSizing = 'border-box';
+    
+    // Aplicar padding específico para mobile se necessário
+    const mobilePaddingTop = config.paddingTop === '0' ? '0' : (config.paddingTop || '0');
+    section.style.setProperty('--mobile-padding-top', mobilePaddingTop);
+    
+    // Construir URL da imagem usando o helper global
+    const imagemNome = config.imagemNome || '';
+    const imagemUrl = window.construirUrlImagem(imagemNome, isEditor);
+    
+    // Criar imagem do banner
+    const img = document.createElement('img');
+    img.src = imagemUrl;
+    img.alt = config.imagemAlt || 'Banner do artigo';
+    img.className = 'banner-image';
+    img.loading = 'eager';
+    img.width = 1600;
+    img.height = 900;
+    
+    img.style.position = 'absolute';
+    img.style.inset = '0';
+    img.style.width = '140%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+    img.style.left = '-20%';
+    img.style.willChange = 'transform';
+    img.style.imageRendering = '-webkit-optimize-contrast';
+    img.style.imageRendering = 'crisp-edges';
+    
+    // Configurar animação se ativada
+    const animacaoAtiva = config.animacaoAtiva !== false; // Padrão: true
+    if (animacaoAtiva) {
+        img.style.animation = 'bannerPan 50s linear infinite';
+    } else {
+        img.style.animation = 'none';
+    }
+    
+    // Adicionar fallback para imagem não encontrada
+    img.onerror = function() {
+        this.src = 'https://via.placeholder.com/1600x900/1e293b/94a3b8?text=Banner+do+Artigo';
+        this.alt = 'Imagem do banner não encontrada - use um arquivo na pasta img/';
+    };
+    
+    // Criar overlay do banner
+    const overlay = document.createElement('div');
+    overlay.className = 'banner-overlay';
+    overlay.style.position = 'absolute';
+    overlay.style.inset = '0';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'flex-end';
+    overlay.style.padding = `0 24px ${config.paddingBottom || '0'}`;
+    overlay.style.background = 'linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.4) 30%, transparent 60%)';
+    overlay.style.color = '#fff';
+    overlay.style.boxSizing = 'border-box';
+    
+    // Ajustar padding do overlay para mobile
+    const overlayStyle = document.createElement('style');
+    overlayStyle.textContent = `
+        @media (max-width: 768px) {
+            .banner-overlay {
+                padding: 0 18px ${config.paddingBottom || '0'} !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .banner-overlay {
+                padding: 0 16px ${config.paddingBottom || '0'} !important;
+            }
+        }
+    `;
+    
+    // Criar conteúdo do banner
+    const content = document.createElement('div');
+    content.className = 'banner-content';
+    content.style.width = '100%';
+    content.style.maxWidth = '900px';
+    content.style.margin = '0 auto 0';
+    content.style.paddingBottom = '32px';
+    content.style.display = 'flex';
+    content.style.flexDirection = 'column';
+    content.style.gap = '8px';
+    content.style.boxSizing = 'border-box';
+    
+    // Criar título
+    const title = document.createElement('h1');
+    title.textContent = config.titulo || 'Título do Artigo';
+    title.style.fontFamily = "'Montserrat', sans-serif";
+    title.style.fontWeight = '800';
+    title.style.textTransform = 'uppercase';
+    title.style.letterSpacing = '.08em';
+    title.style.margin = '0';
+    title.style.fontSize = 'clamp(1.5rem, 4vw, 2.5rem)';
+    title.style.lineHeight = '1.2';
+    title.style.transition = 'all 0.3s ease';
+    
+    // Criar subtítulo
+    const subtitle = document.createElement('p');
+    subtitle.textContent = config.subtitulo || 'Subtítulo descritivo do artigo';
+    subtitle.style.fontFamily = "'Merriweather', serif";
+    subtitle.style.fontSize = '.95rem';
+    subtitle.style.opacity = '.9';
+    subtitle.style.margin = '0';
+    subtitle.style.lineHeight = '1.4';
+    subtitle.style.transition = 'all 0.3s ease';
+    
+    // Montar a estrutura
+    content.appendChild(title);
+    content.appendChild(subtitle);
+    overlay.appendChild(content);
+    
+    section.appendChild(overlayStyle);
+    section.appendChild(img);
+    section.appendChild(overlay);
+    
+    // Script de ajuste automático do texto do banner
+    const script = document.createElement('script');
+    script.textContent = `
+        (function() {
+            function adjustBannerText() {
+                const banner = document.querySelector('.article-banner');
+                if (!banner) return;
+                
+                const title = banner.querySelector('h1');
+                const subtitle = banner.querySelector('p');
+                const bannerContent = banner.querySelector('.banner-content');
+                const bannerOverlay = banner.querySelector('.banner-overlay');
+                
+                if (!title || !subtitle) return;
+                
+                // Desabilitar ajustes complexos em mobile para performance
+                if (window.innerWidth < 768) {
+                    title.style.fontSize = '';
+                    subtitle.style.fontSize = '';
+                    if (bannerContent) {
+                        bannerContent.style.gap = '';
+                        bannerContent.style.paddingBottom = '';
+                    }
+                    return;
+                }
+                
+                const bannerHeight = bannerOverlay.offsetHeight;
+                const bannerWidth = bannerOverlay.offsetWidth;
+                
+                // Reset para valores iniciais
+                title.style.fontSize = '';
+                subtitle.style.fontSize = '';
+                if (bannerContent) {
+                    bannerContent.style.gap = '';
+                    bannerContent.style.paddingBottom = '';
+                }
+                
+                // Calcula a altura disponível para o texto
+                const contentHeight = bannerHeight * 0.7;
+                const minContentHeight = 80;
+                const availableHeight = Math.max(contentHeight, minContentHeight);
+                
+                // Calcula altura ideal
+                const titleLineHeight = parseFloat(getComputedStyle(title).lineHeight);
+                const subtitleLineHeight = parseFloat(getComputedStyle(subtitle).lineHeight);
+                
+                const idealTitleHeight = titleLineHeight * 2;
+                const idealSubtitleHeight = subtitleLineHeight * 1;
+                const idealGap = 8;
+                const idealPaddingBottom = 32;
+                
+                const totalIdealHeight = idealTitleHeight + idealSubtitleHeight + idealGap + idealPaddingBottom;
+                
+                // Se a altura disponível for menor que a ideal, ajusta proporcionalmente
+                if (availableHeight < totalIdealHeight) {
+                    const scaleFactor = availableHeight / totalIdealHeight;
+                    
+                    // Ajusta tamanhos proporcionalmente
+                    const currentTitleSize = parseFloat(getComputedStyle(title).fontSize);
+                    const currentSubtitleSize = parseFloat(getComputedStyle(subtitle).fontSize);
+                    
+                    const newTitleSize = Math.max(currentTitleSize * scaleFactor, 16);
+                    const newSubtitleSize = Math.max(currentSubtitleSize * scaleFactor, 12);
+                    
+                    title.style.fontSize = \`\${newTitleSize}px\`;
+                    subtitle.style.fontSize = \`\${newSubtitleSize}px\`;
+                    
+                    // Ajusta gap e padding proporcionalmente
+                    if (bannerContent) {
+                        const newGap = idealGap * scaleFactor;
+                        const newPaddingBottom = idealPaddingBottom * scaleFactor * 0.7;
+                        bannerContent.style.gap = \`\${newGap}px\`;
+                        bannerContent.style.paddingBottom = \`\${newPaddingBottom}px\`;
+                    }
+                }
+                
+                // Ajuste fino para larguras muito pequenas
+                if (bannerWidth < 400) {
+                    const titleWidth = title.offsetWidth;
+                    const containerWidth = bannerContent ? bannerContent.offsetWidth : bannerWidth;
+                    
+                    // Se o título for muito largo, reduz um pouco a fonte
+                    if (titleWidth > containerWidth * 0.95) {
+                        const currentSize = parseFloat(getComputedStyle(title).fontSize);
+                        const reduction = 0.95 * (containerWidth / titleWidth);
+                        title.style.fontSize = \`\${Math.max(currentSize * reduction, 16)}px\`;
+                    }
+                }
+            }
+            
+            // Otimizado para performance
+            let resizeTimer;
+            function optimizedResize() {
+                if (resizeTimer) clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(adjustBannerText, 150);
+            }
+            
+            // Executar após o componente ser renderizado
+            setTimeout(() => {
+                adjustBannerText();
+                window.addEventListener('resize', optimizedResize);
+            }, 100);
+        })();
+    `;
+    
+    // Adicionar script de ajuste de texto
+    section.appendChild(script);
+    
+    return section;
+}
+
+// Script para inicializar controles do formulário
+(function() {
+    'use strict';
+    
+    function initFormControls() {
+        // Configurar checkbox de animação
+        const animacaoCheckbox = document.getElementById('editAnimacaoAtiva');
+        if (animacaoCheckbox) {
+            // O valor já foi preenchido pelo editor via template
+        }
+        
+        // Configurar select de altura
+        const alturaSelect = document.getElementById('editAlturaBanner');
+        if (alturaSelect) {
+            // O valor já foi preenchido pelo editor via template
+        }
+    }
+    
+    // Inicializar quando o DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFormControls);
+    } else {
+        initFormControls();
+    }
+})();
+</script>
+
+<script type="application/json">
+{
+    "name": "Banner de Artigo",
+    "icon": "🏞️",
+    "description": "Banner com imagem animada, título e subtítulo para artigos",
+    "defaultConfig": {
+        "imagemNome": "banner-exemplo.jpg",
+        "imagemAlt": "Inovação Digital e o Futuro das Organizações",
+        "titulo": "Título do Artigo",
+        "subtitulo": "Subtítulo descritivo do artigo",
+        "alturaBanner": "clamp(220px, 25vh, 420px)",
+        "animacaoAtiva": true,
+        "paddingTop": "0",
+        "paddingBottom": "0"
+    }
+}
+</script>
+
+<div data-form-template style="display: none;">
+    <div class="form-group">
+        <label>Nome do arquivo da imagem</label>
+        <input type="text" id="editImagemNome" value="{{imagemNome}}" placeholder="banner.jpg">
+        <small style="color: #64748b; font-size: 0.8rem;">Coloque o arquivo na pasta 'img' do seu site. Ex: banner.jpg, imagem.png</small>
+    </div>
+    
+    <div class="form-group">
+        <label>Texto Alternativo (Alt)</label>
+        <input type="text" id="editImagemAlt" value="{{imagemAlt}}" placeholder="Descrição da imagem para acessibilidade">
+    </div>
+    
+    <div class="form-group">
+        <label>Título</label>
+        <input type="text" id="editTitulo" value="{{titulo}}" placeholder="Título principal do artigo">
+    </div>
+    
+    <div class="form-group">
+        <label>Subtítulo</label>
+        <input type="text" id="editSubtitulo" value="{{subtitulo}}" placeholder="Subtítulo descritivo">
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Altura do Banner</label>
+            <select id="editAlturaBanner">
+                <option value="clamp(220px, 25vh, 420px)">Padrão (25vh)</option>
+                <option value="clamp(180px, 20vh, 350px)">Pequeno (20vh)</option>
+                <option value="clamp(260px, 30vh, 500px)">Grande (30vh)</option>
+                <option value="clamp(300px, 35vh, 600px)">Extra Grande (35vh)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Animação da Imagem</label>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                <input type="checkbox" id="editAnimacaoAtiva" {{animacaoAtiva}}>
+                <label for="editAnimacaoAtiva" style="margin: 0; font-size: 0.9rem;">Ativar animação de movimento</label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Padding Superior</label>
+            <input type="text" id="editPaddingTop" value="{{paddingTop}}" placeholder="0">
+            <small style="color: #64748b; font-size: 0.8rem;">Ex: 0, 64px (para header), 2rem</small>
+        </div>
+        <div class="form-group">
+            <label>Padding Inferior</label>
+            <input type="text" id="editPaddingBottom" value="{{paddingBottom}}" placeholder="0">
+            <small style="color: #64748b; font-size: 0.8rem;">Ex: 0, 16px, 2rem</small>
+        </div>
+    </div>
+</div>

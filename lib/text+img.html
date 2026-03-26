@@ -1,0 +1,481 @@
+<template>
+<div class="text-img-component">
+    <!-- O conteúdo será inserido aqui -->
+</div>
+</template>
+
+<script type="application/json">
+{
+    "name": "Texto + Imagem",
+    "icon": "📰",
+    "defaultConfig": {
+        "conteudo": "<p>Este é um exemplo de texto formatado ao lado de uma imagem.</p><p>Segundo parágrafo com separação visual clara.</p>",
+        "imagemNome": "exemplo.jpg",
+        "imagemAlt": "Imagem ilustrativa",
+        "legenda": "",
+        "posicao": "esquerda",
+        "tamanhoImagem": "50",
+        "bordaImagem": "8px",
+        "margem": "0 0 48px 0",
+        "paddingTop": "0",
+        "paddingBottom": "32px",
+        "gap": "32px"
+    }
+}
+</script>
+
+<style>
+.text-img-component {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.text-img-component .grid-container {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Posição esquerda: imagem à esquerda, texto à direita */
+.text-img-component.posicao-esquerda .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "imagem texto";
+}
+
+/* Posição direita: texto à esquerda, imagem à direita */
+.text-img-component.posicao-direita .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "texto imagem";
+}
+
+.text-img-component .text-column {
+    font-family: Tahoma, Arial, sans-serif;
+    color: #020617;
+    grid-area: texto;
+    box-sizing: border-box;
+}
+
+/* SOBRESCREVER PARÁGRAFOS DO SUMMERNOTE */
+.text-img-component .text-column p,
+.text-img-component .text-column p.western,
+.text-img-component .text-column p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    font-family: Tahoma, Arial, sans-serif !important;
+    font-size: 12px !important;
+    color: #020617 !important;
+    text-align: justify !important;
+}
+
+/* SEPARAÇÃO ENTRE PARÁGRAFOS - SOBRESCREVE TUDO */
+.text-img-component .text-column p + p,
+.text-img-component .text-column p.western + p.western,
+.text-img-component .text-column p[class*="western"] + p[class*="western"],
+.text-img-component .text-column p[style*="margin-bottom"] + p[style*="margin-bottom"] {
+    margin-top: 0.8em !important;
+    position: relative;
+}
+
+/* TÍTULOS - SOBRESCREVER SUMMERNOTE */
+.text-img-component .text-column h1,
+.text-img-component .text-column h2,
+.text-img-component .text-column h3,
+.text-img-component .text-column h4,
+.text-img-component .text-column h5,
+.text-img-component .text-column h6,
+.text-img-component .text-column h1.western,
+.text-img-component .text-column h2.western,
+.text-img-component .text-column h3.western,
+.text-img-component .text-column h4.western,
+.text-img-component .text-column h5.western,
+.text-img-component .text-column h6.western {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 900 !important; /* ALTERADO DE 800 PARA 900 */
+    margin-top: 2em !important;
+    margin-bottom: 0.75em !important;
+    line-height: 1.2 !important;
+    color: #020617 !important;
+}
+
+/* Primeiro título sem margem top */
+.text-img-component .text-column h1:first-child,
+.text-img-component .text-column h2:first-child,
+.text-img-component .text-column h3:first-child,
+.text-img-component .text-column h4:first-child,
+.text-img-component .text-column h5:first-child,
+.text-img-component .text-column h6:first-child {
+    margin-top: 0 !important;
+}
+
+.text-img-component .text-column h1,
+.text-img-component .text-column h1.western { font-size: 2.5em !important; }
+.text-img-component .text-column h2,
+.text-img-component .text-column h2.western { font-size: 2em !important; }
+.text-img-component .text-column h3,
+.text-img-component .text-column h3.western { font-size: 1.75em !important; }
+.text-img-component .text-column h4,
+.text-img-component .text-column h4.western { font-size: 1.5em !important; }
+.text-img-component .text-column h5,
+.text-img-component .text-column h5.western { font-size: 1.25em !important; }
+.text-img-component .text-column h6,
+.text-img-component .text-column h6.western { font-size: 1em !important; }
+
+/* Primeiro parágrafo sem margem top */
+.text-img-component .text-column > p:first-child,
+.text-img-component .text-column > p.western:first-child,
+.text-img-component .text-column > p[class*="western"]:first-child {
+    margin-top: 0 !important;
+}
+
+/* Último parágrafo sem margem bottom adicional */
+.text-img-component .text-column > p:last-child,
+.text-img-component .text-column > p.western:last-child,
+.text-img-component .text-column > p[class*="western"]:last-child {
+    margin-bottom: 0 !important;
+}
+
+.text-img-component .image-column {
+    grid-area: imagem;
+    box-sizing: border-box;
+}
+
+.text-img-component .image-column img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.text-img-component .image-caption {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 0.9rem;
+    color: #64748b;
+    text-align: center;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Responsivo para telas menores que 900px */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+/* RESPONSIVIDADE CRÍTICA: Em telas menores que 600px, transformar colunas em linhas */
+@media (max-width: 900px) {
+    .text-img-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+    
+    /* DESFAZER O GRID E USAR FLEXBOX PARA LINHAS */
+    .text-img-component .grid-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px !important;
+    }
+    
+    /* Forçar a ordem: imagem primeiro, texto depois */
+    .text-img-component.posicao-esquerda .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-esquerda .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .image-column {
+        order: 1 !important;
+    }
+    
+    .text-img-component.posicao-direita .grid-container .text-column {
+        order: 2 !important;
+    }
+    
+    /* Garantir que as colunas ocupem 100% da largura */
+    .text-img-component .image-column,
+    .text-img-component .text-column {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Remover grid template quando em mobile */
+    .text-img-component .grid-container {
+        grid-template-columns: 1fr !important;
+        grid-template-areas: none !important;
+    }
+    
+    /* Ajustar tamanhos de fonte em mobile */
+    .text-img-component .text-column h1,
+    .text-img-component .text-column h1.western { font-size: 2em !important; }
+    .text-img-component .text-column h2,
+    .text-img-component .text-column h2.western { font-size: 1.75em !important; }
+    .text-img-component .text-column h3,
+    .text-img-component .text-column h3.western { font-size: 1.5em !important; }
+    .text-img-component .text-column h4,
+    .text-img-component .text-column h4.western { font-size: 1.25em !important; }
+    .text-img-component .text-column h5,
+    .text-img-component .text-column h5.western { font-size: 1.1em !important; }
+    .text-img-component .text-column h6,
+    .text-img-component .text-column h6.western { font-size: 1em !important; }
+    
+    /* Menos espaço entre parágrafos no mobile */
+    .text-img-component .text-column p + p,
+    .text-img-component .text-column p.western + p.western {
+        margin-top: 1.2em !important;
+    }
+}
+</style>
+
+<div data-form-template style="display: none;">
+    <div class="form-group">
+        <label>Texto (use o editor Summernote)</label>
+        <textarea id="editConteudo" class="summernote-editor rich-text">{{conteudo}}</textarea>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Nome do arquivo da imagem</label>
+            <input type="text" id="editImagemNome" value="{{imagemNome}}" placeholder="exemplo.jpg">
+            <small style="color: #64748b; font-size: 0.8rem;">A imagem deve estar na pasta 'img' do seu site</small>
+        </div>
+        <div class="form-group">
+            <label>Texto Alternativo (Alt)</label>
+            <input type="text" id="editImagemAlt" value="{{imagemAlt}}" placeholder="Descrição da imagem">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Legenda (opcional)</label>
+            <input type="text" id="editLegenda" value="{{legenda}}" placeholder="Legenda da imagem">
+        </div>
+        <div class="form-group">
+            <label>Tamanho da Imagem: <span id="tamanhoImagemValue">{{tamanhoImagem}}%</span></label>
+            <input type="range" id="editTamanhoImagem" min="20" max="80" value="{{tamanhoImagem}}">
+            <small style="color: #64748b; font-size: 0.8rem;">20% a 80% da largura</small>
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Posição da Imagem</label>
+            <select id="editPosicao">
+                <option value="esquerda">Esquerda</option>
+                <option value="direita">Direita</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Borda da Imagem</label>
+            <input type="text" id="editBordaImagem" value="{{bordaImagem}}" placeholder="8px">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Espaço entre colunas (gap)</label>
+            <input type="text" id="editGap" value="{{gap}}" placeholder="32px">
+        </div>
+        <div class="form-group">
+            <label>Margem (ex: 0 0 48px 0)</label>
+            <input type="text" id="editMargem" value="{{margem}}" placeholder="top right bottom left">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Padding Superior</label>
+            <input type="text" id="editPaddingTop" value="{{paddingTop}}" placeholder="0">
+            <small style="color: #64748b; font-size: 0.8rem;">Ex: 0, 16px, 2rem</small>
+        </div>
+        <div class="form-group">
+            <label>Padding Inferior</label>
+            <input type="text" id="editPaddingBottom" value="{{paddingBottom}}" placeholder="32px">
+            <small style="color: #64748b; font-size: 0.8rem;">Ex: 32px, 2rem, 0</small>
+        </div>
+    </div>
+</div>
+
+<script>
+// Função de criação do componente texto+imagem
+function criarElemento(config, id, isEditor = false) {
+    const div = document.createElement('div');
+    div.className = `text-img-component posicao-${config.posicao || 'esquerda'}`;
+    div.style.margin = config.margem || '0 0 48px 0';
+    div.style.paddingTop = config.paddingTop || '0';
+    div.style.paddingBottom = config.paddingBottom || '32px';
+    div.style.paddingLeft = '0';
+    div.style.paddingRight = '0';
+    div.style.maxWidth = '900px';
+    div.style.marginLeft = 'auto';
+    div.style.marginRight = 'auto';
+    div.style.width = '100%';
+    div.style.boxSizing = 'border-box';
+    
+    // Determinar tamanho das colunas
+    let tamanhoImagem = parseInt(config.tamanhoImagem);
+    if (isNaN(tamanhoImagem) || tamanhoImagem < 20 || tamanhoImagem > 80) {
+        tamanhoImagem = 50;
+    }
+    
+    const tamanhoTexto = 100 - tamanhoImagem;
+    const posicao = config.posicao || 'esquerda';
+    const gap = config.gap || '32px';
+    
+    // Criar grid container
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'grid-container';
+    gridContainer.style.display = 'grid';
+    gridContainer.style.gap = gap;
+    gridContainer.style.alignItems = 'center';
+    gridContainer.style.boxSizing = 'border-box';
+    
+    // Configurar tamanhos das colunas
+    if (posicao === 'esquerda') {
+        gridContainer.style.gridTemplateColumns = `${tamanhoImagem}fr ${tamanhoTexto}fr`;
+        gridContainer.style.gridTemplateAreas = '"imagem texto"';
+    } else {
+        gridContainer.style.gridTemplateColumns = `${tamanhoTexto}fr ${tamanhoImagem}fr`;
+        gridContainer.style.gridTemplateAreas = '"texto imagem"';
+    }
+    
+    // Criar coluna de texto
+    const textColumn = document.createElement('div');
+    textColumn.className = 'text-column';
+    textColumn.style.gridArea = 'texto';
+    textColumn.style.boxSizing = 'border-box';
+    
+    // Conteúdo do texto
+    const conteudo = config.conteudo || '<p>Digite seu texto aqui...</p>';
+    textColumn.innerHTML = conteudo;
+    
+    // Aplicar IDs únicos aos títulos para navegação
+    let tituloIndex = 0;
+    textColumn.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(titulo => {
+        if (!titulo.id || titulo.id === '') {
+            titulo.id = `titulo-${id}-${tituloIndex}`;
+            tituloIndex++;
+        }
+    });
+    
+    // Criar coluna de imagem
+    const imageColumn = document.createElement('div');
+    imageColumn.className = 'image-column';
+    imageColumn.style.gridArea = 'imagem';
+    imageColumn.style.boxSizing = 'border-box';
+    
+    const img = document.createElement('img');
+    
+    // CONSTRUIR URL DA IMAGEM BASEADA NO CONTEXTO
+    let imagemUrl = '';
+    const imagemNome = config.imagemNome || '';
+    
+    if (imagemNome) {
+        if (isEditor) {
+            // No editor: usa a URL atual do site
+            const baseUrl = window.location.origin;
+            imagemUrl = `${baseUrl}/img/${imagemNome}`;
+        } else {
+            // No artigo gerado: caminho relativo à raiz
+            imagemUrl = `./img/${imagemNome}`;
+        }
+    } else {
+        // Fallback: usar placeholder
+        imagemUrl = 'https://via.placeholder.com/800x600?text=Adicione+uma+imagem';
+    }
+    
+    img.src = imagemUrl;
+    img.alt = config.imagemAlt || 'Imagem ilustrativa';
+    img.style.width = '100%';
+    img.style.height = 'auto';
+    img.style.borderRadius = config.bordaImagem || '8px';
+    img.style.display = 'block';
+    img.style.boxSizing = 'border-box';
+    
+    // Adicionar fallback para imagem não encontrada
+    img.onerror = function() {
+        this.src = 'https://via.placeholder.com/800x600?text=Imagem+não+encontrada';
+        this.alt = 'Imagem não encontrada - verifique o nome do arquivo';
+    };
+    
+    imageColumn.appendChild(img);
+    
+    // Adicionar legenda se existir
+    if (config.legenda && config.legenda.trim() !== '') {
+        const caption = document.createElement('p');
+        caption.className = 'image-caption';
+        caption.textContent = config.legenda;
+        imageColumn.appendChild(caption);
+    }
+    
+    // Adicionar colunas ao grid container
+    if (posicao === 'esquerda') {
+        gridContainer.appendChild(imageColumn);
+        gridContainer.appendChild(textColumn);
+    } else {
+        gridContainer.appendChild(textColumn);
+        gridContainer.appendChild(imageColumn);
+    }
+    
+    div.appendChild(gridContainer);
+    return div;
+}
+
+// Script para inicializar controles do formulário
+(function() {
+    'use strict';
+    
+    function initFormControls() {
+        // Configurar slider de tamanho da imagem
+        const tamanhoSlider = document.getElementById('editTamanhoImagem');
+        const tamanhoValue = document.getElementById('tamanhoImagemValue');
+        
+        if (tamanhoSlider && tamanhoValue) {
+            // Atualizar valor inicial
+            tamanhoValue.textContent = tamanhoSlider.value + '%';
+            
+            // Atualizar quando o slider mudar
+            tamanhoSlider.addEventListener('input', function(e) {
+                tamanhoValue.textContent = e.target.value + '%';
+            });
+        }
+        
+        // Configurar o campo de gap (espaçamento)
+        const gapInput = document.getElementById('editGap');
+        if (gapInput && !gapInput.value) {
+            gapInput.value = '32px';
+        }
+        
+        // Configurar o campo de borda
+        const bordaInput = document.getElementById('editBordaImagem');
+        if (bordaInput && !bordaInput.value) {
+            bordaInput.value = '8px';
+        }
+        
+        // Configurar o campo de margem
+        const margemInput = document.getElementById('editMargem');
+        if (margemInput && !margemInput.value) {
+            margemInput.value = '0 0 48px 0';
+        }
+    }
+    
+    // Inicializar quando o DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFormControls);
+    } else {
+        initFormControls();
+    }
+})();
+</script>

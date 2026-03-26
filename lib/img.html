@@ -1,0 +1,194 @@
+<template>
+<div class="img-component" style="margin: 0; padding: 0; text-align: {{alinhamento}};">
+    <img src="{{url}}" 
+         alt="{{alt}}" 
+         loading="lazy"
+         width="800"
+         height="600"
+         style="width: {{largura}}%; max-width: 100%; height: auto; border-radius: {{borda}}; box-shadow: {{sombra ? '0 4px 20px rgba(0,0,0,0.1)' : 'none'}};">
+    
+    {{#if legenda}}
+    <div class="image-caption" style="margin-top: {{espacamentoLegenda}}; font-size: {{tamanhoLegenda}}; color: {{corLegenda}}; {{#if italicoLegenda}}font-style: italic;{{/if}}">
+        {{legenda}}
+    </div>
+    {{/if}}
+</div>
+</template>
+
+<script type="application/json">
+{
+    "name": "Imagem",
+    "icon": "🖼️",
+    "description": "Imagem com legenda opcional",
+    "defaultConfig": {
+        "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=70",
+        "alt": "Imagem ilustrativa",
+        "legenda": "",
+        "largura": "100",
+        "borda": "8px",
+        "sombra": true,
+        "alinhamento": "center",
+        "espacamentoLegenda": "12px",
+        "tamanhoLegenda": "0.9rem",
+        "corLegenda": "#64748b",
+        "italicoLegenda": true,
+        "paddingTop": "0",
+        "paddingBottom": "32px"
+    }
+}
+</script>
+
+<style>
+.img-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.img-component img {
+    display: block;
+}
+
+.img-component .image-caption {
+    font-family: Tahoma, Arial, sans-serif;
+    text-align: center;
+    margin-top: 12px;
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .img-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .img-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+}
+</style>
+
+<div data-form-template style="display: none;">
+    <div class="form-row">
+        <div class="form-group">
+            <label>URL da Imagem</label>
+            <input type="text" id="editUrl" value="{{url}}" placeholder="https://exemplo.com/imagem.jpg">
+        </div>
+        <div class="form-group">
+            <label>Texto Alternativo (Alt)</label>
+            <input type="text" id="editAlt" value="{{alt}}" placeholder="Descrição da imagem">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Legenda (opcional)</label>
+        <input type="text" id="editLegenda" value="{{legenda}}" placeholder="Legenda da imagem">
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Largura (%)</label>
+            <input type="range" id="editLargura" min="10" max="100" value="{{largura}}">
+            <span id="larguraValue">{{largura}}%</span>
+        </div>
+        <div class="form-group">
+            <label>Borda</label>
+            <input type="text" id="editBorda" value="{{borda}}" placeholder="8px">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Alinhamento</label>
+            <select id="editAlinhamento">
+                <option value="left" {{#ifeq alinhamento "left"}}selected{{/ifeq}}>Esquerda</option>
+                <option value="center" {{#ifeq alinhamento "center"}}selected{{/ifeq}}>Centro</option>
+                <option value="right" {{#ifeq alinhamento "right"}}selected{{/ifeq}}>Direita</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label style="display: block;">
+                <input type="checkbox" id="editSombra" {{#if sombra}}checked{{/if}}> Sombreamento
+            </label>
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Espaçamento da Legenda</label>
+            <input type="text" id="editEspacamentoLegenda" value="{{espacamentoLegenda}}" placeholder="12px">
+        </div>
+        <div class="form-group">
+            <label>Tamanho da Legenda</label>
+            <input type="text" id="editTamanhoLegenda" value="{{tamanhoLegenda}}" placeholder="0.9rem">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor da Legenda</label>
+            <input type="color" id="editCorLegenda" value="{{corLegenda}}">
+        </div>
+        <div class="form-group">
+            <label style="display: block;">
+                <input type="checkbox" id="editItalicoLegenda" {{#if italicoLegenda}}checked{{/if}}> Itálico na legenda
+            </label>
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Padding Superior</label>
+            <input type="text" id="editPaddingTop" value="{{paddingTop}}" placeholder="0">
+            <small style="color: #64748b; font-size: 0.8rem;">Ex: 0, 16px, 2rem</small>
+        </div>
+        <div class="form-group">
+            <label>Padding Inferior</label>
+            <input type="text" id="editPaddingBottom" value="{{paddingBottom}}" placeholder="32px">
+            <small style="color: #64748b; font-size: 0.8rem;">Ex: 32px, 2rem, 0</small>
+        </div>
+    </div>
+</div>
+
+<script>
+// Script para controlar o slider de largura
+(function() {
+    'use strict';
+    
+    function initFormControls() {
+        const larguraSlider = document.getElementById('editLargura');
+        const larguraValue = document.getElementById('larguraValue');
+        
+        if (larguraSlider && larguraValue) {
+            // Atualizar valor inicial
+            larguraValue.textContent = larguraSlider.value + '%';
+            
+            // Atualizar quando o slider mudar
+            larguraSlider.addEventListener('input', function(e) {
+                larguraValue.textContent = e.target.value + '%';
+            });
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('modalEdicao');
+        if (modal) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class' && modal.classList.contains('active')) {
+                        setTimeout(initFormControls, 100);
+                    }
+                });
+            });
+            observer.observe(modal, { attributes: true });
+        }
+    });
+})();
+</script>

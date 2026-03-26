@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Blog - Sistema de Componentes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="editor.css">
+    <style>
+        .banner-preview {
+            background: #fff;
+            border-radius: 8px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            color: #64748b;
+        }
+        
+        /* Estilos para o Summernote */
+        .note-editor.note-frame {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+        }
+        
+        .note-toolbar {
+            background: #f8fafc !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            border-radius: 8px 8px 0 0 !important;
+        }
+        
+        .note-btn-group {
+            margin-right: 5px !important;
+        }
+        
+        .note-editable {
+            font-family: Tahoma, Arial, sans-serif !important;
+            font-size: 16px !important;
+            line-height: 1.6 !important;
+            min-height: 200px !important;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #020617;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <!-- Painel Lateral -->
+        <aside class="sidebar">
+            <h2>Editor de Blog</h2>
+            
+            <div class="componentes" id="componentesList">
+                <!-- Botões serão gerados dinamicamente -->
+            </div>
+
+            <div class="configuracoes">
+                <h3>Configurações Gerais</h3>
+                
+                <div class="config-group">
+                    <label>Nome do Arquivo</label>
+                    <input type="text" id="nomeArquivo" value="artigo-gerado" placeholder="nome-do-arquivo">
+                </div>
+            </div>
+
+            <div class="acoes">
+                <button id="btnCarregar" class="acao-btn carregar">
+                    📂 Editar Artigo
+                </button>
+                <button id="btnSalvar" class="acao-btn salvar">
+                    💾 Gerar Artigo
+                </button>
+                <button id="btnPreview" class="acao-btn preview">
+                    👁️ Visualizar
+                </button>
+                <button id="btnLimpar" class="acao-btn limpar">
+                    🗑️ Limpar Tudo
+                </button>
+            </div>
+        </aside>
+
+        <!-- Área Principal -->
+        <main class="main-content">
+            <div class="banner-preview" id="bannerPlaceholder">
+                <h3>Adicione componentes do painel lateral</h3>
+                <p>Clique nos botões do painel esquerdo para adicionar seções ao seu artigo</p>
+            </div>
+
+            <div class="componentes-container" id="componentesContainer">
+                <!-- Componentes serão adicionados aqui -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div class="modal" id="modalEdicao">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitulo">Editar Componente</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Conteúdo dinâmico do formulário -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+                <button class="btn btn-primary" id="btnSalvarModal">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (necessário para Summernote) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+    <!-- Summernote Português -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/lang/summernote-pt-BR.min.js"></script>
+    
+    <!-- Configuração do Summernote -->
+    <script>
+        // Configuração global do Summernote
+        const summernoteConfig = {
+            height: 300,
+            lang: 'pt-BR',
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            styleTags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+            fontNames: ['Tahoma', 'Arial', 'Montserrat', 'Merriweather', 'Verdana', 'Georgia'],
+            fontNamesIgnoreCheck: ['Tahoma', 'Arial', 'Montserrat', 'Merriweather'],
+            lineHeights: ['0.5', '0.8', '1.0', '1.15', '1.5', '2.0', '3.0'],
+            disableDragAndDrop: true,
+            shortcuts: false,
+            dialogsInBody: true,
+            callbacks: {
+                onInit: function() {
+                    console.log('Summernote inicializado');
+                },
+                onChange: function(contents) {
+                    // Atualizar o textarea subjacente
+                    $(this).val(contents);
+                },
+                onPaste: function(e) {
+                    // Limpar formatação ao colar
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    e.preventDefault();
+                    document.execCommand('insertText', false, bufferText);
+                }
+            }
+        };
+    </script>
+
+    <script src="editor.js"></script>
+</body>
+</html>

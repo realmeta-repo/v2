@@ -1,0 +1,477 @@
+<template>
+<div class="blockquote-component" 
+     style="background: linear-gradient({{direcaoGradiente}}, {{corFundo}}, {{corFundo2}}); 
+            color: {{corTexto}}; 
+            padding: {{paddingTop}} {{paddingRight}} {{paddingBottom}} {{paddingLeft}}; 
+            border-radius: {{borda}}; 
+            margin: {{marginTop}} {{marginRight}} {{marginBottom}} {{marginLeft}}; 
+            text-align: {{alinhamento}};
+            position: relative;
+            overflow: hidden;
+            border-left: {{espessuraLinha}} solid {{corLinha}};">
+    
+    <!-- Imagem de fundo - MESMA ESTRUTURA DO BANNER -->
+    {{imagemFundoNome ? '<div class="blockquote-bg-image" style="position: absolute; inset: 0; width: 140%; height: 100%; left: -20%; background-image: url(\'' + (window.construirUrlImagem ? window.construirUrlImagem(imagemFundoNome, false) : \'/img/\' + imagemFundoNome) + '\'); background-size: ' + tamanhoImagemFundo + '; background-position: ' + posicaoImagemFundo + '; background-repeat: ' + repetirImagemFundo + '; opacity: ' + (opacidadeImagemFundo / 100) + '; z-index: 0; animation: ' + (animacaoAtiva ? 'bannerPan 50s linear infinite' : 'none') + '; will-change: transform; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;"></div>' : ''}}
+    
+    <!-- Overlay de cor -->
+    <div class="blockquote-overlay" style="
+        position: absolute;
+        inset: 0;
+        background: {{corOverlay}};
+        opacity: {{opacidadeOverlay / 100}};
+        z-index: 1;
+        mix-blend-mode: {{modoBlend}};
+    "></div>
+    
+    <!-- Conteúdo -->
+    <blockquote style="font-family: 'Merriweather', serif; 
+                    font-size: {{tamanhoFonte}}; 
+                    font-style: {{estiloFonte}}; 
+                    line-height: {{espacamentoLinhas}}; 
+                    margin: 0;
+                    position: relative;
+                    z-index: 2;">
+        {{conteudo}}
+    </blockquote>
+</div>
+</template>
+
+<script type="application/json">
+{
+    "name": "Citação",
+    "icon": "💬",
+    "description": "Bloco de citação com destaque visual",
+    "defaultConfig": {
+        "conteudo": "Blogs que integram uma imagem relevante a cada 300 palavras mantêm os leitores 40% mais tempo na página e geram 3x mais compartilhamentos.",
+        "paddingTop": "48px",
+        "paddingRight": "48px",
+        "paddingBottom": "48px",
+        "paddingLeft": "48px",
+        "marginTop": "56px",
+        "marginRight": "0",
+        "marginBottom": "56px",
+        "marginLeft": "0",
+        "borda": "8px",
+        "alinhamento": "center",
+        
+        "corTexto": "#ffffff",
+        "tamanhoFonte": "1.2rem",
+        "estiloFonte": "italic",
+        "espacamentoLinhas": "1.6",
+        
+        "corLinha": "#2563eb",
+        "espessuraLinha": "4px",
+        
+        "corFundo": "#020617",
+        "corFundo2": "#042f2e",
+        "direcaoGradiente": "135deg",
+        
+        "imagemFundoNome": "",
+        "tamanhoImagemFundo": "cover",
+        "posicaoImagemFundo": "center",
+        "repetirImagemFundo": "no-repeat",
+        "opacidadeImagemFundo": 40,
+        "animacaoAtiva": false,
+        
+        "corOverlay": "rgba(2, 6, 23, 0.7)",
+        "opacidadeOverlay": 80,
+        "modoBlend": "overlay"
+    }
+}
+</script>
+
+<style>
+.blockquote-component {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.blockquote-bg-image {
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+@keyframes bannerPan {
+    0%   { transform: translateX(0); }
+    50%  { transform: translateX(8%); }
+    100% { transform: translateX(0); }
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+    .blockquote-component {
+        max-width: calc(100% - 48px);
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .blockquote-component {
+        max-width: calc(100% - 32px);
+        margin-left: 16px;
+        margin-right: 16px;
+        padding: 32px 24px !important;
+    }
+    
+    .blockquote-component blockquote {
+        font-size: 1.1rem !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blockquote-bg-image {
+        animation: none !important;
+    }
+}
+</style>
+
+<div data-form-template style="display: none;">
+    <!-- Conteúdo -->
+    <div class="form-group">
+        <label>Texto da Citação</label>
+        <textarea id="editConteudo" class="summernote-editor rich-text">{{conteudo}}</textarea>
+    </div>
+    
+    <!-- Texto -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor do Texto</label>
+            <input type="color" id="editCorTexto" value="{{corTexto}}">
+        </div>
+        <div class="form-group">
+            <label>Tamanho da Fonte</label>
+            <input type="text" id="editTamanhoFonte" value="{{tamanhoFonte}}" placeholder="1.2rem">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Estilo da Fonte</label>
+            <select id="editEstiloFonte">
+                <option value="normal" {{estiloFonte == 'normal' ? 'selected' : ''}}>Normal</option>
+                <option value="italic" {{estiloFonte == 'italic' ? 'selected' : ''}}>Itálico</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Espaçamento entre Linhas</label>
+            <input type="text" id="editEspacamentoLinhas" value="{{espacamentoLinhas}}" placeholder="1.6">
+        </div>
+    </div>
+    
+    <!-- Linha lateral -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor da Linha Lateral</label>
+            <input type="color" id="editCorLinha" value="{{corLinha}}">
+        </div>
+        <div class="form-group">
+            <label>Espessura da Linha</label>
+            <input type="text" id="editEspessuraLinha" value="{{espessuraLinha}}" placeholder="4px">
+        </div>
+    </div>
+    
+    <!-- Fundo gradiente -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Cor 1 do Gradiente</label>
+            <input type="color" id="editCorFundo" value="{{corFundo}}">
+        </div>
+        <div class="form-group">
+            <label>Cor 2 do Gradiente</label>
+            <input type="color" id="editCorFundo2" value="{{corFundo2}}">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Direção do Gradiente</label>
+        <select id="editDirecaoGradiente">
+            <option value="to right" {{direcaoGradiente == 'to right' ? 'selected' : ''}}>Para Direita</option>
+            <option value="to left" {{direcaoGradiente == 'to left' ? 'selected' : ''}}>Para Esquerda</option>
+            <option value="to bottom" {{direcaoGradiente == 'to bottom' ? 'selected' : ''}}>Para Baixo</option>
+            <option value="to top" {{direcaoGradiente == 'to top' ? 'selected' : ''}}>Para Cima</option>
+            <option value="135deg" {{direcaoGradiente == '135deg' ? 'selected' : ''}}>Diagonal (135°)</option>
+            <option value="45deg" {{direcaoGradiente == '45deg' ? 'selected' : ''}}>Diagonal (45°)</option>
+        </select>
+    </div>
+    
+    <!-- Imagem de fundo -->
+    <div class="form-group">
+        <label>Nome do arquivo da imagem de fundo</label>
+        <input type="text" id="editImagemFundoNome" value="{{imagemFundoNome}}" placeholder="imagem-fundo.jpg">
+        <small style="color: #64748b; font-size: 0.8rem;">Coloque o arquivo na pasta 'img' do seu site. Ex: fundo.jpg, background.png</small>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Opacidade da Imagem (%)</label>
+            <input type="number" id="editOpacidadeImagemFundo" min="0" max="100" value="{{opacidadeImagemFundo || 40}}" style="width: 100%; padding: 8px;">
+        </div>
+        <div class="form-group">
+            <label>Animação da Imagem</label>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                <input type="checkbox" id="editAnimacaoAtiva" {{animacaoAtiva ? 'checked' : ''}}>
+                <label for="editAnimacaoAtiva" style="margin: 0; font-size: 0.9rem;">Ativar animação de movimento (loop infinito)</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Overlay COM DUAS CORES E GRADIENTE -->
+    <div class="form-group">
+        <label>Overlay - Cor 1</label>
+        <input type="color" id="editCorOverlay1" value="{{corOverlay1 || '#020617'}}">
+    </div>
+    
+    <div class="form-group">
+        <label>Overlay - Cor 2</label>
+        <input type="color" id="editCorOverlay2" value="{{corOverlay2 || '#042f2e'}}">
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Opacidade da Cor 1 (%)</label>
+            <input type="number" id="editOpacidadeOverlay1" min="0" max="100" value="{{opacidadeOverlay1 || 80}}" style="width: 100%; padding: 8px;">
+        </div>
+        <div class="form-group">
+            <label>Opacidade da Cor 2 (%)</label>
+            <input type="number" id="editOpacidadeOverlay2" min="0" max="100" value="{{opacidadeOverlay2 || 80}}" style="width: 100%; padding: 8px;">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Direção do Gradiente do Overlay</label>
+        <select id="editDirecaoOverlayGradiente">
+            <option value="to right" {{direcaoOverlayGradiente == 'to right' ? 'selected' : ''}}>Para Direita</option>
+            <option value="to left" {{direcaoOverlayGradiente == 'to left' ? 'selected' : ''}}>Para Esquerda</option>
+            <option value="to bottom" {{direcaoOverlayGradiente == 'to bottom' ? 'selected' : ''}}>Para Baixo</option>
+            <option value="to top" {{direcaoOverlayGradiente == 'to top' ? 'selected' : ''}}>Para Cima</option>
+            <option value="135deg" {{direcaoOverlayGradiente == '135deg' ? 'selected' : ''}}>Diagonal (135°)</option>
+            <option value="45deg" {{direcaoOverlayGradiente == '45deg' ? 'selected' : ''}}>Diagonal (45°)</option>
+        </select>
+    </div>
+    
+    <!-- Layout -->
+    <div class="form-group">
+        <label>Alinhamento</label>
+        <select id="editAlinhamento">
+            <option value="left" {{alinhamento == 'left' ? 'selected' : ''}}>Esquerda</option>
+            <option value="center" {{alinhamento == 'center' ? 'selected' : ''}}>Centro</option>
+            <option value="right" {{alinhamento == 'right' ? 'selected' : ''}}>Direita</option>
+            <option value="justify" {{alinhamento == 'justify' ? 'selected' : ''}}>Justificado</option>
+        </select>
+    </div>
+    
+    <!-- Padding e Margem -->
+    <div class="form-row">
+        <div class="form-group">
+            <label>Padding Superior</label>
+            <input type="text" id="editPaddingTop" value="{{paddingTop}}" placeholder="48px">
+        </div>
+        <div class="form-group">
+            <label>Padding Inferior</label>
+            <input type="text" id="editPaddingBottom" value="{{paddingBottom}}" placeholder="48px">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label>Margem Superior</label>
+            <input type="text" id="editMarginTop" value="{{marginTop}}" placeholder="56px">
+        </div>
+        <div class="form-group">
+            <label>Margem Inferior</label>
+            <input type="text" id="editMarginBottom" value="{{marginBottom}}" placeholder="56px">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Raio da Borda</label>
+        <input type="text" id="editBorda" value="{{borda}}" placeholder="8px">
+    </div>
+</div>
+
+<script>
+// Função obrigatória para criação do elemento (exigida pelo editor)
+function criarElemento(config, id, isEditor = false) {
+    // Criar elemento baseado no template
+    const div = document.createElement('div');
+    div.className = 'blockquote-component';
+    div.dataset.id = id;
+    
+    // Aplicar estilos básicos
+    div.style.background = `linear-gradient(${config.direcaoGradiente || '135deg'}, ${config.corFundo || '#020617'}, ${config.corFundo2 || '#042f2e'})`;
+    div.style.color = config.corTexto || '#ffffff';
+    div.style.padding = `${config.paddingTop || '48px'} ${config.paddingRight || '48px'} ${config.paddingBottom || '48px'} ${config.paddingLeft || '48px'}`;
+    div.style.borderRadius = config.borda || '8px';
+    div.style.margin = `${config.marginTop || '56px'} ${config.marginRight || '0'} ${config.marginBottom || '56px'} ${config.marginLeft || '0'}`;
+    div.style.textAlign = config.alinhamento || 'center';
+    div.style.position = 'relative';
+    div.style.overflow = 'hidden';
+    div.style.borderLeft = `${config.espessuraLinha || '4px'} solid ${config.corLinha || '#2563eb'}`;
+    
+    // Adicionar largura máxima e centralização
+    div.style.maxWidth = '900px';
+    div.style.marginLeft = 'auto';
+    div.style.marginRight = 'auto';
+    div.style.width = '100%';
+    div.style.boxSizing = 'border-box';
+    
+    // Adicionar imagem de fundo se existir
+    if ((config.imagemFundoNome && config.imagemFundoNome.trim() !== '') || 
+        (config.imagemFundoUrl && config.imagemFundoUrl.trim() !== '')) {
+        
+        const bgImage = document.createElement('div');
+        bgImage.className = 'blockquote-bg-image';
+        bgImage.style.position = 'absolute';
+        bgImage.style.inset = '0';
+        bgImage.style.width = '140%';
+        bgImage.style.height = '100%';
+        bgImage.style.left = '-20%';
+        
+        // Usar imagemFundoNome (novo) ou imagemFundoUrl (antigo)
+        let imageNome = config.imagemFundoNome || config.imagemFundoUrl || '';
+        
+        // Construir URL da imagem usando o helper global
+        let imageUrl = '';
+        if (imageNome) {
+            if (imageNome.startsWith('http://') || imageNome.startsWith('https://')) {
+                // Se já for URL completa, usar como está (para compatibilidade)
+                imageUrl = imageNome;
+            } else {
+                // Usar o helper global para construir a URL
+                if (typeof window.construirUrlImagem === 'function') {
+                    imageUrl = window.construirUrlImagem(imageNome, isEditor);
+                } else {
+                    // Fallback se o helper não estiver disponível
+                    imageUrl = isEditor ? 
+                        `${window.location.origin}/img/${imageNome}` : 
+                        `/img/${imageNome}`;
+                }
+            }
+        }
+        
+        bgImage.style.backgroundImage = `url('${imageUrl}')`;
+        bgImage.style.backgroundSize = config.tamanhoImagemFundo || 'cover';
+        bgImage.style.backgroundPosition = config.posicaoImagemFundo || 'center';
+        bgImage.style.backgroundRepeat = config.repetirImagemFundo || 'no-repeat';
+        
+        // Opacidade da imagem (converter de 0-100 para 0-1)
+        const imageOpacity = (config.opacidadeImagemFundo || 40) / 100;
+        bgImage.style.opacity = imageOpacity;
+        bgImage.style.zIndex = '0';
+        bgImage.style.willChange = 'transform';
+        bgImage.style.imageRendering = '-webkit-optimize-contrast';
+        bgImage.style.imageRendering = 'crisp-edges';
+        
+        // Adicionar fallback para imagem não encontrada
+        bgImage.onerror = function() {
+            this.style.backgroundImage = 'none';
+            this.style.backgroundColor = '#1e293b';
+        };
+        
+        // ANIMAÇÃO EM LOOP INFINITO - MESMO DO BANNER
+        if (config.animacaoAtiva) {
+            bgImage.style.animation = 'bannerPan 50s linear infinite';
+            bgImage.style.animationIterationCount = 'infinite';
+            bgImage.style.animationPlayState = 'running';
+        }
+        
+        div.appendChild(bgImage);
+    }
+    
+    // Adicionar overlay com gradiente de duas cores
+    const overlay = document.createElement('div');
+    overlay.className = 'blockquote-overlay';
+    overlay.style.position = 'absolute';
+    overlay.style.inset = '0';
+    
+    // Criar gradiente com duas cores e opacidades individuais
+    const color1 = config.corOverlay1 || '#020617';
+    const color2 = config.corOverlay2 || '#042f2e';
+    const opacity1 = (config.opacidadeOverlay1 || 80) / 100;
+    const opacity2 = (config.opacidadeOverlay2 || 80) / 100;
+    const direction = config.direcaoOverlayGradiente || '135deg';
+    
+    // Converter cores para RGBA com opacidade
+    function hexToRgba(hex, opacity) {
+        hex = hex.replace('#', '');
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+    
+    const rgba1 = hexToRgba(color1, opacity1);
+    const rgba2 = hexToRgba(color2, opacity2);
+    
+    overlay.style.background = `linear-gradient(${direction}, ${rgba1}, ${rgba2})`;
+    overlay.style.zIndex = '1';
+    overlay.style.mixBlendMode = config.modoBlend || 'overlay';
+    
+    div.appendChild(overlay);
+    
+    // Adicionar conteúdo
+    const blockquote = document.createElement('blockquote');
+    blockquote.style.fontFamily = "'Merriweather', serif";
+    blockquote.style.fontSize = config.tamanhoFonte || '1.2rem';
+    blockquote.style.fontStyle = config.estiloFonte || 'italic';
+    blockquote.style.lineHeight = config.espacamentoLinhas || '1.6';
+    blockquote.style.margin = '0';
+    blockquote.style.position = 'relative';
+    blockquote.style.zIndex = '2';
+    
+    // Usar innerHTML para permitir formatação
+    blockquote.innerHTML = config.conteudo || '';
+    
+    div.appendChild(blockquote);
+    
+    return div;
+}
+
+// Controle dos sliders no formulário
+function initBlockquoteControls() {
+    // Opacidade imagem - apenas garantir que seja número
+    const opacidadeInput = document.getElementById('editOpacidadeImagemFundo');
+    if (opacidadeInput) {
+        opacidadeInput.addEventListener('input', function() {
+            let value = parseInt(this.value);
+            if (value < 0) value = 0;
+            if (value > 100) value = 100;
+            this.value = value;
+        });
+    }
+    
+    // Opacidade overlay 1
+    const overlayInput1 = document.getElementById('editOpacidadeOverlay1');
+    if (overlayInput1) {
+        overlayInput1.addEventListener('input', function() {
+            let value = parseInt(this.value);
+            if (value < 0) value = 0;
+            if (value > 100) value = 100;
+            this.value = value;
+        });
+    }
+    
+    // Opacidade overlay 2
+    const overlayInput2 = document.getElementById('editOpacidadeOverlay2');
+    if (overlayInput2) {
+        overlayInput2.addEventListener('input', function() {
+            let value = parseInt(this.value);
+            if (value < 0) value = 0;
+            if (value > 100) value = 100;
+            this.value = value;
+        });
+    }
+}
+
+// Inicializar controles quando o formulário for carregado
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlockquoteControls);
+} else {
+    initBlockquoteControls();
+}
+</script>
