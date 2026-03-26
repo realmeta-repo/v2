@@ -1,20 +1,5 @@
 [
     {
-        "slug": "art-test",
-        "title": "Titulo teste",
-        "subtitle": "Subst teste",
-        "image": "/img/agrobusiness.jpg",
-        "thumbnail": "/img/agrobusiness.jpg",
-        "description": "Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.",
-        "tags": [
-            "inovação",
-            "transformação digital",
-            "inteligência",
-            "governança",
-            "agro"
-        ]
-    },
-    {
         "slug": "armadilha-ia",
         "title": "A Armadilha da IA",
         "subtitle": "Por que o diferencial de hoje será commoditie amanhã",
